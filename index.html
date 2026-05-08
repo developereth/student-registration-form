@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Lovely Beauty College | Professional Registration + Payments</title>
+    <title>Lovely Beauty College | Complete Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -11,23 +11,22 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
+            background: #f1f5f9;
             color: #0f172a;
-            padding: 2rem 1.5rem;
+            padding: 1.5rem;
         }
-        .container { max-width: 1500px; margin: 0 auto; }
+        .container { max-width: 1600px; margin: 0 auto; }
         
         /* Header */
-        .hero { text-align: center; margin-bottom: 2rem; }
+        .hero { text-align: center; margin-bottom: 1.5rem; }
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #1e3a5f, #2c5f8a);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
-        .hero p { color: #475569; margin-top: 0.5rem; }
         .badge {
             display: inline-flex;
             align-items: center;
@@ -35,9 +34,7 @@
             background: #e2e8f0;
             padding: 0.3rem 1rem;
             border-radius: 40px;
-            font-size: 0.8rem;
-            color: #1e3a5f;
-            margin-top: 0.6rem;
+            font-size: 0.75rem;
         }
 
         /* Admin Bar */
@@ -52,7 +49,7 @@
             background: #dcfce7;
             padding: 0.4rem 1rem;
             border-radius: 30px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #166534;
         }
@@ -62,192 +59,154 @@
             padding: 0.4rem 1rem;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: 0.2s;
+            font-size: 0.75rem;
         }
-        .btn-logout:hover { background: #f1f5f9; }
 
-        /* Grid Layout */
+        /* Dashboard Cards */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #1e3a5f; }
+        .stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Layout */
         .registration-grid {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
-            gap: 2rem;
+            gap: 1.5rem;
         }
-
-        /* Cards */
         .form-card, .list-card {
             background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            padding: 1.8rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 1.5rem;
             border: 1px solid #e2e8f0;
         }
         .form-card h2, .list-card h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #0f172a;
             border-left: 4px solid #2c5f8a;
             padding-left: 1rem;
         }
-        .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 0.9rem; display: flex; flex-direction: column; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
         label {
             font-weight: 600;
-            font-size: 0.75rem;
-            margin-bottom: 0.3rem;
+            font-size: 0.7rem;
+            margin-bottom: 0.2rem;
             color: #334155;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        label i { margin-right: 6px; color: #2c5f8a; width: 16px; }
+        label i { margin-right: 4px; color: #2c5f8a; width: 14px; }
         input, select {
-            padding: 0.7rem 1rem;
-            border-radius: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 0.7rem;
             border: 1.5px solid #e2e8f0;
-            background: white;
-            font-family: inherit;
-            font-size: 0.9rem;
-            transition: 0.2s;
+            font-size: 0.85rem;
         }
-        input:focus, select:focus { border-color: #2c5f8a; outline: none; box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+        input:focus, select:focus { border-color: #2c5f8a; outline: none; }
         
         .btn-primary {
             background: #1e3a5f;
             border: none;
-            padding: 0.8rem;
+            padding: 0.7rem;
             font-weight: 700;
             color: white;
-            border-radius: 1rem;
+            border-radius: 0.8rem;
             cursor: pointer;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             margin-top: 0.5rem;
-            transition: 0.2s;
         }
-        .btn-primary:hover { background: #2c5f8a; transform: translateY(-1px); }
+        .btn-primary:hover { background: #2c5f8a; }
         .btn-secondary {
             background: #f1f5f9;
             border: 1px solid #cbd5e1;
-            padding: 0.5rem 1rem;
-            border-radius: 1rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 0.7rem;
             cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 500;
+            font-size: 0.75rem;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-danger {
-            background: #fee2e2;
-            border: none;
-            color: #b91c1c;
-            padding: 0.3rem 0.8rem;
-            border-radius: 1rem;
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-weight: 600;
+        .btn-danger { background: #fee2e2; border: none; color: #b91c1c; padding: 0.2rem 0.6rem; border-radius: 0.6rem; font-size: 0.7rem; cursor: pointer; }
+        .btn-edit { background: #e0f2fe; border: none; color: #0369a1; padding: 0.2rem 0.6rem; border-radius: 0.6rem; font-size: 0.7rem; cursor: pointer; margin-right: 5px; }
+
+        /* Search & Filter */
+        .search-bar {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
-        .btn-danger:hover { background: #fecaca; }
+        .search-bar input {
+            flex: 1;
+            padding: 0.5rem 0.8rem;
+            border-radius: 2rem;
+        }
+        .filter-select {
+            padding: 0.5rem 0.8rem;
+            border-radius: 2rem;
+            background: white;
+        }
 
         /* Student Cards */
-        .list-card { max-height: 80vh; overflow-y: auto; }
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .student-count-badge {
-            background: #e2e8f0;
-            border-radius: 40px;
-            padding: 0.25rem 0.9rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
+        .list-card { max-height: 70vh; overflow-y: auto; }
         .student-item {
-            background: #ffffff;
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            background: white;
+            border-radius: 0.8rem;
+            padding: 0.9rem;
+            margin-bottom: 0.8rem;
             border: 1px solid #e2e8f0;
-            transition: all 0.2s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: 0.2s;
         }
-        .student-item:hover { border-color: #cbd5e1; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .student-item:hover { border-color: #94a3b8; }
         .student-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
-        .student-id {
-            font-family: monospace;
-            font-weight: 800;
-            color: #1e3a5f;
-            background: #eef2ff;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
-        .student-name { font-weight: 800; font-size: 1rem; color: #0f172a; }
-        .student-details { font-size: 0.75rem; color: #475569; display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.5rem 0; }
+        .student-id { font-family: monospace; font-weight: 800; color: #1e3a5f; background: #eef2ff; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; }
+        .student-name { font-weight: 800; font-size: 0.9rem; }
+        .student-details { font-size: 0.7rem; color: #475569; display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 0.4rem 0; }
         .payment-row {
             background: #f8fafc;
-            padding: 0.6rem;
-            border-radius: 0.8rem;
-            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 0.6rem;
+            margin: 0.4rem 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            font-size: 0.75rem;
         }
-        .payment-status { font-weight: 700; font-size: 0.8rem; }
         .paid-badge { color: #15803d; background: #dcfce7; padding: 2px 8px; border-radius: 20px; }
         .due-badge { color: #b91c1c; background: #fee2e2; padding: 2px 8px; border-radius: 20px; }
         .partial-badge { color: #b45309; background: #ffedd5; padding: 2px 8px; border-radius: 20px; }
-        .registration-date { font-size: 0.7rem; color: #64748b; }
-        .delete-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1rem; padding: 0 6px; }
-        .delete-btn:hover { color: #dc2626; transform: scale(1.05); }
+        .action-buttons { display: flex; gap: 5px; }
         .export-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; flex-wrap: wrap; }
-        .next-id-preview {
-            background: #f1f5f9;
-            padding: 0.5rem;
-            border-radius: 1rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #1e3a5f;
-        }
-        .toast-message {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            z-index: 2000;
-            animation: fadein 0.2s;
-        }
-        @keyframes fadein { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 2rem; } }
-        @media (max-width: 1000px) { .registration-grid { grid-template-columns: 1fr; } body { padding: 1rem; } }
-        footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: #64748b; }
         .login-prompt {
             position: fixed;
             top: 50%;
@@ -259,8 +218,41 @@
             box-shadow: 0 25px 50px -12px black;
             z-index: 1000;
             width: 90%;
-            max-width: 380px;
+            max-width: 360px;
             text-align: center;
+        }
+        .toast-message {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            z-index: 2000;
+        }
+        @keyframes fadein { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 2rem; } }
+        @media (max-width: 900px) { .registration-grid { grid-template-columns: 1fr; } body { padding: 1rem; } }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1500;
+        }
+        .edit-modal {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -273,16 +265,23 @@
     </div>
     <div class="hero">
         <h1><i class="fas fa-spa"></i> Lovely Beauty College</h1>
-        <p>Professional Registration | Payment Tracking | Admin Dashboard</p>
-        <div class="badge"><i class="fas fa-chart-line"></i> Track Payments | <i class="fas fa-trash-alt"></i> Manage Records | <i class="fas fa-calendar"></i> Date Logs</div>
+        <div class="badge"><i class="fas fa-chart-line"></i> Dashboard | <i class="fas fa-search"></i> Search | <i class="fas fa-edit"></i> Edit | <i class="fas fa-trash"></i> Delete</div>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="dashboard-stats" id="dashboardStats">
+        <div class="stat-card"><div class="stat-number" id="totalStudents">0</div><div class="stat-label">Total Students</div></div>
+        <div class="stat-card"><div class="stat-number" id="totalRevenue">$0</div><div class="stat-label">Total Revenue</div></div>
+        <div class="stat-card"><div class="stat-number" id="totalDue">$0</div><div class="stat-label">Outstanding Due</div></div>
+        <div class="stat-card"><div class="stat-number" id="fullPaidCount">0</div><div class="stat-label">Fully Paid</div></div>
     </div>
 
     <div id="protectedContent">
         <div class="registration-grid">
-            <!-- REGISTRATION FORM with PRICE & PAYMENT -->
+            <!-- Registration Form -->
             <div class="form-card">
-                <h2><i class="fas fa-user-check"></i> New Enrollment</h2>
-                <div class="next-id-preview">📋 Next Student ID: <strong id="nextIdNumber">LBC-2026001</strong></div>
+                <h2><i class="fas fa-user-plus"></i> New Enrollment</h2>
+                <div style="background:#f1f5f9; padding:0.4rem; border-radius:0.8rem; text-align:center; margin-bottom:1rem; font-size:0.75rem;">Next ID: <strong id="nextIdNumber">LBC-2026001</strong></div>
                 <form id="registrationForm">
                     <div class="form-row">
                         <div class="form-group"><label><i class="fas fa-user"></i> Full Name *</label><input type="text" id="fullName" required></div>
@@ -293,29 +292,28 @@
                         <div class="form-group"><label><i class="fas fa-calendar-alt"></i> Age</label><input type="number" id="age" placeholder="18"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label><i class="fas fa-venus-mars"></i> Gender *</label><select id="gender" required><option value="">Select</option><option>Female</option><option>Male</option></select></div>
-                        <div class="form-group"><label><i class="fas fa-book"></i> Course *</label><select id="course" required><option value="">-- Course --</option><option>Advanced Makeup Artistry</option><option>Skincare & Aesthetics</option><option>Nail Technology</option><option>Lash & Brow Mastery</option><option>Hair Styling</option><option>Spa Management</option></select></div>
+                        <div class="form-group"><label><i class="fas fa-venus-mars"></i> Gender *</label><select id="gender" required><option>Female</option><option>Male</option></select></div>
+                        <div class="form-group"><label><i class="fas fa-book"></i> Course *</label><select id="course" required><option>Advanced Makeup Artistry</option><option>Skincare & Aesthetics</option><option>Nail Technology</option><option>Lash & Brow Mastery</option><option>Hair Styling</option><option>Spa Management</option></select></div>
                     </div>
                     <div class="form-group"><label><i class="fas fa-phone-volume"></i> Emergency Phone *</label><input type="tel" id="emergencyPhone" required></div>
-                    
-                    <!-- PAYMENT SECTION -->
                     <div class="form-row-3">
-                        <div class="form-group"><label><i class="fas fa-tag"></i> Course Fee ($)</label><input type="number" id="courseFee" value="1500" step="100" placeholder="Total fee"></div>
-                        <div class="form-group"><label><i class="fas fa-money-bill-wave"></i> Paid ($)</label><input type="number" id="paidAmount" value="0" step="50" placeholder="Paid amount"></div>
-                        <div class="form-group"><label><i class="fas fa-clock"></i> Left to Pay ($)</label><input type="text" id="remainingAmount" readonly style="background:#f1f5f9;"></div>
+                        <div class="form-group"><label><i class="fas fa-tag"></i> Course Fee ($)</label><input type="number" id="courseFee" value="1500" step="100"></div>
+                        <div class="form-group"><label><i class="fas fa-money-bill"></i> Paid ($)</label><input type="number" id="paidAmount" value="0" step="50"></div>
+                        <div class="form-group"><label><i class="fas fa-clock"></i> Remaining</label><input type="text" id="remainingAmount" readonly style="background:#f1f5f9;"></div>
                     </div>
                     <button type="submit" class="btn-primary"><i class="fas fa-id-card"></i> Register Student</button>
                 </form>
-                <div style="margin-top:0.8rem; font-size:0.7rem; text-align:center;">💡 Admin can delete records & track payments over time</div>
             </div>
 
-            <!-- STUDENT LIST + PAYMENT + DATE + DELETE -->
-            <div class="list-card" id="studentListPanel">
-                <div class="list-header">
-                    <h2><i class="fas fa-users"></i> Registered Students</h2>
-                    <span class="student-count-badge" id="studentCount">0 enrolled</span>
+            <!-- Student List with Search, Filter, Edit, Delete -->
+            <div class="list-card">
+                <h2><i class="fas fa-users"></i> Student Management</h2>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Search by name, email, ID, course..." style="flex:2;">
+                    <select id="paymentFilter" class="filter-select"><option value="all">All Payments</option><option value="paid">Fully Paid</option><option value="partial">Partial</option><option value="due">Due</option></select>
+                    <button id="clearFilters" class="btn-secondary"><i class="fas fa-times"></i> Clear</button>
                 </div>
-                <div id="studentsListContainer"><div class="empty-message" style="text-align:center; padding:2rem;"><i class="fas fa-lock"></i> Admin login required to view records</div></div>
+                <div id="studentsListContainer"><div style="text-align:center; padding:2rem;"><i class="fas fa-lock"></i> Admin login required</div></div>
                 <div class="export-actions">
                     <button id="shareListBtn" class="btn-secondary" disabled><i class="fas fa-share-alt"></i> Share</button>
                     <button id="exportPDFBtn" class="btn-secondary" disabled><i class="fas fa-file-pdf"></i> PDF</button>
@@ -324,30 +322,24 @@
                 </div>
             </div>
         </div>
-        <footer><i class="fas fa-chart-simple"></i> Payment tracking | Date recorded | Admin only: delete entries</footer>
     </div>
 </div>
 
 <script>
-    // ---------- ADMIN CONSTANTS ----------
     const ADMIN_PASSWORD = "Admin123";
     let isAdminLoggedIn = false;
-    const STORAGE_KEY = 'lovely_beauty_students_payment';
-    const ID_COUNTER_KEY = 'lovely_beauty_id_counter_pay';
+    const STORAGE_KEY = 'lovely_beauty_complete';
+    const ID_COUNTER_KEY = 'lovely_beauty_id_counter_complete';
+    let currentEditStudentId = null;
 
-    // Helper functions
     function loadStudents() { const stored = localStorage.getItem(STORAGE_KEY); try { return stored ? JSON.parse(stored) : []; } catch(e) { return []; } }
-    function saveStudents(students) { localStorage.setItem(STORAGE_KEY, JSON.stringify(students)); }
+    function saveStudents(students) { localStorage.setItem(STORAGE_KEY, JSON.stringify(students)); updateDashboard(); renderFilteredList(); }
 
     function generateStudentId() {
         const currentYear = new Date().getFullYear();
         let counter = localStorage.getItem(ID_COUNTER_KEY);
-        if (!counter) {
-            const students = loadStudents();
-            let maxSeq = 0;
-            students.forEach(s => { if (s.studentId) { const m = s.studentId.match(/LBC-\d{4}(\d{4})/); if (m) maxSeq = Math.max(maxSeq, parseInt(m[1])); } });
-            counter = maxSeq + 1;
-        } else { counter = parseInt(counter) + 1; }
+        if (!counter) { const students = loadStudents(); let maxSeq = 0; students.forEach(s => { const m = s.studentId?.match(/LBC-\d{4}(\d{4})/); if (m) maxSeq = Math.max(maxSeq, parseInt(m[1])); }); counter = maxSeq + 1; }
+        else { counter = parseInt(counter) + 1; }
         const newId = `LBC-${currentYear}${counter.toString().padStart(4, '0')}`;
         localStorage.setItem(ID_COUNTER_KEY, counter);
         return newId;
@@ -359,11 +351,11 @@
         else { counter = parseInt(counter) + 1; }
         return `LBC-${currentYear}${counter.toString().padStart(4, '0')}`;
     }
-    function updateRemaining() { const fee = parseFloat(document.getElementById('courseFee').value) || 0; const paid = parseFloat(document.getElementById('paidAmount').value) || 0; const remaining = Math.max(0, fee - paid); document.getElementById('remainingAmount').value = remaining.toFixed(2); }
+    function formatDate() { return new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }); }
+    function updateRemaining() { const fee = parseFloat(document.getElementById('courseFee').value) || 0; const paid = parseFloat(document.getElementById('paidAmount').value) || 0; document.getElementById('remainingAmount').value = Math.max(0, fee - paid).toFixed(2); }
     document.getElementById('courseFee')?.addEventListener('input', updateRemaining);
     document.getElementById('paidAmount')?.addEventListener('input', updateRemaining);
-    
-    function formatDate() { return new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }); }
+    updateRemaining();
 
     function addStudent(event) {
         event.preventDefault();
@@ -376,97 +368,155 @@
         const emergencyPhone = document.getElementById('emergencyPhone').value.trim();
         const courseFee = parseFloat(document.getElementById('courseFee').value) || 0;
         const paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
-        if (!fullName || !email || !phone || !course || !emergencyPhone || !gender) { showToast("❌ Please fill all required fields"); return; }
-        if (!/^\S+@\S+\.\S+$/.test(email)) { showToast("Invalid email"); return; }
+        if (!fullName || !email || !phone || !course || !emergencyPhone) { showToast("Please fill all required fields"); return; }
         const remainingDue = Math.max(0, courseFee - paidAmount);
         const studentId = generateStudentId();
         const newStudent = {
-            id: Date.now(),
-            studentId: studentId,
-            fullName, email, phone, age: age ? parseInt(age) : '', gender, course,
-            emergencyPhone, courseFee, paidAmount, remainingDue,
-            registrationDate: formatDate(),
-            paymentHistory: [{ date: formatDate(), amount: paidAmount, type: 'initial' }]
+            id: Date.now(), studentId, fullName, email, phone, age: age || '', gender, course, emergencyPhone,
+            courseFee, paidAmount, remainingDue, registrationDate: formatDate()
         };
         const students = loadStudents();
         students.unshift(newStudent);
         saveStudents(students);
-        renderStudentsList();
-        updateNextIdPreview();
         document.getElementById('registrationForm').reset();
         document.getElementById('courseFee').value = 1500; document.getElementById('paidAmount').value = 0; updateRemaining();
-        showToast(`✅ Registered! ID: ${studentId} | Paid: $${paidAmount} | Due: $${remainingDue}`);
+        document.getElementById('nextIdNumber').innerText = previewNextId();
+        showToast(`✅ Registered: ${studentId}`);
     }
 
-    // DELETE STUDENT (admin only)
-    function deleteStudent(studentId) {
-        if (!isAdminLoggedIn) { showToast("Admin access required to delete"); return; }
-        if (confirm("⚠️ Permanently delete this student record? This action cannot be undone.")) {
-            let students = loadStudents();
-            students = students.filter(s => s.id !== studentId);
-            saveStudents(students);
-            renderStudentsList();
-            showToast("🗑️ Student record deleted permanently");
-        }
-    }
-
-    function renderStudentsList() {
+    // Edit Student
+    function openEditModal(studentId) {
         const students = loadStudents();
+        const student = students.find(s => s.id === studentId);
+        if (!student) return;
+        currentEditStudentId = studentId;
+        const modal = document.createElement('div'); modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="edit-modal">
+                <h3 style="margin-bottom:1rem;">✏️ Edit Student</h3>
+                <div class="form-group"><label>Full Name</label><input id="editName" value="${escapeHtml(student.fullName)}"></div>
+                <div class="form-group"><label>Email</label><input id="editEmail" value="${escapeHtml(student.email)}"></div>
+                <div class="form-group"><label>Phone</label><input id="editPhone" value="${escapeHtml(student.phone)}"></div>
+                <div class="form-group"><label>Emergency Phone</label><input id="editEmergency" value="${escapeHtml(student.emergencyPhone)}"></div>
+                <div class="form-row-3">
+                    <div class="form-group"><label>Course Fee</label><input id="editFee" type="number" value="${student.courseFee}"></div>
+                    <div class="form-group"><label>Paid Amount</label><input id="editPaid" type="number" value="${student.paidAmount}"></div>
+                    <div class="form-group"><label>Remaining</label><input id="editRemaining" readonly style="background:#f1f5f9;"></div>
+                </div>
+                <div style="display:flex; gap:0.5rem; margin-top:1rem;">
+                    <button id="saveEditBtn" class="btn-primary" style="flex:1;">Save Changes</button>
+                    <button id="cancelEditBtn" class="btn-secondary">Cancel</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        const updateRemainingEdit = () => {
+            const fee = parseFloat(document.getElementById('editFee').value) || 0;
+            const paid = parseFloat(document.getElementById('editPaid').value) || 0;
+            document.getElementById('editRemaining').value = Math.max(0, fee - paid).toFixed(2);
+        };
+        document.getElementById('editFee').addEventListener('input', updateRemainingEdit);
+        document.getElementById('editPaid').addEventListener('input', updateRemainingEdit);
+        updateRemainingEdit();
+        document.getElementById('saveEditBtn').onclick = () => {
+            const studentsList = loadStudents();
+            const idx = studentsList.findIndex(s => s.id === studentId);
+            if (idx !== -1) {
+                studentsList[idx].fullName = document.getElementById('editName').value.trim();
+                studentsList[idx].email = document.getElementById('editEmail').value.trim();
+                studentsList[idx].phone = document.getElementById('editPhone').value.trim();
+                studentsList[idx].emergencyPhone = document.getElementById('editEmergency').value.trim();
+                studentsList[idx].courseFee = parseFloat(document.getElementById('editFee').value) || 0;
+                studentsList[idx].paidAmount = parseFloat(document.getElementById('editPaid').value) || 0;
+                studentsList[idx].remainingDue = Math.max(0, studentsList[idx].courseFee - studentsList[idx].paidAmount);
+                saveStudents(studentsList);
+                showToast("✅ Student updated");
+            }
+            modal.remove();
+        };
+        document.getElementById('cancelEditBtn').onclick = () => modal.remove();
+    }
+
+    function deleteStudent(studentId) { if (!isAdminLoggedIn) return; if (confirm("Delete this student permanently?")) { let students = loadStudents(); students = students.filter(s => s.id !== studentId); saveStudents(students); showToast("Deleted"); } }
+
+    // Dashboard Update
+    function updateDashboard() {
+        const students = loadStudents();
+        document.getElementById('totalStudents').innerText = students.length;
+        const totalRevenue = students.reduce((sum, s) => sum + (s.paidAmount || 0), 0);
+        const totalDue = students.reduce((sum, s) => sum + (s.remainingDue || 0), 0);
+        const fullPaidCount = students.filter(s => (s.remainingDue || 0) <= 0).length;
+        document.getElementById('totalRevenue').innerText = `$${totalRevenue.toFixed(2)}`;
+        document.getElementById('totalDue').innerText = `$${totalDue.toFixed(2)}`;
+        document.getElementById('fullPaidCount').innerText = fullPaidCount;
+    }
+
+    // Render with Search & Filter
+    function renderFilteredList() {
+        if (!isAdminLoggedIn) {
+            document.getElementById('studentsListContainer').innerHTML = `<div style="text-align:center; padding:2rem;"><i class="fas fa-lock"></i> 🔐 Admin access required</div>`;
+            return;
+        }
+        let students = loadStudents();
+        const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+        const paymentFilter = document.getElementById('paymentFilter')?.value || 'all';
+        if (searchTerm) {
+            students = students.filter(s => s.fullName.toLowerCase().includes(searchTerm) || s.email.toLowerCase().includes(searchTerm) || s.studentId.toLowerCase().includes(searchTerm) || s.course.toLowerCase().includes(searchTerm));
+        }
+        if (paymentFilter === 'paid') students = students.filter(s => (s.remainingDue || 0) <= 0);
+        else if (paymentFilter === 'partial') students = students.filter(s => (s.paidAmount || 0) > 0 && (s.remainingDue || 0) > 0);
+        else if (paymentFilter === 'due') students = students.filter(s => (s.paidAmount || 0) === 0 && (s.remainingDue || 0) > 0);
+        
         const container = document.getElementById('studentsListContainer');
-        const countSpan = document.getElementById('studentCount');
-        countSpan.innerText = `${students.length} enrolled`;
-        if (!isAdminLoggedIn) { container.innerHTML = `<div class="empty-message" style="text-align:center; padding:2rem;"><i class="fas fa-lock"></i> 🔐 Admin access required. Enter password to view & manage.<br><small>Use password: Admin123</small></div>`; return; }
-        if (!students.length) { container.innerHTML = `<div class="empty-message" style="text-align:center; padding:2rem;"><i class="fas fa-inbox"></i> No students yet. Register first.</div>`; return; }
+        if (!students.length) { container.innerHTML = `<div style="text-align:center; padding:2rem;">No students match</div>`; return; }
         let html = '';
         students.forEach(s => {
-            let paymentStatusClass = "due-badge";
-            let statusText = `Due: $${s.remainingDue}`;
-            if (s.remainingDue <= 0) { paymentStatusClass = "paid-badge"; statusText = "✓ Fully Paid"; }
-            else if (s.paidAmount > 0 && s.remainingDue > 0) paymentStatusClass = "partial-badge";
-            if (s.paidAmount === 0 && s.remainingDue > 0) paymentStatusClass = "due-badge";
+            let statusClass = "due-badge", statusText = `Due: $${(s.remainingDue || 0).toFixed(2)}`;
+            if (s.remainingDue <= 0) { statusClass = "paid-badge"; statusText = "✓ Fully Paid"; }
+            else if (s.paidAmount > 0 && s.remainingDue > 0) statusClass = "partial-badge";
+            if (s.paidAmount === 0 && s.remainingDue > 0) statusClass = "due-badge";
             html += `
                 <div class="student-item">
                     <div class="student-header">
-                        <div><span class="student-id"><i class="fas fa-id-card"></i> ${escapeHtml(s.studentId)}</span> <strong class="student-name">${escapeHtml(s.fullName)}</strong></div>
-                        <button class="delete-btn" onclick="deleteStudent(${s.id})" title="Delete Student"><i class="fas fa-trash-alt"></i></button>
+                        <div><span class="student-id">${escapeHtml(s.studentId)}</span> <span class="student-name">${escapeHtml(s.fullName)}</span></div>
+                        <div class="action-buttons">
+                            <button class="btn-edit" onclick="openEditModal(${s.id})"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn-danger" onclick="deleteStudent(${s.id})"><i class="fas fa-trash"></i></button>
+                        </div>
                     </div>
                     <div class="student-details">
                         <span><i class="fas fa-envelope"></i> ${escapeHtml(s.email)}</span>
                         <span><i class="fas fa-phone"></i> ${escapeHtml(s.phone)}</span>
                         <span><i class="fas fa-venus-mars"></i> ${s.gender}</span>
-                        <span><i class="fas fa-calendar-alt"></i> Age: ${s.age || '—'}</span>
-                    </div>
-                    <div class="student-details">
                         <span><i class="fas fa-book"></i> ${escapeHtml(s.course)}</span>
-                        <span><i class="fas fa-phone-volume"></i> Emergency: ${escapeHtml(s.emergencyPhone)}</span>
                     </div>
                     <div class="student-details">
-                        <span><i class="fas fa-calendar-week"></i> Registered: ${escapeHtml(s.registrationDate)}</span>
+                        <span><i class="fas fa-phone-volume"></i> Emergency: ${escapeHtml(s.emergencyPhone)}</span>
+                        <span><i class="fas fa-calendar"></i> ${s.registrationDate}</span>
                     </div>
                     <div class="payment-row">
-                        <span><i class="fas fa-dollar-sign"></i> <strong>Course Fee: $${(s.courseFee || 0).toFixed(2)}</strong></span>
-                        <span><i class="fas fa-hand-holding-usd"></i> Paid: $${(s.paidAmount || 0).toFixed(2)}</span>
-                        <span class="payment-status ${paymentStatusClass}"><i class="fas fa-coins"></i> ${statusText}</span>
+                        <span>💰 Fee: $${(s.courseFee || 0).toFixed(2)}</span>
+                        <span>💵 Paid: $${(s.paidAmount || 0).toFixed(2)}</span>
+                        <span class="${statusClass}">${statusText}</span>
                     </div>
                 </div>
             `;
         });
         container.innerHTML = html;
+        updateDashboard();
     }
 
     function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-    function showToast(msg, duration=2500) { const t = document.createElement('div'); t.className = 'toast-message'; t.innerHTML = `<i class="fas fa-bell"></i> ${msg}`; document.body.appendChild(t); setTimeout(() => t.remove(), duration); }
-    function updateNextIdPreview() { document.getElementById('nextIdNumber').innerText = previewNextId(); }
+    function showToast(msg) { const t = document.createElement('div'); t.className = 'toast-message'; t.innerHTML = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2000); }
 
-    // Admin login modal
+    // Admin Auth
     function showLoginModal() {
         const modal = document.createElement('div'); modal.className = 'login-prompt';
-        modal.innerHTML = `<h3><i class="fas fa-lock"></i> Admin Login Required</h3><p>Enter administrator password to access student records, payments & deletion</p><input type="password" id="adminPassInput" placeholder="Password"><button id="adminLoginBtn" style="margin-top:1rem; background:#1e3a5f; color:white; border:none; padding:0.7rem; border-radius:1rem; width:100%;">Unlock Dashboard</button><div id="loginError" class="login-error" style="color:red; font-size:0.8rem; margin-top:0.5rem;"></div>`;
+        modal.innerHTML = `<h3><i class="fas fa-lock"></i> Admin Login</h3><input type="password" id="adminPass" placeholder="Password"><button id="adminLoginBtn" style="margin-top:1rem; background:#1e3a5f; color:white; border:none; padding:0.7rem; border-radius:0.8rem; width:100%;">Access Dashboard</button><div id="loginErr" style="color:red; font-size:0.75rem; margin-top:0.5rem;"></div>`;
         document.body.appendChild(modal);
-        const loginBtn = document.getElementById('adminLoginBtn'), pwdField = document.getElementById('adminPassInput');
-        const attempt = () => { if (pwdField.value === ADMIN_PASSWORD) { isAdminLoggedIn = true; localStorage.setItem('lovely_admin_auth_pay', 'true'); modal.remove(); enableAdminMode(); showToast("🔓 Admin access granted."); } else { document.getElementById('loginError').innerText = "Incorrect password."; } };
-        loginBtn.onclick = attempt;
-        pwdField.addEventListener('keypress', e => { if (e.key === 'Enter') attempt(); });
+        const login = () => { if (document.getElementById('adminPass').value === ADMIN_PASSWORD) { isAdminLoggedIn = true; localStorage.setItem('lovely_admin_auth', 'true'); modal.remove(); enableAdminMode(); showToast("Admin access granted"); } else { document.getElementById('loginErr').innerText = "Wrong password"; } };
+        document.getElementById('adminLoginBtn').onclick = login;
+        document.getElementById('adminPass').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
     }
     function enableAdminMode() {
         document.getElementById('shareListBtn').disabled = false;
@@ -474,16 +524,16 @@
         document.getElementById('exportWordBtn').disabled = false;
         document.getElementById('exportBackupBtn').disabled = false;
         document.getElementById('adminBar').style.display = 'flex';
-        renderStudentsList();
+        renderFilteredList();
     }
-    function logoutAdmin() { isAdminLoggedIn = false; localStorage.removeItem('lovely_admin_auth_pay'); document.getElementById('shareListBtn').disabled = true; document.getElementById('exportPDFBtn').disabled = true; document.getElementById('exportWordBtn').disabled = true; document.getElementById('exportBackupBtn').disabled = true; document.getElementById('adminBar').style.display = 'none'; renderStudentsList(); showToast("🔒 Logged out"); }
-    function checkSession() { if (localStorage.getItem('lovely_admin_auth_pay') === 'true') { isAdminLoggedIn = true; enableAdminMode(); } else { showLoginModal(); } }
+    function logoutAdmin() { isAdminLoggedIn = false; localStorage.removeItem('lovely_admin_auth'); document.getElementById('shareListBtn').disabled = true; document.getElementById('exportPDFBtn').disabled = true; document.getElementById('exportWordBtn').disabled = true; document.getElementById('exportBackupBtn').disabled = true; document.getElementById('adminBar').style.display = 'none'; renderFilteredList(); showToast("Logged out"); }
+    function checkSession() { if (localStorage.getItem('lovely_admin_auth') === 'true') { isAdminLoggedIn = true; enableAdminMode(); } else { showLoginModal(); } }
 
-    // Export Functions
-    async function handleShare() { if(!isAdminLoggedIn) return showToast("Admin login required"); const s=loadStudents(); if(!s.length) return showToast("No data"); let txt="🏫 Lovely Beauty College - Full Report\n\n"; s.forEach(st=>{ txt+=`${st.studentId} | ${st.fullName} | Course: ${st.course} | Paid: $${st.paidAmount} | Due: $${st.remainingDue} | Date: ${st.registrationDate}\n`; }); if(navigator.share) try{ await navigator.share({text:txt}); showToast("Shared"); }catch(e){ navigator.clipboard.writeText(txt); showToast("Copied to clipboard"); } else { navigator.clipboard.writeText(txt); showToast("Copied"); } }
-    async function exportToPDF() { if(!isAdminLoggedIn) return; const el=document.getElementById('studentListPanel'); showToast("Generating PDF..."); try{ await html2pdf().set({margin:0.5, filename:`Students_${Date.now()}.pdf`, html2canvas:{scale:2}}).from(el).save(); showToast("PDF saved"); }catch(e){ showToast("Print error, try Ctrl+P"); } }
-    function exportToWord() { if(!isAdminLoggedIn) return; const s=loadStudents(); if(!s.length) return; let html=`<html><head><meta charset="UTF-8"><title>Student Payments</title><style>body{font-family:Calibri}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:8px}</style></head><body><h1>Lovely Beauty College - Payments Report</h1><p>${new Date().toLocaleString()}</p> <table><thead><tr><th>ID</th><th>Name</th><th>Course</th><th>Fee</th><th>Paid</th><th>Due</th><th>Date</th></tr></thead><tbody>`; s.forEach(st=>{ html+=`<tr><td>${st.studentId}</td><td>${st.fullName}</td><td>${st.course}</td><td>$${st.courseFee}</td><td>$${st.paidAmount}</td><td>$${st.remainingDue}</td><td>${st.registrationDate}</td></tr>`; }); html+=`</tbody></table><p>Total Students: ${s.length}</p></body></html>`; const blob=new Blob([html],{type:'application/msword'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`Students_${Date.now()}.doc`; a.click(); URL.revokeObjectURL(a.href); showToast("Word exported"); }
-    function exportBackup() { if(!isAdminLoggedIn) return; const data=loadStudents(); if(!data.length) return; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`beauty_backup_${Date.now()}.json`; a.click(); URL.revokeObjectURL(a.href); showToast("Backup JSON saved"); }
+    // Exports
+    async function handleShare() { if(!isAdminLoggedIn) return; const s=loadStudents(); if(!s.length) return; let txt="🏫 Lovely Beauty College Report\n\n"; s.forEach(st=>{ txt+=`${st.studentId} | ${st.fullName} | Paid:$${st.paidAmount} | Due:$${st.remainingDue}\n`; }); if(navigator.share) try{ await navigator.share({text:txt}); }catch(e){ navigator.clipboard.writeText(txt); showToast("Copied"); } else { navigator.clipboard.writeText(txt); showToast("Copied"); } }
+    async function exportToPDF() { if(!isAdminLoggedIn) return; const el=document.getElementById('studentsListContainer'); showToast("Generating PDF..."); try{ await html2pdf().set({margin:0.5, filename:`Students_${Date.now()}.pdf`}).from(el).save(); showToast("PDF saved"); }catch(e){ showToast("Error"); } }
+    function exportToWord() { if(!isAdminLoggedIn) return; const s=loadStudents(); let html=`<html><head><meta charset="UTF-8"><title>Students</title><style>table{border-collapse:collapse;} td,th{border:1px solid #ccc;padding:6px;}</style></head><body><h1>Students</h1><table><tr><th>ID</th><th>Name</th><th>Course</th><th>Paid</th><th>Due</th></tr>`; s.forEach(st=>{ html+=`<tr><td>${st.studentId}</td><td>${st.fullName}</td><td>${st.course}</td><td>$${st.paidAmount}</td><td>$${st.remainingDue}</td></tr>`; }); html+=`</table></body></html>`; const blob=new Blob([html],{type:'application/msword'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`Students.doc`; a.click(); showToast("Word exported"); }
+    function exportBackup() { if(!isAdminLoggedIn) return; const data=loadStudents(); const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`backup_${Date.now()}.json`; a.click(); showToast("Backup saved"); }
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('registrationForm').addEventListener('submit', addStudent);
@@ -492,10 +542,14 @@
         document.getElementById('exportWordBtn').addEventListener('click', exportToWord);
         document.getElementById('exportBackupBtn').addEventListener('click', exportBackup);
         document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
-        updateRemaining();
-        updateNextIdPreview();
-        checkSession();
+        document.getElementById('searchInput').addEventListener('input', () => renderFilteredList());
+        document.getElementById('paymentFilter').addEventListener('change', () => renderFilteredList());
+        document.getElementById('clearFilters').addEventListener('click', () => { document.getElementById('searchInput').value = ''; document.getElementById('paymentFilter').value = 'all'; renderFilteredList(); });
+        document.getElementById('nextIdNumber').innerText = previewNextId();
+        window.openEditModal = openEditModal;
         window.deleteStudent = deleteStudent;
+        checkSession();
+        updateDashboard();
     });
 </script>
 </body>
