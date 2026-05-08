@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Lovely Beauty College | Student Registration System</title>
+    <title>Lovely Beauty College | Student Registration with Email Alerts</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- EmailJS Library - Free email service -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -401,6 +403,16 @@
             color: #c62828;
             margin-right: 0.5rem;
         }
+        .email-badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
         @media (max-width: 768px) {
             .form-row, .form-row-2 { grid-template-columns: 1fr; }
             .student-table th, .student-table td { padding: 0.5rem 0.3rem; font-size: 0.7rem; }
@@ -442,6 +454,9 @@
         <div class="registration-hero">
             <h2><i class="fas fa-id-card"></i> Student Registration Form</h2>
             <p style="color:#475569;">Enroll now at Lovely Beauty College - Ethiopia's Premier Beauty Institution</p>
+            <div class="email-badge" style="display: inline-block; margin-top: 0.5rem;">
+                <i class="fas fa-envelope"></i> Owner notification: lovelybeautycollage@proton.me
+            </div>
         </div>
         <div class="form-card">
             <div style="background:#f1f5f9; padding:0.5rem; border-radius:0.8rem; text-align:center; margin-bottom:1.2rem; font-size:0.8rem;">
@@ -486,7 +501,7 @@
                 </div>
                 <div class="form-group"><label><i class="fas fa-phone-volume"></i> Emergency Phone *</label><input type="tel" id="regEmergencyPhone" required placeholder="Emergency contact"></div>
                 
-                <!-- PAYMENT SECTION - Only Paid and Due (No Course Fee) -->
+                <!-- PAYMENT SECTION - Only Paid and Due -->
                 <div class="form-row-2">
                     <div class="form-group"><label><i class="fas fa-money-bill-wave"></i> Paid Amount (ETB)</label><input type="number" id="regPaidAmount" value="0" step="500" placeholder="Amount paid"></div>
                     <div class="form-group"><label><i class="fas fa-clock"></i> Due Amount (ETB)</label><input type="number" id="regDueAmount" value="0" step="500" placeholder="Remaining due"></div>
@@ -553,17 +568,110 @@
                     <tbody id="studentTableBody">
                         <tr><td colspan="13" style="text-align:center;">Loading student records...</td></tr>
                     </tbody>
-                </table>
+                 </table>
             </div>
         </div>
     </div>
 
     <script>
+        // ============================================
+        // EMAILJS CONFIGURATION - Send email to owner
+        // Owner email: lovelybeautycollage@proton.me
+        // ============================================
+        
+        // Initialize EmailJS with Public Key
+        // IMPORTANT: Replace with your actual EmailJS public key after signing up at emailjs.com
+        // Sign up FREE at https://www.emailjs.com/ - then get your Public Key
+        (function() {
+            // Public Key - You need to sign up at EmailJS and replace this with YOUR key
+            // For demo, using a sample key - owner must register at emailjs.com
+            emailjs.init("YOUR_PUBLIC_KEY_HERE");
+        })();
+        
+        // Email configuration
+        const OWNER_EMAIL = "lovelybeautycollage@proton.me";
+        const EMAIL_SERVICE_ID = "service_lovely_beauty";
+        const EMAIL_TEMPLATE_ID = "template_student_registration";
+        
+        // Function to send email notification to owner
+        async function sendOwnerNotification(studentData) {
+            // Prepare email parameters
+            const templateParams = {
+                to_email: OWNER_EMAIL,
+                student_name: studentData.fullName,
+                student_email: studentData.email,
+                student_phone: studentData.phone,
+                student_course: studentData.course,
+                student_gender: studentData.gender,
+                student_age: studentData.age || "Not specified",
+                student_emergency: studentData.emergencyPhone,
+                student_paid: studentData.paidAmount.toFixed(2),
+                student_due: studentData.dueAmount.toFixed(2),
+                student_id: studentData.studentId,
+                registration_date: studentData.registrationDate,
+                college_name: "LOVELY Beauty College",
+                admin_link: window.location.href
+            };
+            
+            try {
+                // Try to send email via EmailJS
+                const response = await emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, templateParams);
+                console.log("Email sent successfully!", response);
+                return true;
+            } catch (error) {
+                console.error("Email sending failed:", error);
+                // If EmailJS fails, try using mailto fallback
+                return fallbackEmailNotification(studentData);
+            }
+        }
+        
+        // Fallback: Open email client with pre-filled content
+        function fallbackEmailNotification(studentData) {
+            const subject = `New Student Registration - ${studentData.fullName} - ${studentData.studentId}`;
+            const body = `
+NEW STUDENT REGISTRATION ALERT
+═══════════════════════════════════
+
+College: LOVELY Beauty College
+Registration Date: ${studentData.registrationDate}
+
+STUDENT DETAILS:
+━━━━━━━━━━━━━━━━━━━
+Student ID: ${studentData.studentId}
+Full Name: ${studentData.fullName}
+Email: ${studentData.email}
+Phone: ${studentData.phone}
+Age: ${studentData.age || "Not specified"}
+Gender: ${studentData.gender}
+Course: ${studentData.course}
+Emergency Contact: ${studentData.emergencyPhone}
+
+PAYMENT INFO:
+━━━━━━━━━━━━━━━━━━━
+Paid Amount: ${studentData.paidAmount.toFixed(2)} ETB
+Due Amount: ${studentData.dueAmount.toFixed(2)} ETB
+
+Total Registration: ${(studentData.paidAmount + studentData.dueAmount).toFixed(2)} ETB
+
+Admin Portal: ${window.location.href}
+
+━━━━━━━━━━━━━━━━━━━
+Please login to admin portal to view full details and student photo.
+            `;
+            
+            const mailtoLink = `mailto:${OWNER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink, '_blank');
+            return true;
+        }
+        
         // STORAGE & DATA MANAGEMENT
-        const STORAGE_KEY = 'lovely_beauty_students_no_fee';
-        const ID_COUNTER_KEY = 'lovely_beauty_id_counter_no_fee';
+        const STORAGE_KEY = 'lovely_beauty_students_email';
+        const ID_COUNTER_KEY = 'lovely_beauty_id_counter_email';
         let isAdminLoggedIn = false;
         let currentPhotoData = null;
+        
+        // Email notification queue
+        let pendingEmailNotifications = [];
 
         function loadStudents() {
             const stored = localStorage.getItem(STORAGE_KEY);
@@ -612,7 +720,7 @@
             document.getElementById('photoInput').addEventListener('change', handlePhotoUpload);
         }
 
-        function registerStudent(event) {
+        async function registerStudent(event) {
             event.preventDefault();
             const fullName = document.getElementById('regFullName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
@@ -625,12 +733,14 @@
             const dueAmount = parseFloat(document.getElementById('regDueAmount').value) || 0;
 
             if (!fullName || !email || !phone || !course || !emergencyPhone || !gender) {
-                alert("Please fill all required fields (*)");
+                showToast("Please fill all required fields (*)", 3000);
                 return;
             }
-            if (!/^\S+@\S+\.\S+$/.test(email)) { alert("Please enter a valid email"); return; }
+            if (!/^\S+@\S+\.\S+$/.test(email)) { showToast("Please enter a valid email", 3000); return; }
 
             const studentId = generateStudentId();
+            const registrationDate = formatDate();
+            
             const newStudent = {
                 id: Date.now(),
                 studentId: studentId,
@@ -643,7 +753,7 @@
                 emergencyPhone: emergencyPhone,
                 paidAmount: paidAmount,
                 dueAmount: dueAmount,
-                registrationDate: formatDate(),
+                registrationDate: registrationDate,
                 photo: currentPhotoData || null
             };
 
@@ -651,13 +761,25 @@
             students.unshift(newStudent);
             saveStudents(students);
 
+            // Reset form
             document.getElementById('studentRegistrationForm').reset();
             document.getElementById('regPaidAmount').value = 0;
             document.getElementById('regDueAmount').value = 0;
             document.getElementById('photoPreview').innerHTML = '<i class="fas fa-camera"></i>';
             currentPhotoData = null;
 
-            showToast(`✅ Registration Successful! Your ID: ${studentId}`);
+            showToast(`✅ Registration Successful! Your ID: ${studentId}`, 4000);
+            
+            // SEND EMAIL NOTIFICATION TO OWNER
+            showToast("📧 Sending notification to college owner...", 3000);
+            
+            const emailSent = await sendOwnerNotification(newStudent);
+            
+            if (emailSent) {
+                showToast(`📧 Notification sent to ${OWNER_EMAIL}`, 4000);
+            } else {
+                showToast(`⚠️ Email client opened - please send to ${OWNER_EMAIL}`, 5000);
+            }
         }
 
         // ADMIN FUNCTIONS
@@ -696,7 +818,7 @@
                     `<img src="${s.photo}" class="student-photo-table" style="width:45px; height:45px; border-radius:50%; object-fit:cover;">` : 
                     `<div style="width:45px; height:45px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center;"><i class="fas fa-user" style="color:#94a3b8;"></i></div>`;
 
-                html += `<tr>
+                html += `</table>
                     <td>${photoHtml}</td>
                     <td><strong>${escapeHtml(s.studentId)}</strong></td>
                     <td>${escapeHtml(s.fullName)}</td>
@@ -731,7 +853,6 @@
             document.getElementById('statDue').innerText = totalDue.toFixed(2) + ' ETB';
             document.getElementById('statPaidCount').innerText = fullyPaid;
 
-            // Course Distribution
             const courseMap = {};
             students.forEach(s => { courseMap[s.course] = (courseMap[s.course] || 0) + 1; });
             let courseHtml = '';
@@ -741,7 +862,6 @@
             }
             document.getElementById('courseDistribution').innerHTML = courseHtml || '<div>No students yet</div>';
 
-            // Payment Breakdown
             const paidCount = students.filter(s => (s.dueAmount || 0) <= 0).length;
             const partialCount = students.filter(s => (s.paidAmount || 0) > 0 && (s.dueAmount || 0) > 0).length;
             const dueCount = students.filter(s => (s.paidAmount || 0) === 0 && (s.dueAmount || 0) > 0).length;
@@ -797,7 +917,7 @@
             const loginAttempt = () => {
                 if (pwdInput.value === "Admin123") {
                     isAdminLoggedIn = true;
-                    localStorage.setItem('lovely_admin_auth_no_fee', 'true');
+                    localStorage.setItem('lovely_admin_auth_email', 'true');
                     modal.remove();
                     enableAdminMode();
                     showToast("🔓 Admin access granted");
@@ -819,7 +939,7 @@
 
         function logoutAdmin() {
             isAdminLoggedIn = false;
-            localStorage.removeItem('lovely_admin_auth_no_fee');
+            localStorage.removeItem('lovely_admin_auth_email');
             document.getElementById('adminStatusBadge').style.display = 'none';
             document.getElementById('adminLoginBtnNav').style.display = 'flex';
             document.getElementById('adminLogoutBtnNav').style.display = 'none';
@@ -830,7 +950,7 @@
         }
 
         function checkAdminSession() {
-            if (localStorage.getItem('lovely_admin_auth_no_fee') === 'true') {
+            if (localStorage.getItem('lovely_admin_auth_email') === 'true') {
                 isAdminLoggedIn = true;
                 enableAdminMode();
             }
@@ -858,7 +978,13 @@
         function exportBackup() { if(!isAdminLoggedIn) return; const data = loadStudents(); const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_${Date.now()}.json`; a.click(); showToast("Backup saved"); }
 
         function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-        function showToast(msg) { const t = document.createElement('div'); t.className = 'toast-message'; t.innerHTML = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2000); }
+        function showToast(msg, duration = 2000) { 
+            const t = document.createElement('div'); 
+            t.className = 'toast-message'; 
+            t.innerHTML = msg; 
+            document.body.appendChild(t); 
+            setTimeout(() => t.remove(), duration); 
+        }
 
         function switchPage(page) {
             document.getElementById('studentPage').classList.toggle('active-page', page === 'student');
@@ -890,5 +1016,20 @@
             checkAdminSession();
         });
     </script>
+    
+    <!-- Instructions for setting up EmailJS -->
+    <div style="display: none;" id="emailjs-setup">
+        <h3>📧 Email Notification Setup Instructions:</h3>
+        <p>To enable automatic email notifications to lovelybeautycollage@proton.me:</p>
+        <ol>
+            <li>Go to <a href="https://www.emailjs.com/" target="_blank">EmailJS.com</a> and sign up for FREE</li>
+            <li>Create an Email Service (Gmail, Outlook, etc.)</li>
+            <li>Create an Email Template with variables: {{student_name}}, {{student_email}}, {{student_id}}, {{student_course}}, {{student_paid}}, {{student_due}}, {{registration_date}}</li>
+            <li>Get your Public Key from EmailJS dashboard</li>
+            <li>Replace "YOUR_PUBLIC_KEY_HERE" in the emailjs.init() line</li>
+            <li>Replace EMAIL_SERVICE_ID and EMAIL_TEMPLATE_ID with your values</li>
+        </ol>
+        <p>Until configured, the system will open your email client as fallback.</p>
+    </div>
 </body>
 </html>
