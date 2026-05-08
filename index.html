@@ -142,7 +142,7 @@
         }
         .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         label {
             font-weight: 600;
             font-size: 0.75rem;
@@ -402,7 +402,7 @@
             margin-right: 0.5rem;
         }
         @media (max-width: 768px) {
-            .form-row, .form-row-3 { grid-template-columns: 1fr; }
+            .form-row, .form-row-2 { grid-template-columns: 1fr; }
             .student-table th, .student-table td { padding: 0.5rem 0.3rem; font-size: 0.7rem; }
             .nav-bar { flex-direction: column; text-align: center; }
             .page { padding: 1rem; }
@@ -412,6 +412,10 @@
         .badge-paid { background: #dcfce7; color: #15803d; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
         .badge-partial { background: #ffedd5; color: #b45309; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
         .badge-due { background: #fee2e2; color: #b91c1c; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
+        .due-amount {
+            font-weight: 700;
+            color: #dc2626;
+        }
     </style>
 </head>
 <body>
@@ -481,11 +485,13 @@
                     </div>
                 </div>
                 <div class="form-group"><label><i class="fas fa-phone-volume"></i> Emergency Phone *</label><input type="tel" id="regEmergencyPhone" required placeholder="Emergency contact"></div>
-                <div class="form-row-3">
-                    <div class="form-group"><label><i class="fas fa-tag"></i> Course Fee ($)</label><input type="number" id="regCourseFee" value="1500" step="100"></div>
-                    <div class="form-group"><label><i class="fas fa-money-bill"></i> Paid Amount ($)</label><input type="number" id="regPaidAmount" value="0" step="50"></div>
-                    <div class="form-group"><label><i class="fas fa-clock"></i> Remaining</label><input type="text" id="regRemainingAmount" readonly style="background:#f1f5f9;"></div>
+                
+                <!-- PAYMENT SECTION - Only Paid and Due (No Course Fee) -->
+                <div class="form-row-2">
+                    <div class="form-group"><label><i class="fas fa-money-bill-wave"></i> Paid Amount (ETB)</label><input type="number" id="regPaidAmount" value="0" step="500" placeholder="Amount paid"></div>
+                    <div class="form-group"><label><i class="fas fa-clock"></i> Due Amount (ETB)</label><input type="number" id="regDueAmount" value="0" step="500" placeholder="Remaining due"></div>
                 </div>
+                
                 <button type="submit" class="btn-primary"><i class="fas fa-check-circle"></i> Register Now</button>
             </form>
             <div class="contact-info">
@@ -510,8 +516,8 @@
         <!-- Statistics Cards -->
         <div class="dashboard-stats" id="adminStats">
             <div class="stat-card"><div class="stat-number" id="statTotal">0</div><div class="stat-label">Total Students</div></div>
-            <div class="stat-card"><div class="stat-number" id="statRevenue">$0</div><div class="stat-label">Total Revenue</div></div>
-            <div class="stat-card"><div class="stat-number" id="statDue">$0</div><div class="stat-label">Outstanding Due</div></div>
+            <div class="stat-card"><div class="stat-number" id="statRevenue">0 ETB</div><div class="stat-label">Total Collected</div></div>
+            <div class="stat-card"><div class="stat-number" id="statDue">0 ETB</div><div class="stat-label">Total Outstanding Due</div></div>
             <div class="stat-card"><div class="stat-number" id="statPaidCount">0</div><div class="stat-label">Fully Paid</div></div>
         </div>
 
@@ -533,29 +539,29 @@
                 <input type="text" id="adminSearchInput" placeholder="🔍 Search by name, email, ID, course...">
                 <select id="adminPaymentFilter" class="filter-select">
                     <option value="all">All Payments</option>
-                    <option value="paid">Fully Paid</option>
-                    <option value="partial">Partial Payment</option>
-                    <option value="due">Full Due</option>
+                    <option value="paid">Fully Paid (Due = 0)</option>
+                    <option value="partial">Partial Payment (Due > 0 & Paid > 0)</option>
+                    <option value="due">Full Due (Paid = 0)</option>
                 </select>
                 <button id="adminClearFilters" class="btn-secondary"><i class="fas fa-times"></i> Clear</button>
             </div>
             <div style="overflow-x: auto;">
                 <table class="student-table" id="studentTable">
                     <thead>
-                        <tr><th>Photo</th><th>Student ID</th><th>Full Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Course</th><th>Emergency</th><th>Fee</th><th>Paid</th><th>Due</th><th>Status</th><th>Reg. Date</th><th>Actions</th></tr>
+                        <tr><th>Photo</th><th>Student ID</th><th>Full Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Course</th><th>Emergency</th><th>Paid (ETB)</th><th>Due (ETB)</th><th>Status</th><th>Reg. Date</th><th>Actions</th></tr>
                     </thead>
                     <tbody id="studentTableBody">
-                        <tr><td colspan="14" style="text-align:center;">Loading student records...</td></tr>
+                        <tr><td colspan="13" style="text-align:center;">Loading student records...</td></tr>
                     </tbody>
-                 </table>
+                </table>
             </div>
         </div>
     </div>
 
     <script>
         // STORAGE & DATA MANAGEMENT
-        const STORAGE_KEY = 'lovely_beauty_students_final';
-        const ID_COUNTER_KEY = 'lovely_beauty_id_counter_final';
+        const STORAGE_KEY = 'lovely_beauty_students_no_fee';
+        const ID_COUNTER_KEY = 'lovely_beauty_id_counter_no_fee';
         let isAdminLoggedIn = false;
         let currentPhotoData = null;
 
@@ -589,14 +595,6 @@
             return new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
         }
 
-        function updateRemainingOnForm() {
-            const fee = parseFloat(document.getElementById('regCourseFee')?.value) || 0;
-            const paid = parseFloat(document.getElementById('regPaidAmount')?.value) || 0;
-            if (document.getElementById('regRemainingAmount')) {
-                document.getElementById('regRemainingAmount').value = Math.max(0, fee - paid).toFixed(2);
-            }
-        }
-        
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -613,10 +611,6 @@
         if (document.getElementById('photoInput')) {
             document.getElementById('photoInput').addEventListener('change', handlePhotoUpload);
         }
-        if (document.getElementById('regCourseFee')) {
-            document.getElementById('regCourseFee').addEventListener('input', updateRemainingOnForm);
-            document.getElementById('regPaidAmount').addEventListener('input', updateRemainingOnForm);
-        }
 
         function registerStudent(event) {
             event.preventDefault();
@@ -627,8 +621,8 @@
             const gender = document.getElementById('regGender').value;
             const course = document.getElementById('regCourse').value;
             const emergencyPhone = document.getElementById('regEmergencyPhone').value.trim();
-            const courseFee = parseFloat(document.getElementById('regCourseFee').value) || 0;
             const paidAmount = parseFloat(document.getElementById('regPaidAmount').value) || 0;
+            const dueAmount = parseFloat(document.getElementById('regDueAmount').value) || 0;
 
             if (!fullName || !email || !phone || !course || !emergencyPhone || !gender) {
                 alert("Please fill all required fields (*)");
@@ -647,9 +641,8 @@
                 gender: gender,
                 course: course,
                 emergencyPhone: emergencyPhone,
-                courseFee: courseFee,
                 paidAmount: paidAmount,
-                remainingDue: Math.max(0, courseFee - paidAmount),
+                dueAmount: dueAmount,
                 registrationDate: formatDate(),
                 photo: currentPhotoData || null
             };
@@ -659,11 +652,10 @@
             saveStudents(students);
 
             document.getElementById('studentRegistrationForm').reset();
-            document.getElementById('regCourseFee').value = 1500;
             document.getElementById('regPaidAmount').value = 0;
+            document.getElementById('regDueAmount').value = 0;
             document.getElementById('photoPreview').innerHTML = '<i class="fas fa-camera"></i>';
             currentPhotoData = null;
-            updateRemainingOnForm();
 
             showToast(`✅ Registration Successful! Your ID: ${studentId}`);
         }
@@ -683,13 +675,13 @@
                     s.course.toLowerCase().includes(searchTerm)
                 );
             }
-            if (paymentFilter === 'paid') students = students.filter(s => (s.remainingDue || 0) <= 0);
-            else if (paymentFilter === 'partial') students = students.filter(s => (s.paidAmount || 0) > 0 && (s.remainingDue || 0) > 0);
-            else if (paymentFilter === 'due') students = students.filter(s => (s.paidAmount || 0) === 0 && (s.remainingDue || 0) > 0);
+            if (paymentFilter === 'paid') students = students.filter(s => (s.dueAmount || 0) <= 0);
+            else if (paymentFilter === 'partial') students = students.filter(s => (s.paidAmount || 0) > 0 && (s.dueAmount || 0) > 0);
+            else if (paymentFilter === 'due') students = students.filter(s => (s.paidAmount || 0) === 0 && (s.dueAmount || 0) > 0);
 
             const tbody = document.getElementById('studentTableBody');
             if (!students.length) {
-                tbody.innerHTML = '<tr><td colspan="14" style="text-align:center;">No student records found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="13" style="text-align:center;">No student records found</td></tr>';
                 return;
             }
 
@@ -697,8 +689,8 @@
             students.forEach(s => {
                 let statusClass = 'badge-due';
                 let statusText = 'Due';
-                if (s.remainingDue <= 0) { statusClass = 'badge-paid'; statusText = 'Paid'; }
-                else if (s.paidAmount > 0 && s.remainingDue > 0) { statusClass = 'badge-partial'; statusText = 'Partial'; }
+                if (s.dueAmount <= 0) { statusClass = 'badge-paid'; statusText = 'Paid'; }
+                else if (s.paidAmount > 0 && s.dueAmount > 0) { statusClass = 'badge-partial'; statusText = 'Partial'; }
 
                 const photoHtml = s.photo ? 
                     `<img src="${s.photo}" class="student-photo-table" style="width:45px; height:45px; border-radius:50%; object-fit:cover;">` : 
@@ -713,9 +705,8 @@
                     <td>${escapeHtml(s.gender)}</td>
                     <td>${escapeHtml(s.course)}</td>
                     <td>${escapeHtml(s.emergencyPhone)}</td>
-                    <td>$${(s.courseFee || 0).toFixed(2)}</td>
-                    <td>$${(s.paidAmount || 0).toFixed(2)}</td>
-                    <td>$${(s.remainingDue || 0).toFixed(2)}</td>
+                    <td>${(s.paidAmount || 0).toFixed(2)} ETB</td>
+                    <td class="${(s.dueAmount || 0) > 0 ? 'due-amount' : ''}">${(s.dueAmount || 0).toFixed(2)} ETB</td>
                     <td><span class="${statusClass}">${statusText}</span></td>
                     <td style="font-size:0.7rem;">${escapeHtml(s.registrationDate)}</td>
                     <td class="action-btns">
@@ -731,15 +722,16 @@
             if (!isAdminLoggedIn) return;
             const students = loadStudents();
             const total = students.length;
-            const totalRevenue = students.reduce((sum, s) => sum + (s.paidAmount || 0), 0);
-            const totalDue = students.reduce((sum, s) => sum + (s.remainingDue || 0), 0);
-            const fullPaid = students.filter(s => (s.remainingDue || 0) <= 0).length;
+            const totalCollected = students.reduce((sum, s) => sum + (s.paidAmount || 0), 0);
+            const totalDue = students.reduce((sum, s) => sum + (s.dueAmount || 0), 0);
+            const fullyPaid = students.filter(s => (s.dueAmount || 0) <= 0).length;
 
             document.getElementById('statTotal').innerText = total;
-            document.getElementById('statRevenue').innerText = `$${totalRevenue.toFixed(2)}`;
-            document.getElementById('statDue').innerText = `$${totalDue.toFixed(2)}`;
-            document.getElementById('statPaidCount').innerText = fullPaid;
+            document.getElementById('statRevenue').innerText = totalCollected.toFixed(2) + ' ETB';
+            document.getElementById('statDue').innerText = totalDue.toFixed(2) + ' ETB';
+            document.getElementById('statPaidCount').innerText = fullyPaid;
 
+            // Course Distribution
             const courseMap = {};
             students.forEach(s => { courseMap[s.course] = (courseMap[s.course] || 0) + 1; });
             let courseHtml = '';
@@ -749,9 +741,10 @@
             }
             document.getElementById('courseDistribution').innerHTML = courseHtml || '<div>No students yet</div>';
 
-            const paidCount = students.filter(s => (s.remainingDue || 0) <= 0).length;
-            const partialCount = students.filter(s => (s.paidAmount || 0) > 0 && (s.remainingDue || 0) > 0).length;
-            const dueCount = students.filter(s => (s.paidAmount || 0) === 0 && (s.remainingDue || 0) > 0).length;
+            // Payment Breakdown
+            const paidCount = students.filter(s => (s.dueAmount || 0) <= 0).length;
+            const partialCount = students.filter(s => (s.paidAmount || 0) > 0 && (s.dueAmount || 0) > 0).length;
+            const dueCount = students.filter(s => (s.paidAmount || 0) === 0 && (s.dueAmount || 0) > 0).length;
             document.getElementById('paymentBreakdown').innerHTML = `
                 <div class="course-item"><span>✅ Fully Paid</span><span><strong>${paidCount}</strong></span></div>
                 <div class="progress-bar"><div class="progress-fill" style="width: ${total>0 ? (paidCount/total*100) : 0}%; background:#15803d;"></div></div>
@@ -766,12 +759,13 @@
             const students = loadStudents();
             const student = students.find(s => s.id === studentId);
             if (!student) return;
-            const newPaid = prompt(`Edit payment for ${student.fullName}\nCurrent Paid: $${student.paidAmount}\nCourse Fee: $${student.courseFee}\nEnter new paid amount:`, student.paidAmount);
+            const newPaid = prompt(`Edit payment for ${student.fullName}\nCurrent Paid: ${student.paidAmount} ETB\nCurrent Due: ${student.dueAmount} ETB\nEnter new paid amount:`, student.paidAmount);
             if (newPaid !== null && !isNaN(parseFloat(newPaid))) {
                 let paidVal = parseFloat(newPaid);
                 if (paidVal < 0) paidVal = 0;
-                student.paidAmount = Math.min(paidVal, student.courseFee);
-                student.remainingDue = Math.max(0, student.courseFee - student.paidAmount);
+                const totalAmount = student.paidAmount + student.dueAmount;
+                student.paidAmount = Math.min(paidVal, totalAmount);
+                student.dueAmount = Math.max(0, totalAmount - student.paidAmount);
                 saveStudents(students);
                 showToast(`✅ Updated payment for ${student.fullName}`);
             }
@@ -803,7 +797,7 @@
             const loginAttempt = () => {
                 if (pwdInput.value === "Admin123") {
                     isAdminLoggedIn = true;
-                    localStorage.setItem('lovely_admin_auth_final', 'true');
+                    localStorage.setItem('lovely_admin_auth_no_fee', 'true');
                     modal.remove();
                     enableAdminMode();
                     showToast("🔓 Admin access granted");
@@ -825,18 +819,18 @@
 
         function logoutAdmin() {
             isAdminLoggedIn = false;
-            localStorage.removeItem('lovely_admin_auth_final');
+            localStorage.removeItem('lovely_admin_auth_no_fee');
             document.getElementById('adminStatusBadge').style.display = 'none';
             document.getElementById('adminLoginBtnNav').style.display = 'flex';
             document.getElementById('adminLogoutBtnNav').style.display = 'none';
-            document.getElementById('studentTableBody').innerHTML = '<tr><td colspan="14" style="text-align:center;">🔐 Admin login required to view student records</td></tr>';
+            document.getElementById('studentTableBody').innerHTML = '<tr><td colspan="13" style="text-align:center;">🔐 Admin login required to view student records</td></tr>';
             document.getElementById('courseDistribution').innerHTML = 'Login to view';
             document.getElementById('paymentBreakdown').innerHTML = 'Login to view';
             showToast("🔒 Logged out");
         }
 
         function checkAdminSession() {
-            if (localStorage.getItem('lovely_admin_auth_final') === 'true') {
+            if (localStorage.getItem('lovely_admin_auth_no_fee') === 'true') {
                 isAdminLoggedIn = true;
                 enableAdminMode();
             }
@@ -847,7 +841,7 @@
             if (!isAdminLoggedIn) { alert("Admin login required"); return; }
             const students = loadStudents();
             let text = "🏫 LOVELY Beauty College - Student Records\n\n";
-            students.forEach(s => { text += `${s.studentId} | ${s.fullName} | ${s.course} | Paid: $${s.paidAmount} | Due: $${s.remainingDue}\n`; });
+            students.forEach(s => { text += `${s.studentId} | ${s.fullName} | ${s.course} | Paid: ${s.paidAmount} ETB | Due: ${s.dueAmount} ETB\n`; });
             if (navigator.share) { navigator.share({ text: text }).catch(() => navigator.clipboard.writeText(text)); }
             else { navigator.clipboard.writeText(text); showToast("Copied to clipboard"); }
         }
@@ -855,8 +849,8 @@
         function exportToWord() {
             if(!isAdminLoggedIn) return;
             const students = loadStudents();
-            let html = `<html><head><meta charset="UTF-8"><title>Students</title></head><body><h1>LOVELY Beauty College - Student Records</h1><table border="1"><tr><th>ID</th><th>Name</th><th>Course</th><th>Paid</th><th>Due</th></tr>`;
-            students.forEach(s => { html += `<tr><td>${s.studentId}</td><td>${s.fullName}</td><td>${s.course}</td><td>$${s.paidAmount}</td><td>$${s.remainingDue}</td></tr>`; });
+            let html = `<html><head><meta charset="UTF-8"><title>Students</title></head><body><h1>LOVELY Beauty College - Student Records</h1><table border="1"><tr><th>ID</th><th>Name</th><th>Course</th><th>Paid (ETB)</th><th>Due (ETB)</th></tr>`;
+            students.forEach(s => { html += `<tr><td>${s.studentId}</td><td>${s.fullName}</td><td>${s.course}</td><td>${s.paidAmount}</td><td>${s.dueAmount}</td></tr>`; });
             html += `</table></body></html>`;
             const blob = new Blob([html], {type:'application/msword'});
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Students.doc`; a.click(); showToast("Word exported");
@@ -893,7 +887,6 @@
             });
             window.editPayment = editPayment;
             window.deleteStudent = deleteStudent;
-            updateRemainingOnForm();
             checkAdminSession();
         });
     </script>
