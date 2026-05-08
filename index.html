@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Lovely Beauty College | Student Registration + Photo Upload</title>
+    <title>Lovely Beauty College | Student Registration System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -11,7 +11,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #f1f5f9;
+            background: #f8fafc;
             color: #0f172a;
             min-height: 100vh;
         }
@@ -33,12 +33,12 @@
         .logo {
             font-weight: 800;
             font-size: 1.3rem;
-            background: linear-gradient(135deg, #1e3a5f, #2c5f8a);
+            background: linear-gradient(135deg, #8B0000, #c62828);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
-        .logo i { color: #2c5f8a; background: none; }
+        .logo i { color: #c62828; background: none; }
         .nav-links {
             display: flex;
             gap: 0.8rem;
@@ -59,7 +59,7 @@
             transition: 0.2s;
         }
         .nav-btn.active {
-            background: #1e3a5f;
+            background: #8B0000;
             color: white;
         }
         .nav-btn:not(.active):hover {
@@ -74,7 +74,7 @@
             color: #166534;
         }
         .login-btn, .logout-btn {
-            background: #1e3a5f;
+            background: #8B0000;
             color: white;
             border: none;
             padding: 0.4rem 1rem;
@@ -83,7 +83,7 @@
             font-size: 0.75rem;
             font-weight: 500;
         }
-        .login-btn { background: #2c5f8a; }
+        .login-btn { background: #c62828; }
         .logout-btn { background: #475569; }
         
         /* Main Container */
@@ -97,6 +97,32 @@
             display: block;
         }
         
+        /* Hero Section */
+        .college-hero {
+            background: linear-gradient(135deg, #8B0000, #c62828);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+        }
+        .college-hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .college-hero p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        .establishment {
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+        }
+        
         /* Student Registration Page */
         .registration-hero {
             text-align: center;
@@ -104,7 +130,7 @@
         }
         .registration-hero h2 {
             font-size: 1.8rem;
-            color: #1e3a5f;
+            color: #8B0000;
         }
         .form-card {
             background: white;
@@ -124,7 +150,7 @@
             color: #334155;
             text-transform: uppercase;
         }
-        label i { margin-right: 6px; color: #2c5f8a; }
+        label i { margin-right: 6px; color: #c62828; }
         input, select {
             padding: 0.7rem 1rem;
             border-radius: 0.8rem;
@@ -132,7 +158,7 @@
             font-size: 0.9rem;
             font-family: inherit;
         }
-        input:focus, select:focus { border-color: #2c5f8a; outline: none; }
+        input:focus, select:focus { border-color: #c62828; outline: none; }
         
         /* Photo Upload Styles */
         .photo-upload {
@@ -147,7 +173,7 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #2c5f8a;
+            border: 3px solid #c62828;
             background: #f1f5f9;
             display: flex;
             align-items: center;
@@ -167,11 +193,11 @@
             border-radius: 2rem;
             cursor: pointer;
             font-size: 0.75rem;
-            color: #2c5f8a;
+            color: #c62828;
         }
         
         .btn-primary {
-            background: #1e3a5f;
+            background: #8B0000;
             border: none;
             padding: 0.8rem;
             font-weight: 700;
@@ -186,7 +212,7 @@
             margin-top: 0.5rem;
             font-size: 1rem;
         }
-        .btn-primary:hover { background: #2c5f8a; }
+        .btn-primary:hover { background: #c62828; }
         
         /* Admin Portal Styles */
         .admin-header {
@@ -210,7 +236,7 @@
             text-align: center;
             border: 1px solid #e2e8f0;
         }
-        .stat-number { font-size: 1.8rem; font-weight: 800; color: #1e3a5f; }
+        .stat-number { font-size: 1.8rem; font-weight: 800; color: #8B0000; }
         .stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; }
         
         .analytics-grid {
@@ -228,7 +254,7 @@
         .analytics-card h3 {
             font-size: 0.9rem;
             margin-bottom: 0.8rem;
-            border-left: 3px solid #2c5f8a;
+            border-left: 3px solid #c62828;
             padding-left: 0.6rem;
         }
         .course-item {
@@ -245,7 +271,7 @@
             overflow: hidden;
             margin-top: 3px;
         }
-        .progress-fill { background: #2c5f8a; height: 100%; border-radius: 20px; }
+        .progress-fill { background: #c62828; height: 100%; border-radius: 20px; }
         
         /* Student Table */
         .student-table-container {
@@ -269,7 +295,7 @@
         .student-table th {
             background: #f8fafc;
             font-weight: 700;
-            color: #1e3a5f;
+            color: #8B0000;
             position: sticky;
             top: 0;
         }
@@ -292,7 +318,7 @@
             border-radius: 0.4rem;
             font-size: 0.9rem;
         }
-        .btn-edit { color: #2c5f8a; }
+        .btn-edit { color: #c62828; }
         .btn-delete { color: #dc2626; }
         .btn-edit:hover { background: #e0f2fe; }
         .btn-delete:hover { background: #fee2e2; }
@@ -362,11 +388,26 @@
             margin: 1rem 0;
             padding: 0.7rem;
         }
+        .contact-info {
+            background: #fef2f2;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            border: 1px solid #fecaca;
+        }
+        .contact-info i {
+            color: #c62828;
+            margin-right: 0.5rem;
+        }
         @media (max-width: 768px) {
             .form-row, .form-row-3 { grid-template-columns: 1fr; }
             .student-table th, .student-table td { padding: 0.5rem 0.3rem; font-size: 0.7rem; }
             .nav-bar { flex-direction: column; text-align: center; }
             .page { padding: 1rem; }
+            .college-hero { padding: 1rem; }
+            .college-hero h1 { font-size: 1.5rem; }
         }
         .badge-paid { background: #dcfce7; color: #15803d; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
         .badge-partial { background: #ffedd5; color: #b45309; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
@@ -376,7 +417,7 @@
 <body>
     <!-- Navigation Bar -->
     <div class="nav-bar">
-        <div class="logo"><i class="fas fa-spa"></i> Lovely Beauty College</div>
+        <div class="logo"><i class="fas fa-spa"></i> LOVELY Beauty College</div>
         <div class="nav-links">
             <button class="nav-btn active" id="navStudentPage"><i class="fas fa-user-graduate"></i> Student Registration</button>
             <button class="nav-btn" id="navAdminPage"><i class="fas fa-shield-alt"></i> Admin Portal</button>
@@ -386,11 +427,17 @@
         </div>
     </div>
 
-    <!-- STUDENT REGISTRATION PAGE (Front) - With Photo Upload -->
+    <!-- STUDENT REGISTRATION PAGE -->
     <div id="studentPage" class="page active-page">
+        <div class="college-hero">
+            <h1><i class="fas fa-spa"></i> LOVELY Beauty College</h1>
+            <p>The First Private Beauty College in Ethiopia | Established 1998 G.C</p>
+            <div class="establishment"><i class="fas fa-trophy"></i> First Organizer of the First Beauty Salon Contest at Sheraton Addis (2000 G.C)</div>
+        </div>
+        
         <div class="registration-hero">
-            <h2><i class="fas fa-id-card"></i> Student Registration</h2>
-            <p style="color:#475569;">Enroll now at Lovely Beauty College</p>
+            <h2><i class="fas fa-id-card"></i> Student Registration Form</h2>
+            <p style="color:#475569;">Enroll now at Lovely Beauty College - Ethiopia's Premier Beauty Institution</p>
         </div>
         <div class="form-card">
             <div style="background:#f1f5f9; padding:0.5rem; border-radius:0.8rem; text-align:center; margin-bottom:1.2rem; font-size:0.8rem;">
@@ -413,12 +460,25 @@
                     <div class="form-group"><label><i class="fas fa-envelope"></i> Email *</label><input type="email" id="regEmail" required placeholder="student@example.com"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label><i class="fas fa-phone"></i> Phone *</label><input type="tel" id="regPhone" required placeholder="+1234567890"></div>
+                    <div class="form-group"><label><i class="fas fa-phone"></i> Phone *</label><input type="tel" id="regPhone" required placeholder="+251xxxxxxxxx"></div>
                     <div class="form-group"><label><i class="fas fa-calendar-alt"></i> Age</label><input type="number" id="regAge" placeholder="18"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label><i class="fas fa-venus-mars"></i> Gender *</label><select id="regGender" required><option value="">Select</option><option>Female</option><option>Male</option></select></div>
-                    <div class="form-group"><label><i class="fas fa-book"></i> Course *</label><select id="regCourse" required><option value="">Select Course</option><option>Advanced Makeup Artistry</option><option>Skincare & Aesthetics</option><option>Nail Technology</option><option>Lash & Brow Mastery</option><option>Hair Styling</option><option>Spa Management</option></select></div>
+                    <div class="form-group"><label><i class="fas fa-book"></i> Course *</label>
+                        <select id="regCourse" required>
+                            <option value="">Select Course</option>
+                            <option>Hairdressing</option>
+                            <option>Make up</option>
+                            <option>Nail techniques</option>
+                            <option>Massage Therapy</option>
+                            <option>Henna Art</option>
+                            <option>Men's Haircut</option>
+                            <option>Ombre Techniques</option>
+                            <option>Eyelash Application</option>
+                            <option>Facial Treatments</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group"><label><i class="fas fa-phone-volume"></i> Emergency Phone *</label><input type="tel" id="regEmergencyPhone" required placeholder="Emergency contact"></div>
                 <div class="form-row-3">
@@ -428,13 +488,14 @@
                 </div>
                 <button type="submit" class="btn-primary"><i class="fas fa-check-circle"></i> Register Now</button>
             </form>
-            <div style="margin-top:1rem; text-align:center; font-size:0.7rem; color:#94a3b8;">
-                <i class="fas fa-lock"></i> Your data is secure. Admin access required to view records.
+            <div class="contact-info">
+                <i class="fas fa-phone"></i> 0911221032 / 0991171819
+                <i class="fas fa-map-marker-alt" style="margin-left:1rem;"></i> Megenagna, Next to Marathon Building, Nucleus Plaza 5th Floor
             </div>
         </div>
     </div>
 
-    <!-- ADMIN PORTAL PAGE (Full access with photos) -->
+    <!-- ADMIN PORTAL PAGE -->
     <div id="adminPage" class="page">
         <div class="admin-header">
             <h2><i class="fas fa-chart-line"></i> Admin Dashboard</h2>
@@ -466,7 +527,7 @@
             </div>
         </div>
 
-        <!-- All Students Table with Photos -->
+        <!-- All Students Table -->
         <div class="student-table-container">
             <div class="search-section">
                 <input type="text" id="adminSearchInput" placeholder="🔍 Search by name, email, ID, course...">
@@ -486,15 +547,15 @@
                     <tbody id="studentTableBody">
                         <tr><td colspan="14" style="text-align:center;">Loading student records...</td></tr>
                     </tbody>
-                </table>
+                 </table>
             </div>
         </div>
     </div>
 
     <script>
-        // ============ STORAGE & DATA MANAGEMENT ============
-        const STORAGE_KEY = 'lovely_beauty_students_photo';
-        const ID_COUNTER_KEY = 'lovely_beauty_id_counter_photo';
+        // STORAGE & DATA MANAGEMENT
+        const STORAGE_KEY = 'lovely_beauty_students_final';
+        const ID_COUNTER_KEY = 'lovely_beauty_id_counter_final';
         let isAdminLoggedIn = false;
         let currentPhotoData = null;
 
@@ -536,7 +597,6 @@
             }
         }
         
-        // Photo Upload Handling
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -553,13 +613,11 @@
         if (document.getElementById('photoInput')) {
             document.getElementById('photoInput').addEventListener('change', handlePhotoUpload);
         }
-        
         if (document.getElementById('regCourseFee')) {
             document.getElementById('regCourseFee').addEventListener('input', updateRemainingOnForm);
             document.getElementById('regPaidAmount').addEventListener('input', updateRemainingOnForm);
         }
 
-        // Student Registration (Public with Photo)
         function registerStudent(event) {
             event.preventDefault();
             const fullName = document.getElementById('regFullName').value.trim();
@@ -610,7 +668,7 @@
             showToast(`✅ Registration Successful! Your ID: ${studentId}`);
         }
 
-        // ============ ADMIN PORTAL FUNCTIONS ============
+        // ADMIN FUNCTIONS
         function renderAdminTable() {
             if (!isAdminLoggedIn) return;
             let students = loadStudents();
@@ -682,7 +740,6 @@
             document.getElementById('statDue').innerText = `$${totalDue.toFixed(2)}`;
             document.getElementById('statPaidCount').innerText = fullPaid;
 
-            // Course Distribution
             const courseMap = {};
             students.forEach(s => { courseMap[s.course] = (courseMap[s.course] || 0) + 1; });
             let courseHtml = '';
@@ -692,7 +749,6 @@
             }
             document.getElementById('courseDistribution').innerHTML = courseHtml || '<div>No students yet</div>';
 
-            // Payment Breakdown
             const paidCount = students.filter(s => (s.remainingDue || 0) <= 0).length;
             const partialCount = students.filter(s => (s.paidAmount || 0) > 0 && (s.remainingDue || 0) > 0).length;
             const dueCount = students.filter(s => (s.paidAmount || 0) === 0 && (s.remainingDue || 0) > 0).length;
@@ -730,7 +786,7 @@
             }
         }
 
-        // ============ ADMIN AUTHENTICATION ============
+        // ADMIN AUTH
         function showAdminLoginModal() {
             const modal = document.createElement('div');
             modal.className = 'login-modal';
@@ -738,7 +794,7 @@
                 <h3><i class="fas fa-shield-alt"></i> Admin Login</h3>
                 <p style="font-size:0.8rem; margin:0.5rem 0;">Enter password to access all student records</p>
                 <input type="password" id="adminPasswordInput" placeholder="Password: Admin123">
-                <button id="adminLoginSubmit" style="background:#1e3a5f; color:white; border:none; padding:0.7rem; border-radius:0.8rem; width:100%;">Access Admin Portal</button>
+                <button id="adminLoginSubmit" style="background:#8B0000; color:white; border:none; padding:0.7rem; border-radius:0.8rem; width:100%;">Access Admin Portal</button>
                 <div id="adminLoginError" style="color:red; font-size:0.7rem; margin-top:0.5rem;"></div>
             `;
             document.body.appendChild(modal);
@@ -747,12 +803,12 @@
             const loginAttempt = () => {
                 if (pwdInput.value === "Admin123") {
                     isAdminLoggedIn = true;
-                    localStorage.setItem('lovely_admin_auth_photo', 'true');
+                    localStorage.setItem('lovely_admin_auth_final', 'true');
                     modal.remove();
                     enableAdminMode();
-                    showToast("🔓 Admin access granted. Full student records available.");
+                    showToast("🔓 Admin access granted");
                 } else {
-                    document.getElementById('adminLoginError').innerText = "Incorrect password. Access denied.";
+                    document.getElementById('adminLoginError').innerText = "Incorrect password";
                 }
             };
             submitBtn.onclick = loginAttempt;
@@ -769,18 +825,18 @@
 
         function logoutAdmin() {
             isAdminLoggedIn = false;
-            localStorage.removeItem('lovely_admin_auth_photo');
+            localStorage.removeItem('lovely_admin_auth_final');
             document.getElementById('adminStatusBadge').style.display = 'none';
             document.getElementById('adminLoginBtnNav').style.display = 'flex';
             document.getElementById('adminLogoutBtnNav').style.display = 'none';
             document.getElementById('studentTableBody').innerHTML = '<tr><td colspan="14" style="text-align:center;">🔐 Admin login required to view student records</td></tr>';
             document.getElementById('courseDistribution').innerHTML = 'Login to view';
             document.getElementById('paymentBreakdown').innerHTML = 'Login to view';
-            showToast("🔒 Logged out from admin mode");
+            showToast("🔒 Logged out");
         }
 
         function checkAdminSession() {
-            if (localStorage.getItem('lovely_admin_auth_photo') === 'true') {
+            if (localStorage.getItem('lovely_admin_auth_final') === 'true') {
                 isAdminLoggedIn = true;
                 enableAdminMode();
             }
@@ -790,7 +846,7 @@
         function shareStudentList() {
             if (!isAdminLoggedIn) { alert("Admin login required"); return; }
             const students = loadStudents();
-            let text = "🏫 Lovely Beauty College - Student Records\n\n";
+            let text = "🏫 LOVELY Beauty College - Student Records\n\n";
             students.forEach(s => { text += `${s.studentId} | ${s.fullName} | ${s.course} | Paid: $${s.paidAmount} | Due: $${s.remainingDue}\n`; });
             if (navigator.share) { navigator.share({ text: text }).catch(() => navigator.clipboard.writeText(text)); }
             else { navigator.clipboard.writeText(text); showToast("Copied to clipboard"); }
@@ -799,7 +855,7 @@
         function exportToWord() {
             if(!isAdminLoggedIn) return;
             const students = loadStudents();
-            let html = `<html><head><meta charset="UTF-8"><title>Students</title></head><body><h1>Student Records with Photos</h1><table border="1"><tr><th>ID</th><th>Name</th><th>Course</th><th>Paid</th><th>Due</th></tr>`;
+            let html = `<html><head><meta charset="UTF-8"><title>Students</title></head><body><h1>LOVELY Beauty College - Student Records</h1><table border="1"><tr><th>ID</th><th>Name</th><th>Course</th><th>Paid</th><th>Due</th></tr>`;
             students.forEach(s => { html += `<tr><td>${s.studentId}</td><td>${s.fullName}</td><td>${s.course}</td><td>$${s.paidAmount}</td><td>$${s.remainingDue}</td></tr>`; });
             html += `</table></body></html>`;
             const blob = new Blob([html], {type:'application/msword'});
@@ -810,7 +866,6 @@
         function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
         function showToast(msg) { const t = document.createElement('div'); t.className = 'toast-message'; t.innerHTML = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2000); }
 
-        // Navigation
         function switchPage(page) {
             document.getElementById('studentPage').classList.toggle('active-page', page === 'student');
             document.getElementById('adminPage').classList.toggle('active-page', page === 'admin');
@@ -819,7 +874,6 @@
             if (page === 'admin' && isAdminLoggedIn) { renderAdminTable(); updateAdminDashboard(); }
         }
 
-        // Event Listeners
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('studentRegistrationForm').addEventListener('submit', registerStudent);
             document.getElementById('navStudentPage').addEventListener('click', () => switchPage('student'));
