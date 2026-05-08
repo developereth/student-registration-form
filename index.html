@@ -1,646 +1,761 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Lovely Beauty College | Student Registration</title>
-  <!-- Google Fonts & Simple CSS Reset -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (free icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Lovely Beauty College | Student Registration System</title>
+    <!-- Google Fonts & Clean Reset -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2pdf + jspdf for PDF export (lightweight) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(145deg, #fef9f0 0%, #fff4e6 100%);
-      color: #2d2a24;
-      padding: 2rem 1.5rem;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;  /* CLEAR WHITE BACKGROUND */
+            color: #1e1e2a;
+            padding: 2rem 1.5rem;
+        }
 
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-    }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-    /* header & branding */
-    .hero {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
+        /* header */
+        .hero {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
 
-    .hero h1 {
-      font-size: 2.6rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #c45c4a, #e38b6c);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      letter-spacing: -0.3px;
-    }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b94b3a, #d sixteen);
+            background: linear-gradient(135deg, #bd5a48, #e07a5f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.2px;
+        }
 
-    .hero p {
-      font-size: 1.1rem;
-      color: #6b4e3a;
-      margin-top: 0.5rem;
-      font-weight: 500;
-    }
+        .hero p {
+            font-size: 1rem;
+            color: #5e4b3c;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff0e0;
-      padding: 0.4rem 1rem;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #b45a3b;
-      margin-top: 0.8rem;
-    }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f5efe9;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #b6563b;
+            margin-top: 0.6rem;
+        }
 
-    /* two column grid */
-    .registration-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 2rem;
-    }
+        /* two column grid */
+        .registration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 2rem;
+        }
 
-    /* form card */
-    .form-card {
-      background: white;
-      border-radius: 2rem;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
-      padding: 1.8rem 2rem;
-      transition: all 0.2s ease;
-      border: 1px solid rgba(224, 184, 152, 0.3);
-    }
+        /* form card */
+        .form-card, .list-card {
+            background: white;
+            border-radius: 1.8rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+            padding: 1.8rem 2rem;
+            border: 1px solid #f0e4da;
+            transition: all 0.2s;
+        }
 
-    .form-card h2 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #3e2c21;
-      border-left: 5px solid #e38b6c;
-      padding-left: 1rem;
-    }
+        .form-card h2, .list-card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #2c241e;
+            border-left: 4px solid #e07a5f;
+            padding-left: 1rem;
+        }
 
-    .form-group {
-      margin-bottom: 1.3rem;
-      display: flex;
-      flex-direction: column;
-    }
+        .form-group {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
 
-    label {
-      font-weight: 600;
-      font-size: 0.85rem;
-      margin-bottom: 0.4rem;
-      color: #5c3e2b;
-      letter-spacing: 0.3px;
-    }
+        label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 0.4rem;
+            color: #5c3f2d;
+            letter-spacing: 0.2px;
+        }
 
-    label i {
-      margin-right: 6px;
-      color: #e38b6c;
-      width: 18px;
-    }
+        label i {
+            margin-right: 6px;
+            color: #e07a5f;
+            width: 18px;
+        }
 
-    input, select, textarea {
-      padding: 0.85rem 1rem;
-      border-radius: 1rem;
-      border: 1.5px solid #f0e2d4;
-      background: #fffdfa;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-      outline: none;
-    }
+        input, select {
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            border: 1.5px solid #eee2d8;
+            background: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            outline: none;
+        }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: #e38b6c;
-      box-shadow: 0 0 0 3px rgba(227, 139, 108, 0.2);
-    }
+        input:focus, select:focus {
+            border-color: #e07a5f;
+            box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.15);
+        }
 
-    .btn-primary {
-      background: linear-gradient(100deg, #c45c4a, #e38b6c);
-      border: none;
-      padding: 1rem;
-      font-size: 1rem;
-      font-weight: 700;
-      color: white;
-      border-radius: 2rem;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.2s;
-      width: 100%;
-      margin-top: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
+        .btn-primary {
+            background: #bd5a48;
+            border: none;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 0.4rem;
+        }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px -5px rgba(196, 92, 74, 0.4);
-    }
+        .btn-primary:hover {
+            background: #a54634;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(189, 90, 72, 0.25);
+        }
 
-    .btn-secondary {
-      background: #f5ede5;
-      border: none;
-      padding: 0.75rem 1.2rem;
-      font-weight: 600;
-      border-radius: 2rem;
-      cursor: pointer;
-      transition: 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #5c3e2b;
-    }
+        .btn-secondary {
+            background: #f6f2ef;
+            border: 1px solid #e9dbd1;
+            padding: 0.65rem 1.2rem;
+            font-weight: 500;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #4f3a2c;
+            font-size: 0.85rem;
+        }
 
-    .btn-secondary:hover {
-      background: #e9dbcf;
-    }
+        .btn-secondary:hover {
+            background: #ece2da;
+            border-color: #d6c2b4;
+        }
 
-    /* registrations list panel */
-    .list-card {
-      background: white;
-      border-radius: 2rem;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
-      padding: 1.8rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      height: fit-content;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
+        /* student list */
+        .list-card {
+            max-height: 78vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-      border-bottom: 2px dashed #f0e0d0;
-      padding-bottom: 0.8rem;
-    }
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid #f1e6df;
+        }
 
-    .list-header h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #3e2c21;
-    }
+        .student-count-badge {
+            background: #f0e4dc;
+            border-radius: 40px;
+            padding: 0.25rem 0.9rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
 
-    .student-badge {
-      background: #f1e4da;
-      border-radius: 40px;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
+        .student-item {
+            background: #fefcf9;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #e07a5f;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: all 0.1s;
+        }
 
-    .student-item {
-      background: #fefaf5;
-      border-radius: 1.2rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-left: 5px solid #e38b6c;
-      transition: all 0.15s;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-    }
+        .student-id-badge {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: #f1e2d9;
+            padding: 3px 8px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: #b34732;
+        }
 
-    .student-name {
-      font-weight: 800;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+        .student-name {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
 
-    .student-details {
-      font-size: 0.8rem;
-      color: #786a5c;
-      margin: 0.5rem 0 0.3rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+        .student-details {
+            font-size: 0.75rem;
+            color: #6e5b4c;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 0.4rem 0 0.2rem;
+        }
 
-    .student-details span i {
-      margin-right: 4px;
-      width: 14px;
-    }
+        .student-details i {
+            width: 14px;
+            margin-right: 3px;
+            color: #e07a5f;
+        }
 
-    .emergency-badge {
-      background: #fff0e8;
-      padding: 0.2rem 0.6rem;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 500;
-      display: inline-block;
-      margin-top: 0.3rem;
-      color: #b6573c;
-    }
+        .emergency-badge {
+            background: #fff3ed;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 6px;
+            color: #b6573c;
+        }
 
-    .empty-message {
-      text-align: center;
-      padding: 2rem;
-      color: #b9aa9a;
-    }
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            color: #b7a28e;
+            font-weight: 400;
+        }
 
-    .share-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-end;
-      margin-top: 1.2rem;
-      border-top: 1px solid #f0e2d4;
-      padding-top: 1.2rem;
-    }
+        /* export action bar */
+        .export-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+            margin-top: 1.2rem;
+            border-top: 1px solid #ede0d6;
+            padding-top: 1.2rem;
+            flex-wrap: wrap;
+        }
 
-    .toast-message {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #2e2b26;
-      color: white;
-      padding: 0.8rem 1.8rem;
-      border-radius: 60px;
-      font-weight: 500;
-      z-index: 1000;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      animation: fadein 0.2s;
-    }
+        .toast-message {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c2a28;
+            color: white;
+            padding: 0.7rem 1.6rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            z-index: 2000;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            animation: fadein 0.2s;
+            white-space: nowrap;
+        }
 
-    @keyframes fadein {
-      from { opacity: 0; bottom: 0; }
-      to { opacity: 1; bottom: 2rem; }
-    }
+        @keyframes fadein {
+            from { opacity: 0; bottom: 0; }
+            to { opacity: 1; bottom: 2rem; }
+        }
 
-    @media (max-width: 850px) {
-      .registration-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      body {
-        padding: 1rem;
-      }
-      .form-card, .list-card {
-        padding: 1.25rem;
-      }
-    }
+        @media (max-width: 850px) {
+            .registration-grid {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 1rem;
+            }
+            .toast-message {
+                white-space: normal;
+                text-align: center;
+                font-size: 0.75rem;
+            }
+        }
 
-    footer {
-      text-align: center;
-      margin-top: 2.5rem;
-      font-size: 0.8rem;
-      color: #ab947e;
-    }
-  </style>
+        /* print/export styles - clean white background */
+        @media print {
+            body {
+                background: white;
+                padding: 0.5rem;
+            }
+            .btn-primary, .btn-secondary, .share-actions, .export-actions, .hero .badge, .next-id-preview {
+                display: none !important;
+            }
+            .student-item {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+            }
+            .list-card {
+                box-shadow: none;
+                overflow: visible;
+                max-height: none;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            color: #b9a690;
+        }
+        .next-id-preview {
+            background: #faf5f0;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #b6563b;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-  <div class="hero">
-    <h1><i class="fas fa-spa"></i> Lovely Beauty College</h1>
-    <p>Empower your future in aesthetics & wellness — register online or offline</p>
-    <div class="badge"><i class="fas fa-globe"></i> Online & Offline sync ready | <i class="fas fa-share-alt"></i> Share registrations</div>
-  </div>
-
-  <div class="registration-grid">
-    <!-- Registration Form -->
-    <div class="form-card">
-      <h2><i class="fas fa-user-graduate"></i> New Enrollment</h2>
-      <form id="registrationForm">
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-user"></i> Full Name *</label>
-            <input type="text" id="fullName" required placeholder="e.g., Emma Rose">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-envelope"></i> Email *</label>
-            <input type="email" id="email" required placeholder="student@beauty.com">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-phone-alt"></i> Phone *</label>
-            <input type="tel" id="phone" required placeholder="+123 456 7890">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-calendar-alt"></i> Age</label>
-            <input type="number" id="age" placeholder="18" min="16" max="100">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-venus-mars"></i> Gender</label>
-            <select id="gender">
-              <option value="">Select</option>
-              <option>Female</option>
-              <option>Male</option>
-              <option>Non-binary</option>
-              <option>Prefer not to say</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-calendar-week"></i> Date of Birth</label>
-            <input type="date" id="dob">
-          </div>
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-book-open"></i> Select Course *</label>
-          <select id="course" required>
-            <option value="">-- Choose a course --</option>
-            <option>Advanced Makeup Artistry</option>
-            <option>Skincare & Aesthetics</option>
-            <option>Nail Technology & Design</option>
-            <option>Lash & Brow Mastery</option>
-            <option>Hair Styling Diploma</option>
-            <option>Spa & Wellness Management</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-phone-volume"></i> Emergency Phone *</label>
-          <input type="tel" id="emergencyPhone" required placeholder="Emergency contact number">
-        </div>
-        <button type="submit" class="btn-primary"><i class="fas fa-check-circle"></i> Register Student</button>
-      </form>
-      <div style="margin-top: 1.2rem; text-align: center; font-size: 0.75rem; color:#b38f72;">
-        <i class="fas fa-database"></i> Data stored locally (Offline-ready) | Syncs across device
-      </div>
+    <div class="hero">
+        <h1><i class="fas fa-spa"></i> Lovely Beauty College</h1>
+        <p>Student registration system — online & offline ready | share & export</p>
+        <div class="badge"><i class="fas fa-id-card"></i> Auto Student ID | <i class="fas fa-share-alt"></i> Share | <i class="fas fa-file-pdf"></i> PDF / Word export</div>
     </div>
 
-    <!-- Registered Students List + Share -->
-    <div class="list-card">
-      <div class="list-header">
-        <h2><i class="fas fa-users"></i> Registered Students</h2>
-        <span class="student-badge" id="studentCount">0 enrolled</span>
-      </div>
-      <div id="studentsListContainer">
-        <!-- dynamic student cards will appear here -->
-        <div class="empty-message"><i class="fas fa-smile-wink"></i> No registrations yet. Fill the form!</div>
-      </div>
-      <div class="share-actions">
-        <button id="shareListBtn" class="btn-secondary"><i class="fas fa-share-alt"></i> Share List</button>
-        <button id="exportOfflineBtn" class="btn-secondary"><i class="fas fa-download"></i> Export Backup</button>
-      </div>
+    <div class="registration-grid">
+        <!-- Registration Form -->
+        <div class="form-card">
+            <h2><i class="fas fa-user-plus"></i> New Enrollment</h2>
+            <div class="next-id-preview" id="nextIdPreview">
+                <i class="fas fa-qrcode"></i> Next Student ID: <strong id="nextIdNumber">LBC-2026001</strong>
+            </div>
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name *</label>
+                        <input type="text" id="fullName" required placeholder="e.g., Sophia Loren">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email *</label>
+                        <input type="email" id="email" required placeholder="student@beauty.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-phone-alt"></i> Phone *</label>
+                        <input type="tel" id="phone" required placeholder="+1 234 567 8900">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Age</label>
+                        <input type="number" id="age" placeholder="18" min="16" max="100">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-venus-mars"></i> Gender *</label>
+                        <select id="gender" required>
+                            <option value="">Select</option>
+                            <option>Female</option>
+                            <option>Male</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-book-open"></i> Course *</label>
+                        <select id="course" required>
+                            <option value="">-- Select course --</option>
+                            <option>Advanced Makeup Artistry</option>
+                            <option>Skincare & Aesthetics</option>
+                            <option>Nail Technology & Design</option>
+                            <option>Lash & Brow Mastery</option>
+                            <option>Hair Styling Diploma</option>
+                            <option>Spa & Wellness Management</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone-volume"></i> Emergency Phone *</label>
+                    <input type="tel" id="emergencyPhone" required placeholder="Emergency contact number">
+                </div>
+                <button type="submit" class="btn-primary"><i class="fas fa-id-card"></i> Register Student</button>
+            </form>
+            <div style="margin-top: 1rem; text-align: center; font-size: 0.7rem; color:#ab8a72;">
+                <i class="fas fa-check-circle"></i> Offline ready — data stored locally
+            </div>
+        </div>
+
+        <!-- Student list panel + share/export -->
+        <div class="list-card" id="studentListPanel">
+            <div class="list-header">
+                <h2><i class="fas fa-users"></i> Registered Students</h2>
+                <span class="student-count-badge" id="studentCount">0 enrolled</span>
+            </div>
+            <div id="studentsListContainer">
+                <div class="empty-message"><i class="fas fa-smile-wink"></i> No registrations yet. Fill the form!</div>
+            </div>
+            <div class="export-actions">
+                <button id="shareListBtn" class="btn-secondary"><i class="fas fa-share-alt"></i> Share</button>
+                <button id="exportPDFBtn" class="btn-secondary"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button id="exportWordBtn" class="btn-secondary"><i class="fas fa-file-word"></i> Word</button>
+                <button id="exportBackupBtn" class="btn-secondary"><i class="fas fa-download"></i> Backup JSON</button>
+            </div>
+        </div>
     </div>
-  </div>
-  <footer>
-    <i class="fas fa-heart" style="color:#e38b6c;"></i> Lovely Beauty College — Where beauty meets professionalism
-  </footer>
+    <footer>
+        <i class="fas fa-heart" style="color:#e07a5f;"></i> Lovely Beauty College — ID format: LBC-YYYYXXXX
+    </footer>
 </div>
 
 <script>
-  // ---------- STORAGE KEY ----------
-  const STORAGE_KEY = 'lovely_beauty_students';
+    // ------------------- STORAGE KEYS -------------------
+    const STORAGE_KEY = 'lovely_beauty_students';
+    const ID_COUNTER_KEY = 'lovely_beauty_id_counter';
 
-  // ---------- Helper: Load students from localStorage ----------
-  function loadStudents() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch(e) { return []; }
-    }
-    return [];
-  }
-
-  // Save students array to localStorage
-  function saveStudents(students) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
-  }
-
-  // Render student list (offline + online unified)
-  function renderStudentsList() {
-    const students = loadStudents();
-    const container = document.getElementById('studentsListContainer');
-    const countSpan = document.getElementById('studentCount');
-    countSpan.innerText = `${students.length} enrolled`;
-
-    if (!students.length) {
-      container.innerHTML = `<div class="empty-message"><i class="fas fa-smile-wink"></i> No registrations yet. Fill the form!</div>`;
-      return;
-    }
-
-    let html = '';
-    students.forEach((student, idx) => {
-      // format date if exists
-      const dobDisplay = student.dob ? new Date(student.dob).toLocaleDateString() : '—';
-      html += `
-        <div class="student-item" data-idx="${idx}">
-          <div class="student-name">
-            <span><i class="fas fa-graduation-cap"></i> ${escapeHtml(student.fullName)}</span>
-            <span style="font-size:0.7rem; background:#f0e0d0; padding:2px 8px; border-radius:30px;">${student.courseShort || student.course}</span>
-          </div>
-          <div class="student-details">
-            <span><i class="fas fa-envelope"></i> ${escapeHtml(student.email)}</span>
-            <span><i class="fas fa-phone"></i> ${escapeHtml(student.phone)}</span>
-            <span><i class="fas fa-venus-mars"></i> ${student.gender || '—'}</span>
-            <span><i class="fas fa-calendar"></i> Age: ${student.age || '?'}</span>
-          </div>
-          <div class="student-details">
-            <span><i class="fas fa-calendar-week"></i> DOB: ${dobDisplay}</span>
-            <span><i class="fas fa-book"></i> Course: ${escapeHtml(student.course)}</span>
-          </div>
-          <div class="emergency-badge"><i class="fas fa-phone-alt"></i> Emergency: ${escapeHtml(student.emergencyPhone)}</div>
-        </div>
-      `;
-    });
-    container.innerHTML = html;
-  }
-
-  // simple escape to avoid XSS
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
-    });
-  }
-
-  // Show toast notification
-  function showToast(message, duration = 2500) {
-    let existingToast = document.querySelector('.toast-message');
-    if (existingToast) existingToast.remove();
-    const toast = document.createElement('div');
-    toast.className = 'toast-message';
-    toast.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
-    document.body.appendChild(toast);
-    setTimeout(() => { toast.remove(); }, duration);
-  }
-
-  // Add new student (online/offline registration)
-  function addStudentFromForm(event) {
-    event.preventDefault();
-
-    // get values
-    const fullName = document.getElementById('fullName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const age = document.getElementById('age').value.trim();
-    const gender = document.getElementById('gender').value;
-    const dob = document.getElementById('dob').value;
-    const course = document.getElementById('course').value;
-    const emergencyPhone = document.getElementById('emergencyPhone').value.trim();
-
-    // validations
-    if (!fullName) { showToast("❌ Please enter full name"); return false; }
-    if (!email) { showToast("❌ Email is required"); return false; }
-    if (!phone) { showToast("❌ Phone number required"); return false; }
-    if (!course) { showToast("❌ Please select a course"); return false; }
-    if (!emergencyPhone) { showToast("❌ Emergency contact is mandatory"); return false; }
-    if (!/^\S+@\S+\.\S+$/.test(email)) { showToast("⚠️ Please enter a valid email address"); return false; }
-
-    // determine course short for badge
-    let courseShort = course.substring(0, 20);
-    if (course.length > 20) courseShort = course.substring(0,18)+'..';
-
-    const newStudent = {
-      id: Date.now(),
-      fullName: fullName,
-      email: email,
-      phone: phone,
-      age: age ? parseInt(age) : '',
-      gender: gender,
-      dob: dob,
-      course: course,
-      courseShort: courseShort,
-      emergencyPhone: emergencyPhone,
-      registeredAt: new Date().toISOString(),
-      registrationType: 'online'      // we mark both online & offline as online (offline can be simulated)
-    };
-
-    // load existing, push, save
-    const students = loadStudents();
-    students.unshift(newStudent);  // latest on top
-    saveStudents(students);
-    renderStudentsList();
-
-    // reset form (except keep some fields for convenience maybe)
-    document.getElementById('registrationForm').reset();
-    showToast(`✨ ${fullName} successfully registered (${course}) ✨`);
-    return false;
-  }
-
-  // ---- SHARE functionality (Web Share API with fallback) ----
-  async function shareStudentList() {
-    const students = loadStudents();
-    if (!students.length) {
-      showToast("📭 No students registered yet. Add someone to share.", 2000);
-      return;
-    }
-
-    // Build shareable text summary
-    let shareText = "🌟 Lovely Beauty College - Student Registration List 🌟\n\n";
-    students.forEach((s, i) => {
-      shareText += `${i+1}. ${s.fullName} | ${s.course} | 📞 ${s.phone} | Emergency: ${s.emergencyPhone}\n`;
-    });
-    shareText += `\nTotal enrolled: ${students.length} | Register at Lovely Beauty College 💅✨`;
-
-    // Check if Web Share API is supported (typical mobile/desktop HTTPS)
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Lovely Beauty College Students',
-          text: shareText,
-          url: window.location.href,
-        });
-        showToast("✅ Shared successfully!");
-      } catch (err) {
-        if (err.name !== 'AbortError') {
-          fallbackCopyShare(shareText);
-        } else {
-          showToast("Sharing cancelled");
+    // Helper: load students
+    function loadStudents() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                return JSON.parse(stored);
+            } catch(e) { return []; }
         }
-      }
-    } else {
-      fallbackCopyShare(shareText);
+        return [];
     }
-  }
 
-  function fallbackCopyShare(text) {
-    // fallback: copy to clipboard and notify
-    navigator.clipboard.writeText(text).then(() => {
-      showToast("📋 Student list copied to clipboard! You can paste anywhere.");
-    }).catch(() => {
-      showToast("⚠️ Unable to share automatically, but you can manually export.");
+    function saveStudents(students) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+    }
+
+    // Generate next unique student ID (format LBC-YYYYXXXX)
+    function generateStudentId() {
+        const currentYear = new Date().getFullYear();
+        let counter = localStorage.getItem(ID_COUNTER_KEY);
+        if (!counter) {
+            const students = loadStudents();
+            let maxSeq = 0;
+            students.forEach(s => {
+                if (s.studentId) {
+                    const match = s.studentId.match(/LBC-\d{4}(\d{4})/);
+                    if (match) {
+                        const seq = parseInt(match[1]);
+                        if (seq > maxSeq) maxSeq = seq;
+                    }
+                }
+            });
+            counter = maxSeq > 0 ? maxSeq + 1 : 1;
+        } else {
+            counter = parseInt(counter) + 1;
+        }
+        const newId = `LBC-${currentYear}${counter.toString().padStart(4, '0')}`;
+        localStorage.setItem(ID_COUNTER_KEY, counter);
+        return newId;
+    }
+
+    // preview next ID without increment
+    function previewNextId() {
+        const currentYear = new Date().getFullYear();
+        let counter = localStorage.getItem(ID_COUNTER_KEY);
+        if (!counter) {
+            const students = loadStudents();
+            let maxSeq = 0;
+            students.forEach(s => {
+                if (s.studentId) {
+                    const match = s.studentId.match(/LBC-\d{4}(\d{4})/);
+                    if (match) {
+                        const seq = parseInt(match[1]);
+                        if (seq > maxSeq) maxSeq = seq;
+                    }
+                }
+            });
+            counter = maxSeq + 1;
+        } else {
+            counter = parseInt(counter) + 1;
+        }
+        return `LBC-${currentYear}${counter.toString().padStart(4, '0')}`;
+    }
+
+    // Render student list UI
+    function renderStudentsList() {
+        const students = loadStudents();
+        const container = document.getElementById('studentsListContainer');
+        const countSpan = document.getElementById('studentCount');
+        countSpan.innerText = `${students.length} enrolled`;
+
+        if (!students.length) {
+            container.innerHTML = `<div class="empty-message"><i class="fas fa-smile-wink"></i> No registrations yet. Fill the form!</div>`;
+            return;
+        }
+
+        let html = '';
+        students.forEach((student) => {
+            const ageDisplay = student.age ? student.age : '—';
+            html += `
+                <div class="student-item">
+                    <div class="student-name">
+                        <span><i class="fas fa-id-card"></i> <strong style="color:#bd5a48;">${escapeHtml(student.studentId)}</strong> — ${escapeHtml(student.fullName)}</span>
+                        <span class="student-id-badge">${escapeHtml(student.courseShort || student.course)}</span>
+                    </div>
+                    <div class="student-details">
+                        <span><i class="fas fa-envelope"></i> ${escapeHtml(student.email)}</span>
+                        <span><i class="fas fa-phone"></i> ${escapeHtml(student.phone)}</span>
+                        <span><i class="fas fa-venus-mars"></i> ${student.gender || '—'}</span>
+                        <span><i class="fas fa-calendar-alt"></i> Age: ${ageDisplay}</span>
+                    </div>
+                    <div class="student-details">
+                        <span><i class="fas fa-book"></i> ${escapeHtml(student.course)}</span>
+                    </div>
+                    <div class="emergency-badge"><i class="fas fa-phone-alt"></i> Emergency: ${escapeHtml(student.emergencyPhone)}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function showToast(msg, duration = 2300) {
+        let existing = document.querySelector('.toast-message');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        toast.innerHTML = `<i class="fas fa-bell"></i> ${msg}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), duration);
+    }
+
+    // Add new student from form
+    function addStudent(event) {
+        event.preventDefault();
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const gender = document.getElementById('gender').value;
+        const course = document.getElementById('course').value;
+        const emergencyPhone = document.getElementById('emergencyPhone').value.trim();
+
+        if (!fullName) { showToast("❌ Full name required"); return; }
+        if (!email) { showToast("❌ Email required"); return; }
+        if (!phone) { showToast("❌ Phone required"); return; }
+        if (!course) { showToast("❌ Please select a course"); return; }
+        if (!emergencyPhone) { showToast("❌ Emergency phone required"); return; }
+        if (!gender) { showToast("❌ Please select gender (Female/Male)"); return; }
+        if (!/^\S+@\S+\.\S+$/.test(email)) { showToast("⚠️ Valid email required"); return; }
+
+        let courseShort = course.substring(0, 22);
+        if (course.length > 22) courseShort = course.substring(0,20)+'..';
+
+        const studentId = generateStudentId();
+        const newStudent = {
+            id: Date.now(),
+            studentId: studentId,
+            fullName: fullName,
+            email: email,
+            phone: phone,
+            age: age ? parseInt(age) : '',
+            gender: gender,
+            course: course,
+            courseShort: courseShort,
+            emergencyPhone: emergencyPhone,
+            registeredAt: new Date().toISOString()
+        };
+
+        const students = loadStudents();
+        students.unshift(newStudent);
+        saveStudents(students);
+        renderStudentsList();
+        updateNextIdPreview();
+
+        document.getElementById('registrationForm').reset();
+        showToast(`✅ Registered! ID: ${studentId} — ${fullName}`);
+    }
+
+    function updateNextIdPreview() {
+        const nextId = previewNextId();
+        document.getElementById('nextIdNumber').innerText = nextId;
+    }
+
+    // ---------- SHARE BUTTON (functional) ----------
+    async function handleShare() {
+        const students = loadStudents();
+        if (!students.length) {
+            showToast("📭 No students to share. Register first.", 1800);
+            return;
+        }
+        let shareText = "✨ Lovely Beauty College - Student List ✨\n\n";
+        students.forEach((s, idx) => {
+            shareText += `${idx+1}. ID: ${s.studentId} | ${s.fullName} | ${s.course} | 📞 ${s.phone} | 🆘 ${s.emergencyPhone}\n`;
+        });
+        shareText += `\nTotal: ${students.length} students | Lovely Beauty College`;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({ title: 'Student Registrations', text: shareText });
+                showToast("📤 Shared successfully!");
+            } catch(e) { 
+                fallbackCopy(shareText);
+            }
+        } else {
+            fallbackCopy(shareText);
+        }
+    }
+
+    function fallbackCopy(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("📋 Student list copied to clipboard!");
+        }).catch(() => showToast("⚠️ Could not copy"));
+    }
+
+    // ---------- EXPORT: PDF using html2pdf (clean white background) ----------
+    async function exportToPDF() {
+        const element = document.getElementById('studentListPanel');
+        if (!element) return;
+        // Clone to avoid messing original UI (but we can just use original section)
+        // Use html2pdf with good style retention
+        const opt = {
+            margin:        [0.5, 0.5, 0.5, 0.5],
+            filename:     `LovelyBeauty_Students_${new Date().toISOString().slice(0,19)}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, backgroundColor: '#ffffff' },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        showToast("📄 Generating PDF, please wait...");
+        try {
+            await html2pdf().set(opt).from(element).save();
+            showToast("✅ PDF exported successfully!");
+        } catch(err) {
+            showToast("⚠️ PDF error, but you can print the page (Ctrl+P)");
+        }
+    }
+
+    // Export to Word (.doc) by creating a blob with HTML content
+    function exportToWord() {
+        const students = loadStudents();
+        if (!students.length) { showToast("No data to export"); return; }
+        let docHtml = `
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Lovely Beauty College - Student Registry</title>
+                <style>
+                    body { font-family: 'Calibri', Arial, sans-serif; margin: 2rem; background: white; }
+                    h1 { color: #bd5a48; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+                    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+                    th { background: #f7ede8; }
+                    .footer { margin-top: 2rem; font-style: italic; }
+                </style>
+            </head>
+            <body>
+                <h1>🌸 Lovely Beauty College — Student List</h1>
+                <p>Generated: ${new Date().toLocaleString()}</p>
+                <table>
+                    <thead>
+                        <tr><th>Student ID</th><th>Full Name</th><th>Email</th><th>Phone</th><th>Gender</th><th>Age</th><th>Course</th><th>Emergency</th></tr>
+                    </thead>
+                    <tbody>
+        `;
+        students.forEach(s => {
+            docHtml += `<tr>
+                <td>${escapeHtml(s.studentId)}</td>
+                <td>${escapeHtml(s.fullName)}</td>
+                <td>${escapeHtml(s.email)}</td>
+                <td>${escapeHtml(s.phone)}</td>
+                <td>${escapeHtml(s.gender || '—')}</td>
+                <td>${s.age || '—'}</td>
+                <td>${escapeHtml(s.course)}</td>
+                <td>${escapeHtml(s.emergencyPhone)}</td>
+            </tr>`;
+        });
+        docHtml += `</tbody></table><div class="footer">Total enrolled: ${students.length} students — Lovely Beauty College</div></body></html>`;
+        const blob = new Blob([docHtml], { type: 'application/msword' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = `LovelyBeauty_Students_${Date.now()}.doc`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast("📄 Word document exported!");
+    }
+
+    // JSON backup download
+    function exportBackup() {
+        const students = loadStudents();
+        if (!students.length) { showToast("No data to backup"); return; }
+        const dataStr = JSON.stringify(students, null, 2);
+        const blob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `lovely_beauty_backup_${new Date().toISOString().slice(0,19)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("💾 Backup saved (JSON)");
+    }
+
+    // Event binding
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('registrationForm');
+        form.addEventListener('submit', addStudent);
+        document.getElementById('shareListBtn').addEventListener('click', handleShare);
+        document.getElementById('exportPDFBtn').addEventListener('click', exportToPDF);
+        document.getElementById('exportWordBtn').addEventListener('click', exportToWord);
+        document.getElementById('exportBackupBtn').addEventListener('click', exportBackup);
+        renderStudentsList();
+        updateNextIdPreview();
     });
-  }
-
-  // ---- Export offline backup: download as JSON ----
-  function exportOfflineBackup() {
-    const students = loadStudents();
-    if (!students.length) {
-      showToast("No students to export. Register first.");
-      return;
-    }
-    const dataStr = JSON.stringify(students, null, 2);
-    const blob = new Blob([dataStr], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `lovely_beauty_students_${new Date().toISOString().slice(0,19)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast("💾 Backup exported successfully (JSON). Keep safe.");
-  }
-
-  // ---- Additional offline demo / manual offline registration: form works as offline mode
-  // We also simulate offline registration because it's client-side storage. 
-  // No extra toggle needed; user can register without internet (PWA-like)
-
-  // ---- Load initial data on page load & maybe demo examples for beauty feel (optional but keep clean) 
-  function initDemoIfEmpty() {
-    const students = loadStudents();
-    if (students.length === 0) {
-      // Optional: add one friendly demo example to illustrate UI? But better keep empty? 
-      // For showcasing we may add 1 example but not mandatory. However the product requirement: production ready
-      // We'll add a sample offline registration just to show design but not required: 
-      // Actually we can add a nice placeholder but not forced, but to avoid empty list we can leave empty.
-      // I'll leave empty so user starts from scratch.
-    }
-    renderStudentsList();
-  }
-
-  // Sync manual event to also handle "offline registration" (our form already works offline)
-  // share button event listener
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('registrationForm');
-    form.addEventListener('submit', addStudentFromForm);
-    
-    const shareBtn = document.getElementById('shareListBtn');
-    shareBtn.addEventListener('click', shareStudentList);
-    
-    const exportBtn = document.getElementById('exportOfflineBtn');
-    exportBtn.addEventListener('click', exportOfflineBackup);
-    
-    initDemoIfEmpty();
-    
-    // If online/offline status detection optional: show user if they are offline but storage works
-    window.addEventListener('online', () => showToast("🟢 Back online! Data remains available.", 1500));
-    window.addEventListener('offline', () => showToast("🔴 Offline mode — registrations saved locally and will be available.", 2000));
-  });
 </script>
 </body>
 </html>
