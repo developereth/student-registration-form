@@ -19,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* Ethiopian Flag Colors */
         :root {
             --ethiopia-red: #8B0000;
             --ethiopia-gold: #DAA520;
@@ -164,7 +163,6 @@
             background: #f0f2f5;
         }
 
-        /* Top Navigation */
         .top-nav {
             background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -235,14 +233,12 @@
             transform: scale(1.02);
         }
 
-        /* Main Content */
         .main-content {
             max-width: 1400px;
             margin: 0 auto;
             padding: 25px;
         }
 
-        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -284,7 +280,6 @@
             opacity: 0.7;
         }
 
-        /* Form Section */
         .form-card {
             background: white;
             border-radius: 20px;
@@ -380,7 +375,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        /* Students Table */
         .students-card {
             background: white;
             border-radius: 20px;
@@ -471,25 +465,20 @@
             color: #999;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
                 text-align: center;
             }
-            
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            
             .table-header {
                 flex-direction: column;
             }
-            
             .stat-card {
                 padding: 18px;
             }
@@ -531,7 +520,6 @@
 
 <!-- DASHBOARD -->
 <div id="dashboardPage" class="dashboard">
-    <!-- Top Navigation -->
     <div class="top-nav">
         <div class="nav-container">
             <div class="logo-area">
@@ -551,7 +539,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <!-- Stats Cards -->
         <div class="stats-grid">
@@ -630,7 +617,7 @@
                 <button class="btn-primary" onclick="registerStudent()">
                     <i class="fas fa-save"></i> Save Student
                 </button>
-                <button class="btn-secondary" onclick="generateCertificate()">
+                <button class="btn-secondary" onclick="openCertificatePage()">
                     <i class="fas fa-certificate"></i> Generate Certificate
                 </button>
             </div>
@@ -818,21 +805,20 @@
         
         alert(`✅ Student Registered Successfully!\n\nID: ${id}\nName: ${fullName}\nCourse: ${document.getElementById('course').value}\nTotal Fee: ${totalFee} ETB\nPaid: ${paid} ETB\nDue: ${due} ETB`);
         
-        // Clear form
         document.getElementById('fullName').value = '';
         document.getElementById('phone').value = '';
         document.getElementById('emergency').value = '';
         document.getElementById('paid').value = '0';
     }
 
-    function generateCertificate() {
+    // NEW: Open Certificate Page
+    function openCertificatePage() {
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         if (students.length === 0) {
-            alert('❌ No students registered yet!');
+            alert('❌ No students registered yet!\n\nPlease register a student first, then generate certificate.');
             return;
         }
-        const lastStudent = students[0];
-        alert(`🎓 CERTIFICATE READY\n\nStudent: ${lastStudent.fullName}\nID: ${lastStudent.id}\nCourse: ${lastStudent.course}\nStatus: ${lastStudent.due === 0 ? 'Fully Paid' : 'Pending: ' + lastStudent.due + ' ETB'}\n\nFull certificate generation coming next!`);
+        window.open('certificate.html', '_blank');
     }
 
     // Enter key login
