@@ -8,31 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
         :root {
             --ethiopia-red: #8B0000;
             --ethiopia-gold: #DAA520;
-            --ethiopia-green: #078930;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Header */
+        .container { max-width: 1200px; margin: 0 auto; }
         .header {
             background: white;
             border-radius: 20px;
@@ -45,17 +32,7 @@
             gap: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-
-        .logo h1 {
-            color: var(--ethiopia-red);
-            font-size: 22px;
-        }
-
-        .logo p {
-            font-size: 12px;
-            color: #666;
-        }
-
+        .logo h1 { color: var(--ethiopia-red); font-size: 22px; }
         .back-btn {
             background: var(--ethiopia-red);
             color: white;
@@ -68,8 +45,6 @@
             align-items: center;
             gap: 8px;
         }
-
-        /* Selection Panel */
         .selection-panel {
             background: white;
             border-radius: 20px;
@@ -77,40 +52,20 @@
             margin-bottom: 30px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-
-        .selection-panel h2 {
-            color: var(--ethiopia-red);
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
         .student-selector {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
             align-items: flex-end;
         }
-
-        .select-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .select-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
+        .select-group { flex: 1; min-width: 200px; }
+        .select-group label { display: block; margin-bottom: 8px; font-weight: 600; }
         .select-group select, .select-group input {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
-            font-family: 'Inter', sans-serif;
         }
-
         .preview-btn {
             background: var(--ethiopia-gold);
             color: white;
@@ -120,8 +75,6 @@
             cursor: pointer;
             font-weight: 600;
         }
-
-        /* Certificate Template */
         .certificate-wrapper {
             background: white;
             border-radius: 20px;
@@ -129,369 +82,151 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             display: none;
         }
-
         .certificate {
             background: white;
-            width: 100%;
             max-width: 1000px;
             margin: 0 auto;
-            position: relative;
             border: 15px solid var(--ethiopia-gold);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
         .certificate-inner {
             border: 2px solid var(--ethiopia-red);
             margin: 10px;
             padding: 40px;
             text-align: center;
-            background: linear-gradient(135deg, #fff9f0 0%, white 100%);
         }
-
-        .cert-logo {
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-
-        .cert-college {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--ethiopia-red);
-            letter-spacing: 2px;
-        }
-
-        .cert-subtitle {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .cert-title {
-            font-size: 42px;
-            font-weight: 800;
-            color: var(--ethiopia-gold);
-            margin: 30px 0;
-            letter-spacing: 3px;
-        }
-
         .cert-student-name {
             font-size: 48px;
             font-weight: 800;
             color: var(--ethiopia-red);
             margin: 20px 0;
-            text-transform: uppercase;
             border-bottom: 3px solid var(--ethiopia-gold);
             display: inline-block;
-            padding-bottom: 10px;
         }
-
-        .cert-course {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin: 20px 0;
-        }
-
-        .cert-description {
-            font-size: 14px;
-            color: #555;
-            margin: 30px 60px;
-            line-height: 1.6;
-        }
-
-        .cert-date {
-            margin: 30px 0;
-            font-size: 14px;
-        }
-
-        .signatures {
-            display: flex;
-            justify-content: space-between;
-            margin: 40px 60px 20px;
-        }
-
-        .signature-line {
-            text-align: center;
-        }
-
-        .signature-line div:first-child {
-            width: 200px;
-            border-top: 2px solid #333;
-            margin-bottom: 8px;
-        }
-
-        .cert-id {
-            font-size: 10px;
-            color: #999;
-            margin-top: 20px;
-        }
-
-        /* Actions */
+        .cert-course { font-size: 28px; font-weight: 700; margin: 20px 0; }
         .actions {
             margin-top: 30px;
             display: flex;
             gap: 15px;
             justify-content: center;
-            flex-wrap: wrap;
         }
-
-        .btn-download {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
+        .btn-download, .btn-print {
             padding: 12px 30px;
             border-radius: 10px;
+            border: none;
+            color: white;
             cursor: pointer;
             font-weight: 600;
         }
-
-        .btn-print {
-            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        /* Empty State */
+        .btn-download { background: #28a745; }
+        .btn-print { background: #17a2b8; }
         .empty-state {
             text-align: center;
             padding: 60px;
             background: white;
             border-radius: 20px;
         }
-
-        .empty-state i {
-            font-size: 60px;
-            color: #ccc;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .certificate-inner { padding: 20px; }
-            .cert-student-name { font-size: 28px; }
-            .cert-title { font-size: 28px; }
-            .cert-course { font-size: 20px; }
-            .signatures { flex-direction: column; gap: 30px; margin: 20px; }
-        }
-
         @media print {
-            body { background: white; padding: 0; }
+            body { background: white; }
             .header, .selection-panel, .actions, .back-btn { display: none; }
-            .certificate-wrapper { display: block !important; padding: 0; }
-            .certificate { border: 15px solid #DAA520; }
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <!-- Header -->
     <div class="header">
-        <div class="logo">
-            <h1><i class="fas fa-certificate"></i> LOVELY Beauty College</h1>
-            <p>Certificate Generation System</p>
-        </div>
-        <a href="index.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Back to Dashboard
-        </a>
+        <div class="logo"><h1>🎓 LOVELY Beauty College</h1><p>Certificate Generation System</p></div>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
-
-    <!-- Selection Panel -->
     <div class="selection-panel">
-        <h2><i class="fas fa-user-graduate"></i> Select Student</h2>
+        <h3><i class="fas fa-user-graduate"></i> Select Student</h3>
         <div class="student-selector">
             <div class="select-group">
-                <label><i class="fas fa-users"></i> Choose Student</label>
+                <label>Choose Student</label>
                 <select id="studentSelect" onchange="loadStudentData()">
                     <option value="">-- Select a student --</option>
                 </select>
             </div>
             <div class="select-group">
-                <label><i class="fas fa-star"></i> Grade / Achievement</label>
+                <label>Grade / Achievement</label>
                 <select id="gradeSelect">
-                    <option value="Distinction">🏆 Distinction (90-100%)</option>
-                    <option value="Excellent">⭐ Excellent (80-89%)</option>
-                    <option value="Very Good">✅ Very Good (70-79%)</option>
-                    <option value="Good">📘 Good (60-69%)</option>
-                    <option value="Pass">🎯 Pass (50-59%)</option>
+                    <option>🏆 Distinction (90-100%)</option>
+                    <option>⭐ Excellent (80-89%)</option>
+                    <option>✅ Very Good (70-79%)</option>
                 </select>
             </div>
-            <button class="preview-btn" onclick="previewCertificate()">
-                <i class="fas fa-eye"></i> Preview Certificate
-            </button>
+            <button class="preview-btn" onclick="previewCertificate()"><i class="fas fa-eye"></i> Preview Certificate</button>
         </div>
     </div>
-
-    <!-- Certificate Preview -->
     <div id="certificateWrapper" class="certificate-wrapper">
         <div id="certificate" class="certificate">
             <div class="certificate-inner">
-                <div class="cert-logo">✨</div>
-                <div class="cert-college">LOVELY BEAUTY COLLEGE</div>
-                <div class="cert-subtitle">The First Private Beauty College in Ethiopia | Established 1998 G.C</div>
-                
-                <div class="cert-title">CERTIFICATE OF COMPLETION</div>
-                
+                <div style="font-size: 50px;">✨</div>
+                <div style="font-size: 28px; font-weight: 800; color: var(--ethiopia-red);">LOVELY BEAUTY COLLEGE</div>
+                <div style="font-size: 42px; font-weight: 800; color: var(--ethiopia-gold); margin: 20px 0;">CERTIFICATE OF COMPLETION</div>
                 <div>This certificate is proudly presented to</div>
-                
                 <div class="cert-student-name" id="certStudentName">____________________</div>
-                
                 <div>for successfully completing</div>
-                
                 <div class="cert-course" id="certCourse">____________________</div>
-                
-                <div class="cert-description">
-                    With excellence in all practical and theoretical examinations, demonstrating 
-                    professional expertise in beauty techniques, customer service, and industry standards.
-                </div>
-                
                 <div class="cert-date" id="certDate"></div>
-                
-                <div class="signatures">
-                    <div class="signature-line">
-                        <div></div>
-                        <div><strong>Mrs. Alemitu Bekele</strong></div>
-                        <div>College Director</div>
-                    </div>
-                    <div class="signature-line">
-                        <div></div>
-                        <div><strong>Mr. Tesfaye Desta</strong></div>
-                        <div>Academic Coordinator</div>
-                    </div>
-                </div>
-                
                 <div class="cert-id" id="certId"></div>
             </div>
         </div>
-        
         <div class="actions">
-            <button class="btn-download" onclick="downloadPDF()">
-                <i class="fas fa-download"></i> Download PDF
-            </button>
-            <button class="btn-print" onclick="printCertificate()">
-                <i class="fas fa-print"></i> Print Certificate
-            </button>
+            <button class="btn-download" onclick="downloadPDF()"><i class="fas fa-download"></i> Download PDF</button>
+            <button class="btn-print" onclick="printCertificate()"><i class="fas fa-print"></i> Print Certificate</button>
         </div>
     </div>
-
-    <!-- Empty State -->
     <div id="emptyState" class="empty-state">
-        <i class="fas fa-certificate"></i>
+        <i class="fas fa-certificate" style="font-size: 60px; color: #ccc;"></i>
         <h3>No Students Yet</h3>
-        <p>Register students in the main dashboard first,<br>then come back to generate their certificates.</p>
-        <a href="index.html" style="display: inline-block; margin-top: 20px; background: var(--ethiopia-red); color: white; padding: 10px 25px; border-radius: 10px; text-decoration: none;">
-            <i class="fas fa-arrow-left"></i> Go to Dashboard
-        </a>
+        <p>Register students in the main dashboard first.</p>
+        <a href="index.html" style="display: inline-block; margin-top: 20px; background: var(--ethiopia-red); color: white; padding: 10px 25px; border-radius: 10px; text-decoration: none;">Go to Dashboard</a>
     </div>
 </div>
-
 <script>
-    // Load students from localStorage
     function loadStudents() {
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const select = document.getElementById('studentSelect');
-        
         select.innerHTML = '<option value="">-- Select a student --</option>';
-        
         if (students.length === 0) {
             document.getElementById('emptyState').style.display = 'block';
             document.getElementById('certificateWrapper').style.display = 'none';
             return;
         }
-        
         document.getElementById('emptyState').style.display = 'none';
-        
         students.forEach((student, index) => {
             select.innerHTML += `<option value="${index}">${student.id} - ${student.fullName} (${student.course})</option>`;
         });
     }
-
-    // Load selected student data
     function loadStudentData() {
         const selectedIndex = document.getElementById('studentSelect').value;
         if (selectedIndex === '') return;
-        
         const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const student = students[selectedIndex];
-        
-        // Store current student for certificate generation
-        localStorage.setItem('currentCertificateStudent', JSON.stringify(student));
+        localStorage.setItem('currentCertificateStudent', JSON.stringify(students[selectedIndex]));
     }
-
-    // Preview Certificate
     function previewCertificate() {
         const selectedIndex = document.getElementById('studentSelect').value;
-        
-        if (selectedIndex === '') {
-            alert('⚠️ Please select a student first!');
-            return;
-        }
-        
+        if (selectedIndex === '') { alert('Please select a student!'); return; }
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const student = students[selectedIndex];
-        const grade = document.getElementById('gradeSelect').options[document.getElementById('gradeSelect').selectedIndex].text;
-        
-        // Update certificate with student data
         document.getElementById('certStudentName').innerHTML = student.fullName.toUpperCase();
         document.getElementById('certCourse').innerHTML = student.course;
-        
-        const completionDate = new Date().toLocaleDateString('en-ET', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-        document.getElementById('certDate').innerHTML = `Issued on this day ${completionDate}`;
-        document.getElementById('certId').innerHTML = `Certificate ID: LBC-CERT-${student.id}-${new Date().getFullYear()} | Grade: ${grade}`;
-        
-        // Show certificate
+        document.getElementById('certDate').innerHTML = `Issued on ${new Date().toLocaleDateString()}`;
+        document.getElementById('certId').innerHTML = `Certificate ID: LBC-CERT-${student.id}-${new Date().getFullYear()}`;
         document.getElementById('certificateWrapper').style.display = 'block';
-        
-        // Scroll to certificate
         document.getElementById('certificateWrapper').scrollIntoView({ behavior: 'smooth' });
     }
-
-    // Download as PDF
     function downloadPDF() {
         const element = document.getElementById('certificate');
-        const studentName = document.getElementById('certStudentName').innerHTML;
-        
-        if (studentName === '____________________') {
-            alert('⚠️ Please select a student and preview certificate first!');
+        if (document.getElementById('certStudentName').innerHTML === '____________________') {
+            alert('Please preview certificate first!');
             return;
         }
-        
-        const opt = {
-            margin: [0, 0, 0, 0],
-            filename: `Certificate_${studentName.replace(/\s/g, '_')}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, letterRendering: true },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-        };
-        
-        html2pdf().set(opt).from(element).save();
-        
-        // Show success
-        alert('✅ Certificate PDF generated and downloaded!');
+        html2pdf().set({ margin: [0,0,0,0], filename: 'Certificate.pdf', image: { type: 'jpeg', quality: 0.98 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' } }).from(element).save();
+        alert('✅ Certificate downloaded!');
     }
-
-    // Print Certificate
-    function printCertificate() {
-        const studentName = document.getElementById('certStudentName').innerHTML;
-        
-        if (studentName === '____________________') {
-            alert('⚠️ Please select a student and preview certificate first!');
-            return;
-        }
-        
-        window.print();
-    }
-
-    // Load students on page load
+    function printCertificate() { window.print(); }
     loadStudents();
 </script>
-
 </body>
 </html>
