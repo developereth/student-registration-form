@@ -2,492 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>LOVELY Beauty College - Student Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVELY Beauty College - Student Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-        }
-
-        :root {
-            --ethiopia-red: #8B0000;
-            --ethiopia-gold: #DAA520;
-            --ethiopia-green: #078930;
-            --dark-red: #5a0000;
-            --soft-gray: #f8f9fa;
-        }
-
-        /* Login Page Styles */
-        .login-wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--ethiopia-gold) 100%);
-            padding: 20px;
-        }
-
-        .login-card {
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            max-width: 450px;
-            width: 100%;
-            overflow: hidden;
-            animation: slideUp 0.6s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-header {
-            background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--dark-red) 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .login-logo {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-
-        .login-header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .login-header p {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        .login-body {
-            padding: 40px;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .input-group i {
-            margin-right: 8px;
-            color: var(--ethiopia-red);
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 15px;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--ethiopia-gold);
-            box-shadow: 0 0 0 3px rgba(218,165,32,0.1);
-        }
-
-        .login-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--ethiopia-gold) 100%);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .error-msg {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-            display: none;
-        }
-
-        .login-footer {
-            background: var(--soft-gray);
-            padding: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-        }
-
-        /* Dashboard Styles */
-        .dashboard {
-            display: none;
-            min-height: 100vh;
-            background: #f0f2f5;
-        }
-
-        .top-nav {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            font-size: 32px;
-        }
-
-        .logo-text h2 {
-            color: var(--ethiopia-red);
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .logo-text p {
-            font-size: 10px;
-            color: #666;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--soft-gray);
-            padding: 8px 20px;
-            border-radius: 50px;
-        }
-
-        .user-info span {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .logout-btn {
-            background: var(--ethiopia-red);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: var(--dark-red);
-            transform: scale(1.02);
-        }
-
-        .main-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 25px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .stat-info h3 {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .stat-number {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--ethiopia-red);
-        }
-
-        .stat-icon {
-            font-size: 48px;
-            color: var(--ethiopia-gold);
-            opacity: 0.7;
-        }
-
-        .form-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--ethiopia-red);
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-field label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .form-field label i {
-            color: var(--ethiopia-red);
-            margin-right: 6px;
-        }
-
-        .form-field input, .form-field select {
-            padding: 12px 14px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-field input:focus, .form-field select:focus {
-            outline: none;
-            border-color: var(--ethiopia-gold);
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--dark-red) 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--ethiopia-gold) 0%, #b8860b 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary:hover, .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .students-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--soft-gray);
-            border-radius: 10px;
-            padding: 8px 15px;
-        }
-
-        .search-box i {
-            color: #999;
-        }
-
-        .search-box input {
-            border: none;
-            background: transparent;
-            padding: 8px;
-            width: 200px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .search-box input:focus {
-            outline: none;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            padding: 15px;
-            background: var(--soft-gray);
-            font-weight: 700;
-            color: var(--ethiopia-red);
-            font-size: 14px;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-        }
-
-        .status-paid {
-            background: #d4edda;
-            color: #155724;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .empty-row td {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: var(--ethiopia-red);
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .table-header {
-                flex-direction: column;
-            }
-            .stat-card {
-                padding: 18px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        :root { --ethiopia-red: #8B0000; --ethiopia-gold: #DAA520; --dark-red: #5a0000; --soft-gray: #f8f9fa; }
+        
+        .login-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--ethiopia-gold) 100%); padding: 20px; }
+        .login-card { background: white; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); max-width: 450px; width: 100%; overflow: hidden; animation: slideUp 0.6s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        .login-header { background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--dark-red) 100%); color: white; padding: 40px; text-align: center; }
+        .login-logo { font-size: 60px; margin-bottom: 15px; }
+        .login-header h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .login-body { padding: 40px; }
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .input-group input { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 15px; }
+        .login-btn { width: 100%; background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--ethiopia-gold) 100%); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .error-msg { background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 10px; margin-bottom: 20px; text-align: center; display: none; }
+        
+        .dashboard { display: none; min-height: 100vh; background: #f0f2f5; }
+        .top-nav { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-text h2 { color: var(--ethiopia-red); font-size: 20px; font-weight: 800; }
+        .user-info { display: flex; align-items: center; gap: 15px; background: var(--soft-gray); padding: 8px 20px; border-radius: 50px; }
+        .logout-btn { background: var(--ethiopia-red); color: white; border: none; padding: 8px 20px; border-radius: 25px; cursor: pointer; }
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 25px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 20px; padding: 25px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .stat-number { font-size: 32px; font-weight: 800; color: var(--ethiopia-red); }
+        .stat-icon { font-size: 48px; color: var(--ethiopia-gold); opacity: 0.7; }
+        .form-card, .students-card { background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .section-title { font-size: 22px; font-weight: 700; color: var(--ethiopia-red); margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .form-field { display: flex; flex-direction: column; gap: 8px; }
+        .form-field input, .form-field select { padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 14px; }
+        .form-actions { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn-primary { background: linear-gradient(135deg, var(--ethiopia-red) 0%, var(--dark-red) 100%); color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .btn-secondary { background: linear-gradient(135deg, var(--ethiopia-gold) 0%, #b8860b 100%); color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; background: var(--soft-gray); font-weight: 700; color: var(--ethiopia-red); }
+        td { padding: 15px; border-bottom: 1px solid #e0e0e0; }
+        .status-paid { background: #d4edda; color: #155724; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .status-pending { background: #fff3cd; color: #856404; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+        .loading { text-align: center; padding: 20px; color: var(--ethiopia-red); }
+        @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -498,28 +62,15 @@
         <div class="login-header">
             <div class="login-logo">✨</div>
             <h1>LOVELY BEAUTY COLLEGE</h1>
-            <p>The First Private Beauty College in Ethiopia</p>
-            <p style="font-size: 11px; margin-top: 8px;">Est. 1998 G.C</p>
+            <p>The First Private Beauty College in Ethiopia | Est. 1998 G.C</p>
         </div>
         <div class="login-body">
-            <div id="loginError" class="error-msg">
-                <i class="fas fa-exclamation-triangle"></i> Invalid username or password
-            </div>
-            <div class="input-group">
-                <label><i class="fas fa-user"></i> Username</label>
-                <input type="text" id="username" placeholder="Enter your username">
-            </div>
-            <div class="input-group">
-                <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="password" placeholder="Enter your password">
-            </div>
-            <button class="login-btn" onclick="doLogin()">
-                <i class="fas fa-sign-in-alt"></i> LOGIN
-            </button>
+            <div id="loginError" class="error-msg"><i class="fas fa-exclamation-triangle"></i> Invalid username or password</div>
+            <div class="input-group"><label><i class="fas fa-user"></i> Username</label><input type="text" id="username" placeholder="Enter username"></div>
+            <div class="input-group"><label><i class="fas fa-lock"></i> Password</label><input type="password" id="password" placeholder="Enter password"></div>
+            <button class="login-btn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
         </div>
-        <div class="login-footer">
-            <i class="fas fa-shield-alt"></i> Authorized Personnel Only
-        </div>
+        <div class="login-footer"><i class="fas fa-shield-alt"></i> Authorized Personnel Only</div>
     </div>
 </div>
 
@@ -527,135 +78,40 @@
 <div id="dashboardPage" class="dashboard">
     <div class="top-nav">
         <div class="nav-container">
-            <div class="logo-area">
-                <div class="logo-icon">✨</div>
-                <div class="logo-text">
-                    <h2>LOVELY BEAUTY COLLEGE</h2>
-                    <p>Student Management System</p>
-                </div>
-            </div>
-            <div class="user-info">
-                <i class="fas fa-user-circle" style="font-size: 20px; color: var(--ethiopia-red);"></i>
-                <span id="welcomeUser"></span>
-                <button class="logout-btn" onclick="doLogout()">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </div>
+            <div class="logo-area"><div class="logo-icon">✨</div><div class="logo-text"><h2>LOVELY BEAUTY COLLEGE</h2><p>Student Management System</p></div></div>
+            <div class="user-info"><i class="fas fa-user-circle" style="font-size: 20px; color: var(--ethiopia-red);"></i><span id="welcomeUser"></span><button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
         </div>
     </div>
-
     <div class="main-content">
-        <!-- Stats Cards -->
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3><i class="fas fa-users"></i> Total Students</h3>
-                    <div class="stat-number" id="totalStudents">0</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3><i class="fas fa-money-bill-wave"></i> Total Collected</h3>
-                    <div class="stat-number" id="totalCollected">0 ETB</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-coins"></i></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3><i class="fas fa-clock"></i> Total Due</h3>
-                    <div class="stat-number" id="totalDue">0 ETB</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3><i class="fas fa-check-circle"></i> Active Students</h3>
-                    <div class="stat-number" id="activeStudents">0</div>
-                </div>
-                <div class="stat-icon"><i class="fas fa-user-check"></i></div>
-            </div>
+            <div class="stat-card"><div class="stat-info"><h3><i class="fas fa-users"></i> Total Students</h3><div class="stat-number" id="totalStudents">0</div></div><div class="stat-icon"><i class="fas fa-graduation-cap"></i></div></div>
+            <div class="stat-card"><div class="stat-info"><h3><i class="fas fa-money-bill-wave"></i> Total Collected</h3><div class="stat-number" id="totalCollected">0 ETB</div></div><div class="stat-icon"><i class="fas fa-coins"></i></div></div>
+            <div class="stat-card"><div class="stat-info"><h3><i class="fas fa-clock"></i> Total Due</h3><div class="stat-number" id="totalDue">0 ETB</div></div><div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div></div>
+            <div class="stat-card"><div class="stat-info"><h3><i class="fas fa-check-circle"></i> Active Students</h3><div class="stat-number" id="activeStudents">0</div></div><div class="stat-icon"><i class="fas fa-user-check"></i></div></div>
         </div>
 
-        <!-- Registration Form -->
         <div class="form-card">
-            <div class="section-title">
-                <i class="fas fa-user-plus"></i>
-                Register New Student
-            </div>
+            <div class="section-title"><i class="fas fa-user-plus"></i> Register New Student</div>
             <div class="form-grid">
-                <div class="form-field">
-                    <label><i class="fas fa-user"></i> Full Name *</label>
-                    <input type="text" id="fullName" placeholder="Enter student full name">
-                </div>
-                <div class="form-field">
-                    <label><i class="fas fa-phone"></i> Phone Number</label>
-                    <input type="tel" id="phone" placeholder="09xxxxxxxx">
-                </div>
-                <div class="form-field">
-                    <label><i class="fas fa-venus-mars"></i> Gender</label>
-                    <select id="gender">
-                        <option>Female</option>
-                        <option>Male</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label><i class="fas fa-book"></i> Course</label>
-                    <select id="course">
-                        <option>Hairdressing & Styling</option>
-                        <option>Makeup Artistry</option>
-                        <option>Nail Technology</option>
-                        <option>Skin Care & Aesthetics</option>
-                        <option>Beauty Therapy</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label><i class="fas fa-phone-alt"></i> Emergency Contact</label>
-                    <input type="text" id="emergency" placeholder="Emergency contact name & phone">
-                </div>
-                <div class="form-field">
-                    <label><i class="fas fa-money-bill"></i> Amount Paid (ETB)</label>
-                    <input type="number" id="paid" placeholder="0" value="0">
-                </div>
+                <div class="form-field"><label><i class="fas fa-user"></i> Full Name *</label><input type="text" id="fullName" placeholder="Enter student full name"></div>
+                <div class="form-field"><label><i class="fas fa-phone"></i> Phone Number</label><input type="tel" id="phone" placeholder="09xxxxxxxx"></div>
+                <div class="form-field"><label><i class="fas fa-venus-mars"></i> Gender</label><select id="gender"><option>Female</option><option>Male</option></select></div>
+                <div class="form-field"><label><i class="fas fa-book"></i> Course</label><select id="course"><option>Hairdressing & Styling</option><option>Makeup Artistry</option><option>Nail Technology</option><option>Skin Care & Aesthetics</option><option>Beauty Therapy</option></select></div>
+                <div class="form-field"><label><i class="fas fa-phone-alt"></i> Emergency Contact</label><input type="text" id="emergency" placeholder="Emergency contact name & phone"></div>
+                <div class="form-field"><label><i class="fas fa-money-bill"></i> Amount Paid (ETB)</label><input type="number" id="paid" placeholder="0" value="0"></div>
             </div>
             <div class="form-actions">
-                <button class="btn-primary" onclick="registerStudent()">
-                    <i class="fas fa-save"></i> Save Student
-                </button>
-                <button class="btn-secondary" onclick="openCertificatePage()">
-                    <i class="fas fa-certificate"></i> Generate Certificate
-                </button>
+                <button class="btn-primary" onclick="registerStudent()"><i class="fas fa-save"></i> Save Student</button>
+                <button class="btn-secondary" onclick="openCertificatePage()"><i class="fas fa-certificate"></i> Generate Certificate</button>
             </div>
         </div>
 
-        <!-- Students List -->
         <div class="students-card">
-            <div class="table-header">
-                <div class="section-title" style="margin-bottom: 0;">
-                    <i class="fas fa-list"></i>
-                    Registered Students
-                </div>
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search by name or ID..." onkeyup="searchStudents()">
-                </div>
-            </div>
+            <div class="section-title"><i class="fas fa-list"></i> Registered Students</div>
             <div class="table-wrapper">
-                <div id="loadingIndicator" class="loading" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Loading students...
-                </div>
+                <div id="loadingIndicator" class="loading" style="display: none;"><i class="fas fa-spinner fa-spin"></i> Loading students...</div>
                 <table id="studentsTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Full Name</th>
-                            <th>Phone</th>
-                            <th>Course</th>
-                            <th>Paid</th>
-                            <th>Due</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ID</th><th>Full Name</th><th>Phone</th><th>Course</th><th>Paid</th><th>Due</th><th>Status</th></tr></thead>
                     <tbody id="studentsList"></tbody>
                 </table>
             </div>
@@ -664,37 +120,21 @@
 </div>
 
 <script>
-    // ============================================
-    // USER CREDENTIALS - CHANGE THESE!
-    // ============================================
-    const USERS = {
-        'admin': 'admin123',
-        'officer': 'lovely2026',
-        'manager': 'beauty2026'
-    };
+    const USERS = { 'admin': 'admin123', 'officer': 'lovely2026', 'manager': 'beauty2026' };
+    
+    if (sessionStorage.getItem('loggedIn') === 'true') showDashboard();
 
-    // API Base URL (use relative path for same domain)
-    const API_BASE = '';
-
-    // Check session
-    if (sessionStorage.getItem('loggedIn') === 'true') {
-        showDashboard();
-    }
-
-    function doLogin() {
+    async function doLogin() {
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value;
-        const errorDiv = document.getElementById('loginError');
-
         if (USERS[username] && USERS[username] === password) {
             sessionStorage.setItem('loggedIn', 'true');
             sessionStorage.setItem('username', username);
-            showDashboard();
+            await showDashboard();
         } else {
+            const errorDiv = document.getElementById('loginError');
             errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 3000);
+            setTimeout(() => errorDiv.style.display = 'none', 3000);
         }
     }
 
@@ -702,8 +142,6 @@
         document.getElementById('loginPage').style.display = 'none';
         document.getElementById('dashboardPage').style.display = 'block';
         document.getElementById('welcomeUser').innerHTML = sessionStorage.getItem('username');
-        
-        // Load data from cloud
         await loadStatsFromCloud();
         await loadStudentsFromCloud();
     }
@@ -712,84 +150,46 @@
         sessionStorage.clear();
         document.getElementById('loginPage').style.display = 'flex';
         document.getElementById('dashboardPage').style.display = 'none';
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
     }
-
-    // ============================================
-    // CLOUD DATABASE FUNCTIONS
-    // ============================================
 
     async function loadStatsFromCloud() {
         try {
             const response = await fetch('/api/stats');
             const stats = await response.json();
-            
             document.getElementById('totalStudents').innerHTML = stats.totalStudents || 0;
             document.getElementById('totalCollected').innerHTML = (stats.totalCollected || 0).toLocaleString() + ' ETB';
             document.getElementById('totalDue').innerHTML = (stats.totalDue || 0).toLocaleString() + ' ETB';
             document.getElementById('activeStudents').innerHTML = stats.activeStudents || 0;
         } catch (error) {
             console.error('Error loading stats:', error);
-            // Show offline message but don't break
-            document.getElementById('totalStudents').innerHTML = '?';
         }
     }
 
     async function loadStudentsFromCloud() {
         const loadingIndicator = document.getElementById('loadingIndicator');
         const tbody = document.getElementById('studentsList');
-        
         loadingIndicator.style.display = 'block';
-        
         try {
             const response = await fetch('/api/students');
             const students = await response.json();
-            
             tbody.innerHTML = '';
-            
             if (students.length === 0) {
-                tbody.innerHTML = '<tr class="empty-row"><td colspan="7"><i class="fas fa-inbox"></i> No students registered yet. Use the form above to add students.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px;"><i class="fas fa-inbox"></i> No students registered yet. Use the form above to add students.</td></tr>';
             } else {
                 students.forEach(s => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><strong>${s.student_id || s.id}</strong></td>
-                            <td>${s.full_name}</td>
-                            <td>${s.phone || '-'}</td>
-                            <td>${s.course}</td>
-                            <td>${(s.paid || 0).toLocaleString()} ETB</td>
-                            <td>${(s.due || 0).toLocaleString()} ETB</td>
-                            <td><span class="${(s.due === 0 || s.due === '0') ? 'status-paid' : 'status-pending'}">${(s.due === 0 || s.due === '0') ? '✓ Paid' : '⚠ Pending'}</span></td>
-                        </tr>
-                    `;
+                    tbody.innerHTML += `<tr><td><strong>${s.student_id}</strong></td><td>${s.full_name}</td><td>${s.phone || '-'}</td><td>${s.course}</td><td>${(s.paid || 0).toLocaleString()} ETB</td><td>${(s.due || 0).toLocaleString()} ETB</td><td><span class="${s.due === 0 ? 'status-paid' : 'status-pending'}">${s.due === 0 ? '✓ Paid' : '⚠ Pending'}</span></td></tr>`;
                 });
             }
         } catch (error) {
-            console.error('Error loading students:', error);
-            tbody.innerHTML = '<tr class="empty-row"><td colspan="7"><i class="fas fa-exclamation-triangle"></i> Error loading students. Please refresh the page.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px;"><i class="fas fa-exclamation-triangle"></i> Error loading students. Please refresh.</td></tr>';
         } finally {
             loadingIndicator.style.display = 'none';
         }
     }
 
-    function searchStudents() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#studentsList tr');
-        
-        rows.forEach(row => {
-            if (row.classList.contains('empty-row')) return;
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(searchTerm) ? '' : 'none';
-        });
-    }
-
     async function registerStudent() {
         const fullName = document.getElementById('fullName').value.trim();
-        if (!fullName) {
-            alert('❌ Please enter student name');
-            return;
-        }
+        if (!fullName) { alert('Please enter student name'); return; }
         
         const studentData = {
             fullName: fullName,
@@ -811,27 +211,20 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(studentData)
             });
-            
             const result = await response.json();
-            
             if (response.ok && result.success) {
-                alert(`✅ Student Registered Successfully!\n\nID: ${result.studentId}\nName: ${fullName}\nCourse: ${studentData.course}\nTotal Fee: ${result.totalFee} ETB\nPaid: ${studentData.paid} ETB\nDue: ${result.due} ETB`);
-                
-                // Clear form
+                alert(`✅ Student Registered!\nID: ${result.studentId}\nTotal: ${result.totalFee} ETB\nPaid: ${studentData.paid} ETB\nDue: ${result.due} ETB`);
                 document.getElementById('fullName').value = '';
                 document.getElementById('phone').value = '';
                 document.getElementById('emergency').value = '';
                 document.getElementById('paid').value = '0';
-                
-                // Refresh data
                 await loadStatsFromCloud();
                 await loadStudentsFromCloud();
             } else {
                 throw new Error(result.error || 'Registration failed');
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('❌ Error saving student to cloud database. Please check your connection and try again.\n\nError: ' + error.message);
+            alert('Error saving to cloud: ' + error.message);
         } finally {
             btn.innerHTML = originalText;
             btn.disabled = false;
@@ -839,21 +232,12 @@
     }
 
     function openCertificatePage() {
-        const students = document.querySelectorAll('#studentsList tr:not(.empty-row)');
-        if (students.length === 0) {
-            alert('❌ No students registered yet!\n\nPlease register a student first, then generate certificate.');
-            return;
-        }
         window.open('certificate.html', '_blank');
     }
 
-    // Enter key login
     document.getElementById('password')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            doLogin();
-        }
+        if (e.key === 'Enter') doLogin();
     });
 </script>
-
 </body>
 </html>
