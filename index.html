@@ -24,7 +24,6 @@
             --ethiopia-gold: #DAA520;
             --ethiopia-green: #078930;
             --dark-red: #5a0000;
-            --light-gold: #f4d03f;
             --soft-gray: #f8f9fa;
         }
 
@@ -465,6 +464,12 @@
             color: #999;
         }
 
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--ethiopia-red);
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
@@ -636,7 +641,10 @@
                 </div>
             </div>
             <div class="table-wrapper">
-                <table>
+                <div id="loadingIndicator" class="loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading students...
+                </div>
+                <table id="studentsTable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -665,6 +673,9 @@
         'manager': 'beauty2026'
     };
 
+    // API Base URL (use relative path for same domain)
+    const API_BASE = '';
+
     // Check session
     if (sessionStorage.getItem('loggedIn') === 'true') {
         showDashboard();
@@ -687,11 +698,14 @@
         }
     }
 
-    function showDashboard() {
+    async function showDashboard() {
         document.getElementById('loginPage').style.display = 'none';
         document.getElementById('dashboardPage').style.display = 'block';
         document.getElementById('welcomeUser').innerHTML = sessionStorage.getItem('username');
-        loadStudents();
+        
+        // Load data from cloud
+        await loadStatsFromCloud();
+        await loadStudentsFromCloud();
     }
 
     function doLogout() {
@@ -702,118 +716,130 @@
         document.getElementById('password').value = '';
     }
 
-    function loadStudents() {
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const tbody = document.getElementById('studentsList');
-        tbody.innerHTML = '';
-        
-        let totalCollected = 0, totalDue = 0;
-        
-        if (students.length === 0) {
-            tbody.innerHTML = '<tr class="empty-row"><td colspan="7"><i class="fas fa-inbox"></i> No students registered yet. Use the form above to add students.</td></tr>';
-        } else {
-            students.forEach(s => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td><strong>${s.id}</strong></td>
-                        <td>${s.fullName}</td>
-                        <td>${s.phone || '-'}</td>
-                        <td>${s.course}</td>
-                        <td>${s.paid.toLocaleString()} ETB</td>
-                        <td>${s.due.toLocaleString()} ETB</td>
-                        <td><span class="${s.due === 0 ? 'status-paid' : 'status-pending'}">${s.due === 0 ? '✓ Paid' : '⚠ Pending'}</span></td>
-                    </tr>
-                `;
-                totalCollected += s.paid;
-                totalDue += s.due;
-            });
+    // ============================================
+    // CLOUD DATABASE FUNCTIONS
+    // ============================================
+
+    async function loadStatsFromCloud() {
+        try {
+            const response = await fetch('/api/stats');
+            const stats = await response.json();
+            
+            document.getElementById('totalStudents').innerHTML = stats.totalStudents || 0;
+            document.getElementById('totalCollected').innerHTML = (stats.totalCollected || 0).toLocaleString() + ' ETB';
+            document.getElementById('totalDue').innerHTML = (stats.totalDue || 0).toLocaleString() + ' ETB';
+            document.getElementById('activeStudents').innerHTML = stats.activeStudents || 0;
+        } catch (error) {
+            console.error('Error loading stats:', error);
+            // Show offline message but don't break
+            document.getElementById('totalStudents').innerHTML = '?';
         }
+    }
+
+    async function loadStudentsFromCloud() {
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const tbody = document.getElementById('studentsList');
         
-        document.getElementById('totalStudents').innerHTML = students.length;
-        document.getElementById('totalCollected').innerHTML = totalCollected.toLocaleString() + ' ETB';
-        document.getElementById('totalDue').innerHTML = totalDue.toLocaleString() + ' ETB';
-        document.getElementById('activeStudents').innerHTML = students.filter(s => s.due > 0).length;
+        loadingIndicator.style.display = 'block';
+        
+        try {
+            const response = await fetch('/api/students');
+            const students = await response.json();
+            
+            tbody.innerHTML = '';
+            
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr class="empty-row"><td colspan="7"><i class="fas fa-inbox"></i> No students registered yet. Use the form above to add students.</td></tr>';
+            } else {
+                students.forEach(s => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong>${s.student_id || s.id}</strong></td>
+                            <td>${s.full_name}</td>
+                            <td>${s.phone || '-'}</td>
+                            <td>${s.course}</td>
+                            <td>${(s.paid || 0).toLocaleString()} ETB</td>
+                            <td>${(s.due || 0).toLocaleString()} ETB</td>
+                            <td><span class="${(s.due === 0 || s.due === '0') ? 'status-paid' : 'status-pending'}">${(s.due === 0 || s.due === '0') ? '✓ Paid' : '⚠ Pending'}</span></td>
+                        </tr>
+                    `;
+                });
+            }
+        } catch (error) {
+            console.error('Error loading students:', error);
+            tbody.innerHTML = '<tr class="empty-row"><td colspan="7"><i class="fas fa-exclamation-triangle"></i> Error loading students. Please refresh the page.</td></tr>';
+        } finally {
+            loadingIndicator.style.display = 'none';
+        }
     }
 
     function searchStudents() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const tbody = document.getElementById('studentsList');
+        const rows = document.querySelectorAll('#studentsList tr');
         
-        const filtered = students.filter(s => 
-            s.fullName.toLowerCase().includes(searchTerm) || 
-            s.id.toLowerCase().includes(searchTerm)
-        );
-        
-        tbody.innerHTML = '';
-        
-        if (filtered.length === 0) {
-            tbody.innerHTML = '<tr class="empty-row"><td colspan="7"><i class="fas fa-search"></i> No matching students found</td></tr>';
-        } else {
-            filtered.forEach(s => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td><strong>${s.id}</strong></td>
-                        <td>${s.fullName}</td>
-                        <td>${s.phone || '-'}</td>
-                        <td>${s.course}</td>
-                        <td>${s.paid.toLocaleString()} ETB</td>
-                        <td>${s.due.toLocaleString()} ETB</td>
-                        <td><span class="${s.due === 0 ? 'status-paid' : 'status-pending'}">${s.due === 0 ? '✓ Paid' : '⚠ Pending'}</span></td>
-                    </tr>
-                `;
-            });
-        }
+        rows.forEach(row => {
+            if (row.classList.contains('empty-row')) return;
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
     }
 
-    function registerStudent() {
+    async function registerStudent() {
         const fullName = document.getElementById('fullName').value.trim();
         if (!fullName) {
             alert('❌ Please enter student name');
             return;
         }
         
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const id = 'LBC' + new Date().getFullYear() + (students.length + 1).toString().padStart(4, '0');
-        
-        const courseFees = {
-            'Hairdressing & Styling': 15000,
-            'Makeup Artistry': 12000,
-            'Nail Technology': 8000,
-            'Skin Care & Aesthetics': 18000,
-            'Beauty Therapy': 20000
-        };
-        
-        const totalFee = courseFees[document.getElementById('course').value] || 10000;
-        const paid = parseFloat(document.getElementById('paid').value) || 0;
-        const due = totalFee - paid;
-        
-        students.unshift({
-            id: id,
+        const studentData = {
             fullName: fullName,
             phone: document.getElementById('phone').value,
             gender: document.getElementById('gender').value,
             course: document.getElementById('course').value,
-            emergency: document.getElementById('emergency').value,
-            paid: paid,
-            due: due,
-            date: new Date().toISOString()
-        });
+            emergencyContact: document.getElementById('emergency').value,
+            paid: parseFloat(document.getElementById('paid').value) || 0
+        };
         
-        localStorage.setItem('students', JSON.stringify(students));
-        loadStudents();
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
         
-        alert(`✅ Student Registered Successfully!\n\nID: ${id}\nName: ${fullName}\nCourse: ${document.getElementById('course').value}\nTotal Fee: ${totalFee} ETB\nPaid: ${paid} ETB\nDue: ${due} ETB`);
-        
-        document.getElementById('fullName').value = '';
-        document.getElementById('phone').value = '';
-        document.getElementById('emergency').value = '';
-        document.getElementById('paid').value = '0';
+        try {
+            const response = await fetch('/api/students', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(studentData)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+                alert(`✅ Student Registered Successfully!\n\nID: ${result.studentId}\nName: ${fullName}\nCourse: ${studentData.course}\nTotal Fee: ${result.totalFee} ETB\nPaid: ${studentData.paid} ETB\nDue: ${result.due} ETB`);
+                
+                // Clear form
+                document.getElementById('fullName').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('emergency').value = '';
+                document.getElementById('paid').value = '0';
+                
+                // Refresh data
+                await loadStatsFromCloud();
+                await loadStudentsFromCloud();
+            } else {
+                throw new Error(result.error || 'Registration failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Error saving student to cloud database. Please check your connection and try again.\n\nError: ' + error.message);
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
     }
 
-    // NEW: Open Certificate Page
     function openCertificatePage() {
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const students = document.querySelectorAll('#studentsList tr:not(.empty-row)');
         if (students.length === 0) {
             alert('❌ No students registered yet!\n\nPlease register a student first, then generate certificate.');
             return;
