@@ -3,116 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Student Registrations</title>
+    <title>Admin - Student List</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f7fafc;
-            padding: 20px;
-        }
-        .container { max-width: 100%; margin: 0 auto; }
-        .header {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .header h1 { color: #2d3748; font-size: 20px; }
-        .header span { color: #718096; font-size: 13px; }
-        .gate {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
-            margin: 100px auto;
-        }
-        .gate input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 16px;
-        }
-        .gate button {
-            width: 100%;
-            padding: 12px;
-            background: #e91e63;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .header { background: #2d3748; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .header h1 { font-size: 20px; }
+        button { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; }
+        .btn-refresh { background: #48bb78; color: white; }
+        .btn-export { background: #4299e1; color: white; }
+        .btn-logout { background: #e53e3e; color: white; }
+        .gate { background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 400px; margin: 80px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .gate input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; margin-bottom: 15px; }
+        .gate button { width: 100%; background: #e91e63; color: white; font-size: 16px; }
         .hidden { display: none; }
-        .message { padding: 12px; border-radius: 8px; margin-top: 16px; display: none; }
-        .message.error { background: #fed7d7; color: #742a2a; display: block; }
-        .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .refresh-btn { padding: 10px 18px; background: #48bb78; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; }
-        .export-btn { padding: 10px 18px; background: #4299e1; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; }
-        .logout-btn { padding: 10px 18px; background: #e53e3e; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; }
-        .table-wrapper { overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; min-width: 900px; }
-        th {
-            background: #2d3748;
-            color: white;
-            padding: 12px 10px;
-            text-align: left;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 13px;
-            color: #4a5568;
-            white-space: nowrap;
-        }
-        tr:hover td { background: #f7fafc; }
-        .no-data { text-align: center; padding: 60px; color: #a0aec0; font-size: 16px; }
+        .msg { padding: 10px; border-radius: 6px; margin-top: 10px; display: none; }
+        .msg.error { background: #fed7d7; color: #742a2a; display: block; }
+        .table-wrap { overflow-x: auto; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; min-width: 950px; }
+        th { background: #2d3748; color: white; padding: 12px 8px; font-size: 11px; text-align: left; white-space: nowrap; }
+        td { padding: 10px 8px; border-bottom: 1px solid #eee; font-size: 13px; white-space: nowrap; }
+        tr:hover td { background: #f9f9f9; }
+        .empty { text-align: center; padding: 50px; color: #999; font-size: 16px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Admin Login Gate -->
-        <div id="adminGate" class="gate">
-            <h2 style="margin-bottom: 20px; color: #2d3748;">Admin Access</h2>
-            <p style="margin-bottom: 20px; color: #718096; font-size: 14px;">Enter admin PIN to view registrations</p>
-            <input type="password" id="adminPin" placeholder="Admin PIN" autocomplete="off">
-            <button onclick="verifyAdmin()">Access Admin Panel</button>
-            <div id="gateMessage" class="message"></div>
+
+        <!-- LOGIN -->
+        <div id="gate" class="gate">
+            <h2>Admin Login</h2>
+            <input type="password" id="pinInput" placeholder="Enter Admin PIN">
+            <button onclick="login()">Access Student List</button>
+            <div id="gateMsg" class="msg"></div>
         </div>
 
-        <!-- Admin Dashboard -->
-        <div id="adminDashboard" class="hidden">
+        <!-- DASHBOARD -->
+        <div id="dash" class="hidden">
             <div class="header">
                 <div>
-                    <h1>Student Registrations</h1>
-                    <span id="recordCount">Loading...</span>
+                    <h1>Beauty College - Student List</h1>
+                    <span id="count" style="font-size:13px;opacity:0.8;">Loading...</span>
                 </div>
-                <div class="btn-row">
-                    <button class="export-btn" onclick="exportCSV()">Export CSV</button>
-                    <button class="refresh-btn" onclick="loadRegistrations()">Refresh</button>
-                    <button class="logout-btn" onclick="logout()">Logout</button>
+                <div>
+                    <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+                    <button class="btn-refresh" onclick="loadData()">Refresh</button>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
                 </div>
             </div>
-            <div class="table-wrapper">
-                <table id="registrationsTable">
+            <div class="table-wrap">
+                <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Full Name</th>
+                            <th>Submitted</th>
+                            <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Course</th>
@@ -122,148 +67,118 @@
                             <th>Payment</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
-            <div id="noData" class="no-data hidden">No registrations yet.</div>
+            <div id="empty" class="empty hidden">No students registered yet.</div>
         </div>
     </div>
 
     <script>
-        const API_URL = 'https://officer-registration.developeraddis.workers.dev/api';
-        const ADMIN_SESSION_KEY = 'admin_authenticated';
-        const ADMIN_PIN_KEY = 'admin_pin';
+        const API = 'https://officer-registration.developeraddis.workers.dev/api';
 
-        if (sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true') {
-            showDashboard();
-            loadRegistrations();
+        if (sessionStorage.getItem('admin_ok') === 'yes') {
+            document.getElementById('gate').classList.add('hidden');
+            document.getElementById('dash').classList.remove('hidden');
+            loadData();
         }
 
-        async function verifyAdmin() {
-            const pin = document.getElementById('adminPin').value;
-            const messageDiv = document.getElementById('gateMessage');
-
-            messageDiv.className = 'message';
-            messageDiv.style.display = 'none';
-
-            if (!pin) {
-                showGateMessage('Please enter admin PIN', 'error');
-                return;
-            }
+        async function login() {
+            const pin = document.getElementById('pinInput').value;
+            const msg = document.getElementById('gateMsg');
+            msg.className = 'msg';
+            if (!pin) { msg.className = 'msg error'; msg.textContent = 'Enter PIN'; return; }
 
             try {
-                const response = await fetch(`${API_URL}/admin/verify`, {
+                const res = await fetch(API + '/admin/verify', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ pin })
                 });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-                    sessionStorage.setItem(ADMIN_PIN_KEY, pin);
-                    showDashboard();
-                    loadRegistrations();
+                const data = await res.json();
+                if (data.success) {
+                    sessionStorage.setItem('admin_ok', 'yes');
+                    document.getElementById('gate').classList.add('hidden');
+                    document.getElementById('dash').classList.remove('hidden');
+                    loadData();
                 } else {
-                    showGateMessage('Incorrect PIN', 'error');
+                    msg.className = 'msg error';
+                    msg.textContent = 'Wrong PIN';
                 }
-            } catch (error) {
-                showGateMessage('Connection error. Please try again.', 'error');
+            } catch (e) {
+                msg.className = 'msg error';
+                msg.textContent = 'Connection error';
             }
         }
 
-        function showGateMessage(text, type) {
-            const div = document.getElementById('gateMessage');
-            div.textContent = text;
-            div.className = `message ${type}`;
-        }
+        async function loadData() {
+            const tbody = document.getElementById('tbody');
+            const empty = document.getElementById('empty');
+            const count = document.getElementById('count');
 
-        function showDashboard() {
-            document.getElementById('adminGate').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.remove('hidden');
+            try {
+                const res = await fetch(API + '/admin/registrations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin: 'admin123' })
+                });
+                const data = await res.json();
+
+                if (data.success && data.data.length > 0) {
+                    empty.classList.add('hidden');
+                    count.textContent = data.data.length + ' student(s)';
+                    tbody.innerHTML = data.data.map(r => `
+                        <tr>
+                            <td>${new Date(r.submittedAt).toLocaleDateString()}</td>
+                            <td><b>${esc(r.fullName)}</b></td>
+                            <td>${esc(r.phone)}</td>
+                            <td>${esc(r.email || '-')}</td>
+                            <td>${esc(r.course)}</td>
+                            <td>${esc(r.emergencyPhone)}</td>
+                            <td>${esc(r.regDate || '-')}</td>
+                            <td>${esc(r.paymentAmount || '-')}</td>
+                            <td>${esc(r.payment || '-')}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '';
+                    empty.classList.remove('hidden');
+                    count.textContent = '0 students';
+                }
+            } catch (e) {
+                count.textContent = 'Error loading';
+            }
         }
 
         function logout() {
-            sessionStorage.removeItem(ADMIN_SESSION_KEY);
-            sessionStorage.removeItem(ADMIN_PIN_KEY);
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('adminGate').classList.remove('hidden');
-            document.getElementById('adminPin').value = '';
+            sessionStorage.removeItem('admin_ok');
+            document.getElementById('dash').classList.add('hidden');
+            document.getElementById('gate').classList.remove('hidden');
+            document.getElementById('pinInput').value = '';
         }
 
-        async function loadRegistrations() {
-            const pin = sessionStorage.getItem(ADMIN_PIN_KEY);
-            const tableBody = document.getElementById('tableBody');
-            const noData = document.getElementById('noData');
-            const recordCount = document.getElementById('recordCount');
-
-            try {
-                const response = await fetch(`${API_URL}/admin/registrations`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pin })
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    const registrations = result.data || [];
-                    recordCount.textContent = `${registrations.length} student(s) registered`;
-
-                    if (registrations.length === 0) {
-                        tableBody.innerHTML = '';
-                        noData.classList.remove('hidden');
-                    } else {
-                        noData.classList.add('hidden');
-                        tableBody.innerHTML = registrations.map(reg => `
-                            <tr>
-                                <td>${new Date(reg.submittedAt).toLocaleDateString()}</td>
-                                <td><strong>${escapeHtml(reg.fullName)}</strong></td>
-                                <td>${escapeHtml(reg.phone)}</td>
-                                <td>${escapeHtml(reg.email || '-')}</td>
-                                <td>${escapeHtml(reg.course)}</td>
-                                <td>${escapeHtml(reg.emergencyPhone)}</td>
-                                <td>${escapeHtml(reg.regDate || '-')}</td>
-                                <td>${escapeHtml(reg.paymentAmount || '-')}</td>
-                                <td>${escapeHtml(reg.payment || 'Pending')}</td>
-                            </tr>
-                        `).join('');
-                    }
-                } else {
-                    logout();
-                }
-            } catch (error) {
-                recordCount.textContent = 'Error loading data';
-            }
+        function esc(s) {
+            const d = document.createElement('div');
+            d.textContent = s || '';
+            return d.innerHTML;
         }
 
         function exportCSV() {
-            const table = document.getElementById('registrationsTable');
-            const rows = Array.from(table.querySelectorAll('tr'));
+            const rows = document.querySelectorAll('table tr');
             let csv = [];
             rows.forEach(row => {
-                const cols = Array.from(row.querySelectorAll('th, td'));
-                const rowData = cols.map(col => `"${col.textContent.replace(/"/g, '""')}"`).join(',');
-                csv.push(rowData);
+                const cols = row.querySelectorAll('th,td');
+                csv.push(Array.from(cols).map(c => '"' + c.textContent.replace(/"/g,'""') + '"').join(','));
             });
-            const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
+            const blob = new Blob([csv.join('\n')], {type:'text/csv'});
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `students-${new Date().toISOString().split('T')[0]}.csv`;
+            a.href = URL.createObjectURL(blob);
+            a.download = 'students.csv';
             a.click();
-            window.URL.revokeObjectURL(url);
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        document.getElementById('adminPin').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') verifyAdmin();
+        document.getElementById('pinInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') login();
         });
     </script>
 </body>
