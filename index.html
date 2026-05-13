@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Officer Registration</title>
+    <title>Beauty College Registration</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,7 +24,7 @@
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
             overflow: hidden;
         }
         .header {
@@ -34,74 +34,83 @@
             text-align: center;
         }
         .header h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
         }
         .header p {
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.8;
             margin-top: 4px;
         }
         .form-section {
-            padding: 32px;
+            padding: 28px;
         }
         .hidden {
             display: none;
         }
         h2 {
             color: #2d3748;
-            margin-bottom: 24px;
-            font-size: 20px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-align: center;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         label {
             display: block;
             color: #4a5568;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
-        input, select, textarea {
+        input, select {
             width: 100%;
-            padding: 10px 14px;
+            padding: 10px 12px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             transition: border-color 0.2s;
             font-family: inherit;
         }
-        input:focus, select:focus, textarea:focus {
+        input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #e91e63;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+        .form-row .form-group {
+            flex: 1;
         }
         button {
             width: 100%;
             padding: 12px;
-            background: #667eea;
+            background: #e91e63;
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
             margin-top: 8px;
         }
         button:hover {
-            background: #5a67d8;
+            background: #c2185b;
         }
         button:disabled {
             background: #a0aec0;
             cursor: not-allowed;
         }
         .message {
-            margin-top: 16px;
+            margin-top: 14px;
             padding: 12px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             display: none;
+            text-align: center;
         }
         .message.success {
             background: #c6f6d5;
@@ -116,19 +125,25 @@
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 16px;
-            color: #667eea;
-            font-size: 14px;
+            margin-top: 14px;
+            color: #e91e63;
+            font-size: 13px;
             cursor: pointer;
             text-decoration: underline;
+        }
+        @media (max-width: 400px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>College Admin Office</h1>
-            <p>Officer Registration Portal</p>
+            <h1>Beauty College</h1>
+            <p>Student Registration Portal</p>
         </div>
 
         <div class="form-section">
@@ -144,42 +159,61 @@
 
             <!-- Registration Form -->
             <div id="registrationForm" class="hidden">
-                <h2>Officer Registration</h2>
-                <form id="officerForm">
+                <h2>Student Registration</h2>
+                <form id="registrationFormElem">
                     <div class="form-group">
                         <label>Full Name *</label>
-                        <input type="text" id="fullName" required placeholder="John Doe">
+                        <input type="text" id="fullName" required placeholder="Enter full name">
                     </div>
-                    <div class="form-group">
-                        <label>Email Address *</label>
-                        <input type="email" id="email" required placeholder="john@college.edu">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" id="phone" required placeholder="+251...">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="email@example.com">
+                        </div>
                     </div>
+
                     <div class="form-group">
-                        <label>Officer ID *</label>
-                        <input type="text" id="officerId" required placeholder="OFF-12345">
-                    </div>
-                    <div class="form-group">
-                        <label>Department *</label>
-                        <select id="department" required>
-                            <option value="">Select Department</option>
-                            <option value="Admissions">Admissions</option>
-                            <option value="Registrar">Registrar</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Student Affairs">Student Affairs</option>
-                            <option value="Academic Affairs">Academic Affairs</option>
-                            <option value="IT Services">IT Services</option>
-                            <option value="Human Resources">Human Resources</option>
-                            <option value="Other">Other</option>
+                        <label>Select Course *</label>
+                        <select id="course" required>
+                            <option value="">Choose a course...</option>
+                            <option value="Hairdressing & Barbering">1. Hairdressing & Barbering</option>
+                            <option value="Makeup Artistry">2. Makeup Artistry</option>
+                            <option value="Nail Technology">3. Nail Technology</option>
+                            <option value="Skincare & Aesthetics">4. Skincare & Aesthetics</option>
+                            <option value="Eyelash & Brow Services">5. Eyelash & Brow Services</option>
+                            <option value="Massage Therapy">6. Massage Therapy</option>
+                            <option value="Henna Art">7. Henna Art</option>
+                            <option value="Bridal & Fashion Makeup">8. Bridal & Fashion Makeup</option>
+                            <option value="Facial Treatment">9. Facial Treatment</option>
+                            <option value="Beauty Therapy & Salon Management">10. Beauty Therapy & Salon Management</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="phone" placeholder="+1234567890">
+                        <label>Emergency Contact Phone *</label>
+                        <input type="tel" id="emergencyPhone" required placeholder="+251...">
                     </div>
+
                     <div class="form-group">
-                        <label>Additional Notes</label>
-                        <textarea id="notes" rows="3" placeholder="Any additional information..."></textarea>
+                        <label>Registration Date</label>
+                        <input type="date" id="regDate">
                     </div>
+
+                    <div class="form-group">
+                        <label>Payment Status</label>
+                        <select id="payment">
+                            <option value="">Select payment status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Partial">Partial Payment</option>
+                            <option value="Paid">Fully Paid</option>
+                        </select>
+                    </div>
+
                     <button type="submit">Submit Registration</button>
                 </form>
                 <div id="formMessage" class="message"></div>
@@ -191,7 +225,6 @@
     <script>
         const API_URL = 'https://officer-registration.developeraddis.workers.dev/api';
 
-        // Check if already authenticated (session storage)
         if (sessionStorage.getItem('authenticated') === 'true') {
             showRegistrationForm();
         }
@@ -249,7 +282,7 @@
             }, 5000);
         }
 
-        document.getElementById('officerForm').addEventListener('submit', async (e) => {
+        document.getElementById('registrationFormElem').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -257,12 +290,13 @@
             submitBtn.textContent = 'Submitting...';
 
             const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                officerId: document.getElementById('officerId').value,
-                department: document.getElementById('department').value,
-                phone: document.getElementById('phone').value,
-                notes: document.getElementById('notes').value,
+                fullName: document.getElementById('fullName').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                course: document.getElementById('course').value,
+                emergencyPhone: document.getElementById('emergencyPhone').value.trim(),
+                regDate: document.getElementById('regDate').value,
+                payment: document.getElementById('payment').value,
                 submittedAt: new Date().toISOString()
             };
 
@@ -277,9 +311,9 @@
 
                 if (result.success) {
                     showMessage('formMessage', 'Registration submitted successfully!', 'success');
-                    document.getElementById('officerForm').reset();
+                    document.getElementById('registrationFormElem').reset();
                 } else if (result.duplicate) {
-                    showMessage('formMessage', 'This Officer ID or Email is already registered.', 'error');
+                    showMessage('formMessage', 'This phone number or name is already registered.', 'error');
                 } else {
                     showMessage('formMessage', result.error || 'Submission failed. Please try again.', 'error');
                 }
@@ -291,7 +325,6 @@
             }
         });
 
-        // Allow Enter key to submit password
         document.getElementById('accessPassword').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') verifyPassword();
         });
