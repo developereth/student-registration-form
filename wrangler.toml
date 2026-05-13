@@ -1,0 +1,17 @@
+name = "officer-registration"
+main = "worker/index.js"
+compatibility_date = "2024-01-01"
+
+# Environment variables (fill these in after creating accounts)
+[vars]
+FORM_PASSWORD = "officer2024"  # Change this - shared password for officers
+ADMIN_PIN = "admin123"         # Change this - your private admin PIN
+
+# Upstash Redis Configuration
+# Get these from your Upstash dashboard
+# UPSTASH_REDIS_URL = "https://your-instance.upstash.io"
+# UPSTASH_REDIS_TOKEN = "your-token"
+
+# Telegram Configuration
+# TELEGRAM_BOT_TOKEN = "your-bot-token"
+# TELEGRAM_CHAT_ID = "your-chat-id"
