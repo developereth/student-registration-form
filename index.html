@@ -131,6 +131,32 @@
             cursor: pointer;
             text-decoration: underline;
         }
+        .payment-hint {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-top: 2px;
+        }
+        .pic-upload {
+            border: 2px dashed #e2e8f0;
+            padding: 16px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .pic-upload:hover {
+            border-color: #e91e63;
+        }
+        .pic-upload img {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 8px;
+            border-radius: 8px;
+        }
+        .pic-upload small {
+            color: #a0aec0;
+            display: block;
+        }
         @media (max-width: 400px) {
             .form-row {
                 flex-direction: column;
@@ -199,9 +225,16 @@
                         <input type="tel" id="emergencyPhone" required placeholder="+251...">
                     </div>
 
-                    <div class="form-group">
-                        <label>Registration Date</label>
-                        <input type="date" id="regDate">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Registration Date</label>
+                            <input type="date" id="regDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Amount</label>
+                            <input type="text" id="paymentAmount" placeholder="$1000">
+                            <span class="payment-hint">Enter amount in dollars</span>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -212,6 +245,16 @@
                             <option value="Partial">Partial Payment</option>
                             <option value="Paid">Fully Paid</option>
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Student Photo</label>
+                        <div class="pic-upload" onclick="document.getElementById('studentPic').click()">
+                            <small>📷 Tap to upload student photo</small>
+                            <small style="font-size:10px;">(Stored securely - future feature)</small>
+                            <img id="picPreview" style="display:none;">
+                        </div>
+                        <input type="file" id="studentPic" accept="image/*" style="display:none;" onchange="previewPic(event)">
                     </div>
 
                     <button type="submit">Submit Registration</button>
@@ -227,6 +270,19 @@
 
         if (sessionStorage.getItem('authenticated') === 'true') {
             showRegistrationForm();
+        }
+
+        function previewPic(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('picPreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         async function verifyPassword() {
@@ -296,6 +352,7 @@
                 course: document.getElementById('course').value,
                 emergencyPhone: document.getElementById('emergencyPhone').value.trim(),
                 regDate: document.getElementById('regDate').value,
+                paymentAmount: document.getElementById('paymentAmount').value.trim(),
                 payment: document.getElementById('payment').value,
                 submittedAt: new Date().toISOString()
             };
@@ -312,8 +369,9 @@
                 if (result.success) {
                     showMessage('formMessage', 'Registration submitted successfully!', 'success');
                     document.getElementById('registrationFormElem').reset();
+                    document.getElementById('picPreview').style.display = 'none';
                 } else if (result.duplicate) {
-                    showMessage('formMessage', 'This phone number or name is already registered.', 'error');
+                    showMessage('formMessage', 'This phone number is already registered.', 'error');
                 } else {
                     showMessage('formMessage', result.error || 'Submission failed. Please try again.', 'error');
                 }
