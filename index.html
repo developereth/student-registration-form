@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beauty College Registration</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
@@ -22,7 +18,7 @@
         .container {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 520px;
             overflow: hidden;
@@ -33,37 +29,13 @@
             padding: 24px;
             text-align: center;
         }
-        .header h1 {
-            font-size: 22px;
-            font-weight: 600;
-        }
-        .header p {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-top: 4px;
-        }
-        .form-section {
-            padding: 28px;
-        }
-        .hidden {
-            display: none;
-        }
-        h2 {
-            color: #2d3748;
-            margin-bottom: 20px;
-            font-size: 18px;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        label {
-            display: block;
-            color: #4a5568;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
+        .header h1 { font-size: 22px; font-weight: 600; }
+        .header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+        .form-section { padding: 28px; }
+        .hidden { display: none; }
+        h2 { color: #2d3748; margin-bottom: 20px; font-size: 18px; text-align: center; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; color: #4a5568; font-size: 13px; font-weight: 500; margin-bottom: 4px; }
         input, select {
             width: 100%;
             padding: 10px 12px;
@@ -73,17 +45,9 @@
             transition: border-color 0.2s;
             font-family: inherit;
         }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #e91e63;
-        }
-        .form-row {
-            display: flex;
-            gap: 12px;
-        }
-        .form-row .form-group {
-            flex: 1;
-        }
+        input:focus, select:focus { outline: none; border-color: #e91e63; }
+        .form-row { display: flex; gap: 12px; }
+        .form-row .form-group { flex: 1; }
         button {
             width: 100%;
             padding: 12px;
@@ -97,13 +61,8 @@
             transition: background 0.2s;
             margin-top: 8px;
         }
-        button:hover {
-            background: #c2185b;
-        }
-        button:disabled {
-            background: #a0aec0;
-            cursor: not-allowed;
-        }
+        button:hover { background: #c2185b; }
+        button:disabled { background: #a0aec0; cursor: not-allowed; }
         .message {
             margin-top: 14px;
             padding: 12px;
@@ -112,16 +71,8 @@
             display: none;
             text-align: center;
         }
-        .message.success {
-            background: #c6f6d5;
-            color: #22543d;
-            display: block;
-        }
-        .message.error {
-            background: #fed7d7;
-            color: #742a2a;
-            display: block;
-        }
+        .message.success { background: #c6f6d5; color: #22543d; display: block; }
+        .message.error { background: #fed7d7; color: #742a2a; display: block; }
         .back-link {
             display: block;
             text-align: center;
@@ -131,11 +82,7 @@
             cursor: pointer;
             text-decoration: underline;
         }
-        .payment-hint {
-            font-size: 11px;
-            color: #a0aec0;
-            margin-top: 2px;
-        }
+        .payment-hint { font-size: 11px; color: #a0aec0; margin-top: 2px; }
         .pic-upload {
             border: 2px dashed #e2e8f0;
             padding: 16px;
@@ -144,24 +91,18 @@
             cursor: pointer;
             transition: border-color 0.2s;
         }
-        .pic-upload:hover {
-            border-color: #e91e63;
-        }
+        .pic-upload:hover { border-color: #e91e63; }
         .pic-upload img {
             max-width: 100%;
             max-height: 150px;
             margin-top: 8px;
             border-radius: 8px;
+            display: none;
         }
-        .pic-upload small {
-            color: #a0aec0;
-            display: block;
-        }
+        .pic-upload small { color: #a0aec0; display: block; }
+        .pic-upload .selected-text { color: #48bb78; font-weight: bold; display: none; }
         @media (max-width: 400px) {
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
+            .form-row { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
@@ -249,15 +190,15 @@
 
                     <div class="form-group">
                         <label>Student Photo</label>
-                        <div class="pic-upload" onclick="document.getElementById('studentPic').click()">
-                            <small>📷 Tap to upload student photo</small>
-                            <small style="font-size:10px;">(Stored securely - future feature)</small>
-                            <img id="picPreview" style="display:none;">
+                        <div class="pic-upload" id="picUploadBox" onclick="document.getElementById('studentPic').click()">
+                            <small id="picLabel">📷 Tap to select student photo</small>
+                            <small class="selected-text" id="picSelected">✅ Photo selected</small>
+                            <img id="picPreview">
                         </div>
-                        <input type="file" id="studentPic" accept="image/*" style="display:none;" onchange="previewPic(event)">
+                        <input type="file" id="studentPic" accept="image/*" style="display:none;" onchange="handlePhotoSelect(event)">
                     </div>
 
-                    <button type="submit">Submit Registration</button>
+                    <button type="submit" id="submitBtn">Submit Registration</button>
                 </form>
                 <div id="formMessage" class="message"></div>
                 <span class="back-link" onclick="showPasswordGate()">← Back to password</span>
@@ -267,21 +208,47 @@
 
     <script>
         const API_URL = 'https://officer-registration.developeraddis.workers.dev/api';
+        const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dssurphvs/image/upload';
+        const CLOUDINARY_PRESET = 'student-photos';
+
+        let selectedPhotoFile = null;
 
         if (sessionStorage.getItem('authenticated') === 'true') {
             showRegistrationForm();
         }
 
-        function previewPic(event) {
+        function handlePhotoSelect(event) {
             const file = event.target.files[0];
             if (file) {
+                selectedPhotoFile = file;
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = document.getElementById('picPreview');
-                    img.src = e.target.result;
-                    img.style.display = 'block';
+                    document.getElementById('picPreview').src = e.target.result;
+                    document.getElementById('picPreview').style.display = 'block';
+                    document.getElementById('picLabel').style.display = 'none';
+                    document.getElementById('picSelected').style.display = 'block';
                 };
                 reader.readAsDataURL(file);
+            }
+        }
+
+        async function uploadPhoto(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_PRESET);
+
+            try {
+                const response = await fetch(CLOUDINARY_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.secure_url) {
+                    return result.secure_url;
+                }
+                return '';
+            } catch (e) {
+                return '';
             }
         }
 
@@ -303,9 +270,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ password })
                 });
-
                 const result = await response.json();
-
                 if (result.success) {
                     sessionStorage.setItem('authenticated', 'true');
                     showRegistrationForm();
@@ -333,17 +298,24 @@
             const div = document.getElementById(elementId);
             div.textContent = text;
             div.className = `message ${type}`;
-            setTimeout(() => {
-                div.style.display = 'none';
-            }, 5000);
+            setTimeout(() => { div.style.display = 'none'; }, 5000);
         }
 
         document.getElementById('registrationFormElem').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
+            submitBtn.textContent = 'Uploading photo...';
+
+            // Upload photo first if selected
+            let photoUrl = '';
+            if (selectedPhotoFile) {
+                submitBtn.textContent = 'Uploading photo...';
+                photoUrl = await uploadPhoto(selectedPhotoFile);
+            }
+
+            submitBtn.textContent = 'Saving...';
 
             const formData = {
                 fullName: document.getElementById('fullName').value.trim(),
@@ -354,6 +326,7 @@
                 regDate: document.getElementById('regDate').value,
                 paymentAmount: document.getElementById('paymentAmount').value.trim(),
                 payment: document.getElementById('payment').value,
+                photoUrl: photoUrl,
                 submittedAt: new Date().toISOString()
             };
 
@@ -363,17 +336,19 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
-
                 const result = await response.json();
 
                 if (result.success) {
                     showMessage('formMessage', 'Registration submitted successfully!', 'success');
                     document.getElementById('registrationFormElem').reset();
                     document.getElementById('picPreview').style.display = 'none';
+                    document.getElementById('picLabel').style.display = 'block';
+                    document.getElementById('picSelected').style.display = 'none';
+                    selectedPhotoFile = null;
                 } else if (result.duplicate) {
                     showMessage('formMessage', 'This phone number is already registered.', 'error');
                 } else {
-                    showMessage('formMessage', result.error || 'Submission failed. Please try again.', 'error');
+                    showMessage('formMessage', result.error || 'Submission failed.', 'error');
                 }
             } catch (error) {
                 showMessage('formMessage', 'Connection error. Please try again.', 'error');
