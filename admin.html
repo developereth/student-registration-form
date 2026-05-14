@@ -6,27 +6,190 @@
     <title>Admin - Student List</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        .header { background: #2d3748; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #fce4ec;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(233,30,99,0.3);
+        }
         .header h1 { font-size: 20px; }
-        button { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; }
-        .btn-refresh { background: #48bb78; color: white; }
-        .btn-export { background: #4299e1; color: white; }
-        .btn-logout { background: #e53e3e; color: white; }
-        .gate { background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 400px; margin: 80px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .gate input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; margin-bottom: 15px; }
-        .gate button { width: 100%; background: #e91e63; color: white; font-size: 16px; }
-        .hidden { display: none; }
-        .msg { padding: 10px; border-radius: 6px; margin-top: 10px; display: none; }
+        .badge {
+            background: white;
+            color: #e91e63;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn {
+            padding: 9px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-refresh { background: white; color: #e91e63; }
+        .btn-export { background: rgba(255,255,255,0.2); color: white; }
+        .btn-logout { background: rgba(0,0,0,0.2); color: white; }
+
+        /* LOGIN GATE */
+        .gate {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            margin: 80px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .gate h2 { color: #2d3748; margin-bottom: 8px; }
+        .gate p { color: #718096; font-size: 14px; margin-bottom: 20px; }
+        .gate input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .gate input:focus { outline: none; border-color: #e91e63; }
+        .gate .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .hidden { display: none !important; }
+        .msg { padding: 10px; border-radius: 8px; margin-top: 12px; display: none; }
         .msg.error { background: #fed7d7; color: #742a2a; display: block; }
-        .table-wrap { overflow-x: auto; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+        /* SEARCH BAR */
+        .search-bar {
+            background: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .search-bar input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .search-bar input:focus { outline: none; border-color: #e91e63; }
+        .search-bar select {
+            padding: 10px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
         table { width: 100%; border-collapse: collapse; min-width: 1000px; }
-        th { background: #2d3748; color: white; padding: 12px 8px; font-size: 11px; text-align: left; white-space: nowrap; }
-        td { padding: 10px 8px; border-bottom: 1px solid #eee; font-size: 13px; white-space: nowrap; }
-        tr:hover td { background: #f9f9f9; }
+        th {
+            background: #2d3748;
+            color: white;
+            padding: 12px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        td { padding: 10px; border-bottom: 1px solid #f0f0f0; font-size: 13px; white-space: nowrap; }
+        tr:hover td { background: #fce4ec; }
         .empty { text-align: center; padding: 50px; color: #999; font-size: 16px; }
-        .photo-cell img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+
+        /* PHOTO */
+        .photo-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 3px solid #e91e63;
+            transition: transform 0.2s;
+        }
+        .photo-thumb:hover { transform: scale(1.1); }
+        .photo-thumb.placeholder {
+            background: #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 3px dashed #ccc;
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        @media (max-width: 600px) {
+            .header { flex-direction: column; text-align: center; }
+            .search-bar { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -34,9 +197,10 @@
 
         <!-- LOGIN GATE -->
         <div id="gate" class="gate">
-            <h2>Admin Login</h2>
-            <input type="password" id="pinInput" placeholder="Enter Admin PIN">
-            <button onclick="login()">Access Student List</button>
+            <h2>🔐 Admin Access</h2>
+            <p>Enter your PIN to view the student list</p>
+            <input type="password" id="pinInput" placeholder="Admin PIN" autocomplete="off">
+            <button class="btn-login" onclick="login()">Access Student List</button>
             <div id="gateMsg" class="msg"></div>
         </div>
 
@@ -44,17 +208,37 @@
         <div id="dash" class="hidden">
             <div class="header">
                 <div>
-                    <h1>Beauty College - Student List</h1>
-                    <span id="count" style="font-size:13px;opacity:0.8;">Loading...</span>
+                    <h1>💄 Beauty College Students</h1>
+                    <span class="badge" id="count">0 students</span>
                 </div>
-                <div>
-                    <button class="btn-export" onclick="exportCSV()">Export CSV</button>
-                    <button class="btn-refresh" onclick="loadData()">Refresh</button>
-                    <button class="btn-logout" onclick="logout()">Logout</button>
+                <div class="btn-group">
+                    <button class="btn btn-refresh" onclick="loadData()">🔄 Refresh</button>
+                    <button class="btn btn-export" onclick="exportCSV()">📥 Export CSV</button>
+                    <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
+
+            <!-- SEARCH -->
+            <div class="search-bar">
+                <input type="text" id="searchName" placeholder="🔍 Search by name..." oninput="filterTable()">
+                <select id="searchCourse" onchange="filterTable()">
+                    <option value="">All Courses</option>
+                    <option value="Hairdressing & Barbering">Hairdressing & Barbering</option>
+                    <option value="Makeup Artistry">Makeup Artistry</option>
+                    <option value="Nail Technology">Nail Technology</option>
+                    <option value="Skincare & Aesthetics">Skincare & Aesthetics</option>
+                    <option value="Eyelash & Brow Services">Eyelash & Brow Services</option>
+                    <option value="Massage Therapy">Massage Therapy</option>
+                    <option value="Henna Art">Henna Art</option>
+                    <option value="Bridal & Fashion Makeup">Bridal & Fashion Makeup</option>
+                    <option value="Facial Treatment">Facial Treatment</option>
+                    <option value="Beauty Therapy & Salon Management">Beauty Therapy & Salon Management</option>
+                </select>
+            </div>
+
+            <!-- TABLE -->
             <div class="table-wrap">
-                <table>
+                <table id="table">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -76,8 +260,15 @@
         </div>
     </div>
 
+    <!-- PHOTO MODAL -->
+    <div id="photoModal" class="modal hidden" onclick="closeModal()">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <img id="modalImg" src="">
+    </div>
+
     <script>
         const API = 'https://officer-registration.developeraddis.workers.dev/api';
+        let allStudents = [];
 
         if (sessionStorage.getItem('admin_ok') === 'yes') {
             document.getElementById('gate').classList.add('hidden');
@@ -114,7 +305,6 @@
         }
 
         async function loadData() {
-            const tbody = document.getElementById('tbody');
             const empty = document.getElementById('empty');
             const count = document.getElementById('count');
 
@@ -127,30 +317,70 @@
                 const data = await res.json();
 
                 if (data.success && data.data.length > 0) {
+                    allStudents = data.data;
                     empty.classList.add('hidden');
                     count.textContent = data.data.length + ' student(s)';
-                    tbody.innerHTML = data.data.map(r => `
-                        <tr>
-                            <td>${new Date(r.submittedAt).toLocaleDateString()}</td>
-                            <td class="photo-cell">${r.photoUrl ? `<img src="${r.photoUrl}" onclick="window.open('${r.photoUrl}')" title="Click to enlarge">` : '—'}</td>
-                            <td><b>${esc(r.fullName)}</b></td>
-                            <td>${esc(r.phone)}</td>
-                            <td>${esc(r.email || '-')}</td>
-                            <td>${esc(r.course)}</td>
-                            <td>${esc(r.emergencyPhone)}</td>
-                            <td>${esc(r.regDate || '-')}</td>
-                            <td>${esc(r.paymentAmount || '-')}</td>
-                            <td>${esc(r.payment || '-')}</td>
-                        </tr>
-                    `).join('');
+                    renderTable(allStudents);
                 } else {
-                    tbody.innerHTML = '';
+                    allStudents = [];
+                    document.getElementById('tbody').innerHTML = '';
                     empty.classList.remove('hidden');
                     count.textContent = '0 students';
                 }
             } catch (e) {
                 count.textContent = 'Error loading';
             }
+        }
+
+        function renderTable(students) {
+            const tbody = document.getElementById('tbody');
+            tbody.innerHTML = students.map(r => `
+                <tr data-name="${esc(r.fullName).toLowerCase()}" data-course="${esc(r.course)}">
+                    <td>${new Date(r.submittedAt).toLocaleDateString()}</td>
+                    <td>
+                        ${r.photoUrl 
+                            ? `<img src="${r.photoUrl}" class="photo-thumb" onclick="event.stopPropagation();openModal('${r.photoUrl}')" title="Click to enlarge">`
+                            : `<span class="photo-thumb placeholder">📷</span>`}
+                    </td>
+                    <td><b>${esc(r.fullName)}</b></td>
+                    <td>${esc(r.phone)}</td>
+                    <td>${esc(r.email || '-')}</td>
+                    <td>${esc(r.course)}</td>
+                    <td>${esc(r.emergencyPhone)}</td>
+                    <td>${esc(r.regDate || '-')}</td>
+                    <td>${esc(r.paymentAmount || '-')}</td>
+                    <td>${esc(r.payment || '-')}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterTable() {
+            const nameFilter = document.getElementById('searchName').value.toLowerCase();
+            const courseFilter = document.getElementById('searchCourse').value;
+
+            let filtered = allStudents;
+
+            if (nameFilter) {
+                filtered = filtered.filter(s => s.fullName.toLowerCase().includes(nameFilter));
+            }
+            if (courseFilter) {
+                filtered = filtered.filter(s => s.course === courseFilter);
+            }
+
+            if (filtered.length === 0) {
+                document.getElementById('tbody').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:30px;color:#999;">No matching students found.</td></tr>';
+            } else {
+                renderTable(filtered);
+            }
+        }
+
+        function openModal(url) {
+            document.getElementById('modalImg').src = url;
+            document.getElementById('photoModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('photoModal').classList.add('hidden');
         }
 
         function logout() {
@@ -167,7 +397,7 @@
         }
 
         function exportCSV() {
-            const rows = document.querySelectorAll('table tr');
+            const rows = document.querySelectorAll('#table tr');
             let csv = [];
             rows.forEach(row => {
                 const cols = row.querySelectorAll('th,td');
